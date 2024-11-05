@@ -16,7 +16,7 @@ public class DataToExtract {
     private Long id;
 
     @Column(nullable = false)
-    public URL target;
+    public URL url;
 
     @ElementCollection
     @CollectionTable(name = "Path", joinColumns = @JoinColumn(name = "parentid"))
@@ -27,8 +27,8 @@ public class DataToExtract {
     @Column(nullable = false, unique = true)
     public UUID uuid;
 
-    public DataToExtract(URL target, Map<String, String> path, UUID uuid) {
-        this.target = target;
+    public DataToExtract(URL url, Map<String, String> path, UUID uuid) {
+        this.url = url;
         this.path = path;
         this.uuid = uuid;
     }
@@ -42,22 +42,22 @@ public class DataToExtract {
         if (this == obj) return true;
         if (!(obj instanceof DataToExtract)) return false;
         DataToExtract other = (DataToExtract) obj;
-        return Objects.equals(this.target, other.target) &&
+        return Objects.equals(this.url, other.url) &&
                 Objects.equals(this.path, other.path) &&
                 Objects.equals(this.uuid, other.uuid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(target, path, uuid);
+        return Objects.hash(url, path, uuid);
     }
 
     public Long getId() {
         return id;
     }
 
-    public URL getTarget() {
-        return target;
+    public URL getUrl() {
+        return url;
     }
 
     public Map<String, String> getPath() {
@@ -72,8 +72,8 @@ public class DataToExtract {
         this.id = id;
     }
 
-    public void setTarget(URL target) {
-        this.target = target;
+    public void setURL(URL url) {
+        this.url = url;
     }
 
     public void setPath(Map<String, String> path) {

@@ -5,10 +5,13 @@ import com.example.adminservlet.api.configmanagement.DataToExtractRepo;
 import com.example.adminservlet.api.configmanagement.DatabaseCRUD;
 import org.junit.Before;
 import org.junit.Test;
+import java.awt.Desktop;
 
 import javax.persistence.*;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Hashtable;
 import java.util.Map;
@@ -44,10 +47,18 @@ public class CRUDUnitTester {
     }
 
     @Test
-    public void testRead() {
+    public void testRead() throws URISyntaxException, IOException {
         databaseCRUD.addRow(sampleData);
         DataToExtract foundData=databaseCRUD.getDataByUUID(sampleData.getUUID());
-        assertEquals(foundData.getTarget(), sampleData.getTarget());
+        assertEquals(foundData.getUrl(), sampleData.getUrl());
+        URL newURL = foundData.getUrl();
+
+        // Open the URL in the default web browser
+        if (Desktop.isDesktopSupported()) {
+            Desktop.getDesktop().browse(newURL.toURI());
+        } else {
+            System.out.println("Desktop is not supported. Cannot open the browser.");
+        }
         databaseCRUD.removeRow(sampleData);
     }
 
@@ -56,8 +67,8 @@ public class CRUDUnitTester {
         databaseCRUD.addRow(sampleData);
         databaseCRUD.updateRow(updatedData);
         DataToExtract foundData=databaseCRUD.getDataByUUID(updatedData.getUUID());
-        assertNotEquals(foundData.getTarget(), sampleData.getTarget());
-        assertEquals(foundData.getTarget(), updatedData.getTarget());
+        assertNotEquals(foundData.getUrl(), sampleData.getUrl());
+        assertEquals(foundData.getUrl(), updatedData.getUrl());
         databaseCRUD.removeRow(updatedData);
     }
 

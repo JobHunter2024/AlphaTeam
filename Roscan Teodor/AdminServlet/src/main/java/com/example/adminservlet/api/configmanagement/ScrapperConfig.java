@@ -25,7 +25,7 @@ public class ScrapperConfig {
     public void updateData(DataToExtract targetData) {
         DataToExtract oldData = getDataByUUID(targetData.getUUID());
         if(oldData != null) {
-            oldData.target = targetData.target;
+            oldData.url = targetData.url;
             oldData.path = targetData.path;
             oldData.uuid = targetData.uuid;
         }
