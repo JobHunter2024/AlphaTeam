@@ -1,29 +1,28 @@
 package com.example.adminservlet.unittester;
 
 
-import com.example.adminservlet.api.configmanagement.ConfigurationValidator;
-import com.example.adminservlet.api.configmanagement.DataToExtract;
-import com.example.adminservlet.api.configmanagement.Interface;
-import com.example.adminservlet.api.configmanagement.ScrapperConfig;
+import com.example.adminservlet.api.configmanagement.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.persistence.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
 
-public class UnitTester {
+public class InterfaceUnitTester {
     private Interface testInterface;
     private ConfigurationValidator configurationValidator;
     private ScrapperConfig scrapperConfig;
     private DataToExtract sampleData;
     private DataToExtract updatedData;
 
+    //--------------------------------------------Interface Tests
     @Before
     public void setUp() throws Exception {
         configurationValidator = new ConfigurationValidator();
@@ -31,7 +30,7 @@ public class UnitTester {
         testInterface = new Interface(configurationValidator, scrapperConfig);
 
         // Sample data for testing
-        Dictionary<String, String> samplePath = new Hashtable<>();
+        Map<String, String> samplePath = new Hashtable<>();
         samplePath.put("key1", "value1");
         samplePath.put("key2", "value2");
 
@@ -106,4 +105,5 @@ public class UnitTester {
         // Assert
         assertEquals(0, scrapperConfig.getDataToExtractCount());
     }
+
 }

@@ -3,6 +3,8 @@ package com.example.adminservlet.api.configmanagement;
 import java.util.List;
 import java.util.UUID;
 
+import static org.junit.Assert.assertNotNull;
+
 /*
 * This class uses the DAO (Data Access Object) design pattern
 * This class separates business logic from data access, providing a clean interface for CRUD operations
@@ -10,20 +12,31 @@ import java.util.UUID;
 
 public class DatabaseCRUD {
     private DatabaseConnector databaseConnector;
+    private DataToExtractRepo repository;
+
+    public DatabaseCRUD() {
+        repository = new DataToExtractRepo();
+    }
 
     public void listToRows(List<DataToExtract> dataToExtract){
-
+        for(DataToExtract singleDataToExtract : dataToExtract){
+            addRow(singleDataToExtract);
+        }
     }
 
-    public void addRow(UUID rowID, DataToExtract newData){
-
+    public void addRow(DataToExtract newData){
+        repository.create(newData);
     }
 
-    public void removeRow(UUID rowID, DataToExtract targetData){
-
+    public void removeRow(DataToExtract targetData){
+       repository.delete(targetData.getUUID());
     }
 
-    public void updateRow(UUID rowID, DataToExtract targetData){
+    public void updateRow(DataToExtract targetData){
+        repository.update(targetData);
+    }
 
+    public DataToExtract getDataByUUID(UUID uuid){
+        return repository.findByUUID(uuid);
     }
 }

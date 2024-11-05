@@ -12,13 +12,13 @@ public class ScrapperConfig {
 
     public void addData(DataToExtract newData) {
         dataToExtract.add(newData);
-        databaseCRUD.addRow(newData.getUUID(), newData);
+        databaseCRUD.addRow(newData);
         dateModified = new Date();
     }
 
     public void removeData(DataToExtract targetData) {
         dataToExtract.remove(targetData);
-        databaseCRUD.removeRow(targetData.getUUID(), targetData);
+        databaseCRUD.removeRow(targetData);
         dateModified = new Date();
     }
 
