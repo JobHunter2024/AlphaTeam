@@ -14,6 +14,15 @@ public class TaskQueueManager {
         System.out.println("Task added to queue: " + taskCommand);
     }
 
+    public void removeFromQueue() {
+        TaskCommand task = taskQueue.dequeue();
+        if (task != null) {
+            System.out.println("Task removed from queue: " + task);
+        } else {
+            System.out.println("Queue is empty.");
+        }
+    }
+
     public TaskCommand getFromQueue() {
         TaskCommand task = taskQueue.dequeue();
         if (task != null) {

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoggingAPIClient {
 
-    private String apiEndpoint = "https://mockLoggingAPI/";
+    private String apiEndpoint;
 
     public LoggingAPIClient() {
     }

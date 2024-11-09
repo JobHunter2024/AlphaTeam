@@ -51,7 +51,7 @@ public class TaskConfig {
     }
 
     public void setJsoupPath(Map<String, String> jsoupPath) {
-        this.jsoupPath = this.jsoupPath;
+        this.jsoupPath = jsoupPath;
     }
 
     @Override

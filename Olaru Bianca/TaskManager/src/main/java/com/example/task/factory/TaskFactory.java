@@ -10,8 +10,8 @@ public class TaskFactory {
         this.taskQueueManager = taskQueueManager;
     }
 
-    public void createTask(TaskConfig taskConfig) {
-        TaskCommand taskCommand;
+    public ScrapeTaskCommand createTask(TaskConfig taskConfig) {
+        ScrapeTaskCommand taskCommand;
 
         switch (taskConfig.getType()) {
             case "scrape":
@@ -22,5 +22,6 @@ public class TaskFactory {
         }
 
         taskQueueManager.addToQueue(taskCommand);
+        return taskCommand;
     }
 }

@@ -12,6 +12,10 @@ public class ScrapeTaskCommand implements TaskCommand {
         this.taskConfig = taskConfig;
     }
 
+    public TaskConfig getConfig() {
+        return taskConfig;
+    }
+
     @Override
     public ServiceRequest toServiceRequest() {
         Map<String, String> parameters = new HashMap<>();
