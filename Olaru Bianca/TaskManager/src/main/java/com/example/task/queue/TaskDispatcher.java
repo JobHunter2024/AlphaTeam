@@ -1,7 +1,7 @@
-package com.example.taskmanager.taskdispatcher;
+package com.example.task.dispatcher;
 
-import com.example.taskmanager.taskfactory.TaskQueueManager;
-import com.example.taskmanager.taskprocessor.TaskProcessor;
+import com.example.task.factory.TaskQueueManager;
+import com.example.task.processor.TaskProcessor;
 
 public class TaskDispatcher {
     private TaskQueueManager taskQueueManager;
