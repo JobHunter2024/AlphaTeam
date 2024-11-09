@@ -1,9 +1,17 @@
-package com.example.taskmanager.taskprocessor;
+package com.example.task.processor;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class LoggingAPIClient {
-    String apiEndpoint;
 
-    public boolean logTaskResult(String response) {
-        return false;
+    private String apiEndpoint = "https://mockLoggingAPI/";
+
+    public LoggingAPIClient() {
+    }
+
+    public void sendLog(String message, String status) {
+        System.out.println("Message: " + message);
+        System.out.println("Status: " + status);
     }
 }

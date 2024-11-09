@@ -1,20 +1,26 @@
-package com.example.taskmanager.taskfactory;
+package com.example.task.factory;
 
-import com.example.taskmanager.taskprocessor.TaskConfig;
-
-// using a combination of the factory and command design patterns
-//to keep a cleaner and more flexible code
+import com.example.task.processor.TaskConfig;
+import com.example.task.queue.TaskQueueManager;
 
 public class TaskFactory {
+    private final TaskQueueManager taskQueueManager;
 
-    public TaskCommand createTaskCommand(TaskConfig config) {
-        return null;
+    public TaskFactory(TaskQueueManager taskQueueManager) {
+        this.taskQueueManager = taskQueueManager;
     }
 
-    public ScrapeTaskCommand createScrapeTaskCommand(TaskConfig config) {
-        return null;
+    public void createTask(TaskConfig taskConfig) {
+        TaskCommand taskCommand;
+
+        switch (taskConfig.getType()) {
+            case "scrape":
+                taskCommand = new ScrapeTaskCommand(taskConfig);
+                break;
+            default:
+                throw new IllegalArgumentException("Task type does not exist: " + taskConfig.getType());
+        }
+
+        taskQueueManager.addToQueue(taskCommand);
     }
-
-    public void sendToQueue(TaskCommand taskCommand, TaskQueueManager queueManager) {}
-
 }

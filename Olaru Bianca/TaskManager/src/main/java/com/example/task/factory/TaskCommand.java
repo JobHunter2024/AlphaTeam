@@ -1,4 +1,4 @@
-package com.example.taskmanager.taskfactory;
+package com.example.task.factory;
 
 public interface TaskCommand {
 

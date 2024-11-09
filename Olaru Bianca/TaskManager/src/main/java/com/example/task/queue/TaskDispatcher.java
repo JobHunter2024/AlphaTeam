@@ -1,19 +1,25 @@
-package com.example.task.dispatcher;
+package com.example.task.queue;
 
-import com.example.task.factory.TaskQueueManager;
+import com.example.task.MockFetchingService;
+import com.example.task.factory.TaskCommand;
 import com.example.task.processor.TaskProcessor;
 
 public class TaskDispatcher {
-    private TaskQueueManager taskQueueManager;
-    private FetchingService fetchingService; // will be implemented in different component
-    private TaskProcessor taskProcessor;
+    private final TaskQueueManager taskQueueManager;
+    private final MockFetchingService fetchingService;
 
-    public TaskDispatcher(TaskQueueManager taskQueueManager, FetchingService fetchingService, TaskProcessor taskProcessor) {
+    public TaskDispatcher(TaskQueueManager taskQueueManager, MockFetchingService fetchingService, TaskProcessor taskProcessor) {
         this.taskQueueManager = taskQueueManager;
         this.fetchingService = fetchingService;
-        this.taskProcessor = taskProcessor;
     }
 
     public void dispatch() {
+        while (!taskQueueManager.isQueueEmpty()) {
+            TaskCommand task = taskQueueManager.getFromQueue();
+            if (task != null) {
+                fetchingService.fetchData(task.toServiceRequest());
+                System.out.println("Dispatched task: " + task);
+            }
+        }
     }
 }

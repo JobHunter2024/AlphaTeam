@@ -1,4 +1,4 @@
-package com.example.taskmanager.controller;
+package com.example.task.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

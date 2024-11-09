@@ -1,6 +1,6 @@
-package com.example.taskmanager.aspects;
+package com.example.task.aspects;
 
-import com.example.taskmanager.taskprocessor.LoggingAPIClient;
+import com.example.task.processor.LoggingAPIClient;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -18,9 +18,10 @@ public class LoggingAspect {
         this.loggingAPIClient = loggingAPIClient;
     }
 
-    @AfterReturning(pointcut = "execution(* com.example.taskmanager.taskdispatcher.TaskDispatcher.dispatch(..))", returning = "response")
+    @AfterReturning(pointcut = "execution(* com.example.task.processor.TaskProcessor.getResponse())", returning = "response")
     public void logFetchingResponse(String response) {
         String message = "Fetching response processed: " + response;
-        loggingAPIClient.logTaskResult(message);
+        String status = "SUCCESS";
+        loggingAPIClient.sendLog(message, status);
     }
 }

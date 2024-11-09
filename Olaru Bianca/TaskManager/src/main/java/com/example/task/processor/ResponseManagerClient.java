@@ -1,9 +1,9 @@
-package com.example.taskmanager.taskprocessor;
+package com.example.task.processor;
 
 public class ResponseManagerClient {
     String responseEndpoint;
 
-    public boolean sendSuccessResponse(FetchServiceResponse response) {
+    public boolean sendSuccessResponse(String response) {
         return false;
     }
 }

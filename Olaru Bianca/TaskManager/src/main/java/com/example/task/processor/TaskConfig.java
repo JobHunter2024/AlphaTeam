@@ -1,19 +1,24 @@
-package com.example.taskmanager.taskprocessor;
+package com.example.task.processor;
+
+import java.util.Map;
+import java.util.UUID;
 
 public class TaskConfig {
-    private int id;
+    private UUID id;
     private String sourceURL;
-    private String config;
     private String status;
+    private String type;
+    private Map<String, String> jsoupPath;
 
-    public TaskConfig(int id, String sourceURL, String config, String status) {
+    public TaskConfig(UUID id, String sourceURL, String status, String type, Map<String, String> jsoupPath) {
         this.id = id;
         this.sourceURL = sourceURL;
-        this.config = config;
         this.status = status;
+        this.type = type;
+        this.jsoupPath = jsoupPath;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -21,8 +26,8 @@ public class TaskConfig {
         return sourceURL;
     }
 
-    public String getConfig() {
-        return config;
+    public void setSourceURL(String sourceURL) {
+        this.sourceURL = sourceURL;
     }
 
     public String getStatus() {
@@ -31,5 +36,32 @@ public class TaskConfig {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Map<String, String> getJsoupPath() {
+        return jsoupPath;
+    }
+
+    public void setJsoupPath(Map<String, String> jsoupPath) {
+        this.jsoupPath = this.jsoupPath;
+    }
+
+    @Override
+    public String toString() {
+        return "TaskConfig{" +
+                "id=" + id +
+                ", sourceURL='" + sourceURL + '\'' +
+                ", status='" + status + '\'' +
+                ", type='" + type + '\'' +
+                ", jsoupPath=" + jsoupPath +
+                '}';
     }
 }

@@ -1,25 +1,35 @@
-package com.example.taskmanager.taskprocessor;
+package com.example.task.processor;
 
-//implements facade pattern - acts as interface that helps subsystems
-//communicate with other modules, which simplifies interactions
+import com.example.task.MockFetchingService;
+
+import java.util.UUID;
 
 public class TaskProcessor {
-    DatabaseConnector databaseConnector;
-    LoggingAPIClient loggingAPIClient;
-    ResponseManagerClient responseManagerClient;
 
+    private final DatabaseConnector databaseConnector;
+    private final ResponseManagerClient responseManagerClient;
+    private final MockFetchingService fetchingService;
 
-    public TaskConfig retrieveTask() {
-        return null;
+    public TaskProcessor(DatabaseConnector databaseConnector,
+                         ResponseManagerClient responseManagerClient, MockFetchingService fetchingService) {
+        this.databaseConnector = databaseConnector;
+        this.responseManagerClient = responseManagerClient;
+        this.fetchingService = fetchingService;
     }
 
-    public void processPendingTasks(TaskConfig taskConfig) {}
-
-    public boolean logResult(String response) {
-        return false;
+    public TaskConfig retrieveTaskConfig() {
+        UUID uuid = UUID.randomUUID();
+        return databaseConnector.fetchTaskConfig(uuid);
     }
 
-    public boolean sendToResponseManager(String response) {
-        return false;
+    public String getResponse() {
+        return fetchingService.getResponse();
     }
+
+//    public boolean sendToResponseManager(String response) {
+//        if (response != null && !response.isEmpty()) {
+//            return responseManagerClient.getResponse(response);
+//        }
+//        return false;
+//    }
 }
