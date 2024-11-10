@@ -3,8 +3,13 @@ package com.example.adminservlet.unittester;
 import com.example.adminservlet.api.configmanagement.DataToExtract;
 import com.example.adminservlet.api.configmanagement.DataToExtractRepo;
 import com.example.adminservlet.api.configmanagement.DatabaseCRUD;
+import com.example.adminservlet.logger.AppConfig;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import java.awt.Desktop;
 
 import javax.persistence.*;
@@ -27,7 +32,8 @@ public class CRUDUnitTester {
 
     @Before
     public void setUp() throws MalformedURLException {
-        databaseCRUD = new DatabaseCRUD();
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        databaseCRUD = context.getBean(DatabaseCRUD.class);
 
         // Sample data for testing
         Map<String, String> samplePath = new Hashtable<>();

@@ -1,5 +1,7 @@
 package com.example.adminservlet.api.configmanagement;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -10,6 +12,7 @@ import static org.junit.Assert.assertNotNull;
 * This class separates business logic from data access, providing a clean interface for CRUD operations
 * */
 
+@Service
 public class DatabaseCRUD {
     private DatabaseConnector databaseConnector;
     private DataToExtractRepo repository;
