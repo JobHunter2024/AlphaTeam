@@ -1,7 +1,7 @@
 package com.example.task.processor;
 
 import com.example.scraper.ScrapingResult;
-import com.example.response.ResponseManager;
+import com.example.scraper.ResponseManager;
 import com.example.task.factory.ScrapeTaskCommand;
 import com.example.task.queue.TaskDispatcher;
 import com.example.task.queue.TaskQueueManager;
@@ -25,25 +25,26 @@ public class TaskProcessor {
         this.taskQueueManager = taskQueueManager;
     }
 
-    public void processTask(UUID id) {
+    public String processTask(UUID id) {
         TaskConfig config = retrieveTaskConfig(id);
         ScrapeTaskCommand task = new ScrapeTaskCommand(config);
 
         taskQueueManager.addToQueue(task);
         ScrapingResult result = taskDispatcher.dispatch();
 
-        processResponse(result);
+        return processResponse(result);
     }
 
     public TaskConfig retrieveTaskConfig(UUID taskId) {
         return databaseConnector.fetchTaskConfig(taskId);
     }
 
-    public void processResponse(ScrapingResult result) {
+    public String processResponse(ScrapingResult result) {
         if (result.success) {
-            responseManager.processResponse(result);
+            return responseManager.processScrapingResult(result);
         } else {
             System.out.println("Failed to process response for task: " + result.getTaskId());
+            return null;
         }
     }
 }
