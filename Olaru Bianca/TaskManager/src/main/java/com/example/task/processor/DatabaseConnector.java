@@ -38,7 +38,7 @@ public class DatabaseConnector {
     }
 
     public void updateTaskConfig(TaskConfig taskConfig) throws MalformedURLException {
-        DataToExtract dataToExtract = dataToExtractRepo.findByUUID(taskConfig.getId());
+        DataToExtract dataToExtract = dataToExtractRepo.findByUUID(taskConfig.getTaskId());
         if (dataToExtract != null) {
             dataToExtract.setURL(new URL(taskConfig.getSourceURL()));
             dataToExtract.setPath(taskConfig.getJsoupPath());

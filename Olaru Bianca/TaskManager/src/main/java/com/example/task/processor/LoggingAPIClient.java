@@ -10,8 +10,7 @@ public class LoggingAPIClient {
     public LoggingAPIClient() {
     }
 
-    public void sendLog(String message, String status) {
+    public void sendLog(String message) {
         System.out.println("Message: " + message);
-        System.out.println("Status: " + status);
     }
 }

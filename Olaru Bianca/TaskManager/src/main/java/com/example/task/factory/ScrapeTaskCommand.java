@@ -2,8 +2,7 @@ package com.example.task.factory;
 
 import com.example.task.processor.TaskConfig;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.UUID;
 
 public class ScrapeTaskCommand implements TaskCommand {
     private final TaskConfig taskConfig;
@@ -12,16 +11,13 @@ public class ScrapeTaskCommand implements TaskCommand {
         this.taskConfig = taskConfig;
     }
 
+    @Override
+    public UUID getTaskId() {
+        return taskConfig.getTaskId();
+    }
+
     public TaskConfig getConfig() {
         return taskConfig;
     }
 
-    @Override
-    public ServiceRequest toServiceRequest() {
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put("url", taskConfig.getSourceURL());
-        parameters.putAll(taskConfig.getJsoupPath());
-
-        return new ServiceRequest(taskConfig.getType(), parameters);
-    }
 }

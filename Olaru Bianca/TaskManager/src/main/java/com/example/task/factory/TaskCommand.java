@@ -1,6 +1,7 @@
 package com.example.task.factory;
 
-public interface TaskCommand {
+import java.util.UUID;
 
-    public ServiceRequest toServiceRequest();
+public interface TaskCommand {
+    UUID getTaskId();
 }
