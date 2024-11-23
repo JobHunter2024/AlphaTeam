@@ -1,11 +1,11 @@
-package com.example.adminservlet.unittester;
+package com.example.adminservlet.tester;
 
 
-import com.example.adminservlet.api.configmanagement.*;
+import com.example.adminservlet.core.config.*;
+import com.example.adminservlet.core.data.extraction.DataToExtract;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.persistence.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Hashtable;
@@ -15,9 +15,9 @@ import java.util.UUID;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertNull;
 
-public class InterfaceUnitTester {
-    private Interface testInterface;
-    private ConfigurationValidator configurationValidator;
+public class ProviderConfigInterfaceUnitTester {
+    private ConfigInterface testConfigInterface;
+    private ConfigValidator configValidator;
     private ScrapperConfig scrapperConfig;
     private DataToExtract sampleData;
     private DataToExtract updatedData;
@@ -25,23 +25,23 @@ public class InterfaceUnitTester {
     //--------------------------------------------Interface Tests
     @Before
     public void setUp() throws Exception {
-        configurationValidator = new ConfigurationValidator();
+        configValidator = new ConfigValidator();
         scrapperConfig = new ScrapperConfig();
-        testInterface = new Interface(configurationValidator, scrapperConfig);
+        testConfigInterface = new ConfigInterface(configValidator, scrapperConfig);
 
         // Sample data for testing
         Map<String, String> samplePath = new Hashtable<>();
         samplePath.put("key1", "value1");
         samplePath.put("key2", "value2");
 
-        sampleData = new DataToExtract(new URL("http://google.com"), samplePath, UUID.randomUUID());
-        updatedData = new DataToExtract(new URL("http://modified.org"), samplePath, UUID.randomUUID());
+        sampleData = new DataToExtract("http://google.com", samplePath, UUID.randomUUID());
+        updatedData = new DataToExtract("http://modified.org", samplePath, UUID.randomUUID());
         updatedData.uuid = sampleData.uuid;
     }
 
     @Test
     public void testAddConfiguration_ValidData() {
-        testInterface.addConfiguration(sampleData);
+        testConfigInterface.addConfiguration(sampleData);
 
         assertEquals(1, scrapperConfig.getDataToExtractCount());
         assertTrue(scrapperConfig.getDataToExtract().contains(sampleData));
@@ -50,13 +50,9 @@ public class InterfaceUnitTester {
     @Test
     public void testAddConfiguration_InvalidData() {
         DataToExtract invalidData = null;
-        try {
-            invalidData = new DataToExtract(new URL("http://google.com"), new Hashtable<>(), null);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
+        invalidData = new DataToExtract("http://google.com", new Hashtable<>(), null);
 
-        testInterface.addConfiguration(invalidData);
+        testConfigInterface.addConfiguration(invalidData);
 
         assertEquals(0, scrapperConfig.getDataToExtractCount());
     }
@@ -64,10 +60,10 @@ public class InterfaceUnitTester {
     @Test
     public void testUpdateConfiguration_ValidData() {
         // Arrange
-        testInterface.addConfiguration(sampleData);
+        testConfigInterface.addConfiguration(sampleData);
 
         // Act
-        testInterface.updateConfiguration(updatedData);
+        testConfigInterface.updateConfiguration(updatedData);
 
         // Assert
         assertEquals(1, scrapperConfig.getDataToExtractCount());
@@ -78,16 +74,12 @@ public class InterfaceUnitTester {
     public void testUpdateConfiguration_InvalidData() {
         // Arrange
         DataToExtract invalidData = null;
-        try {
-            invalidData = new DataToExtract(new URL("http://google.com"), new Hashtable<>(), null);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-        testInterface.addConfiguration(sampleData);
+        invalidData = new DataToExtract("http://google.com", new Hashtable<>(), null);
+        testConfigInterface.addConfiguration(sampleData);
         DataToExtract sampleDataBackup=sampleData;
 
         // Act
-        testInterface.updateConfiguration(invalidData);
+        testConfigInterface.updateConfiguration(invalidData);
 
         // Assert
         assertEquals(1, scrapperConfig.getDataToExtractCount());
@@ -97,10 +89,10 @@ public class InterfaceUnitTester {
     @Test
     public void testRemoveConfiguration() {
         // Arrange
-        testInterface.addConfiguration(sampleData);
+        testConfigInterface.addConfiguration(sampleData);
 
         // Act
-        testInterface.removeConfiguration(sampleData);
+        testConfigInterface.removeConfiguration(sampleData);
 
         // Assert
         assertEquals(0, scrapperConfig.getDataToExtractCount());

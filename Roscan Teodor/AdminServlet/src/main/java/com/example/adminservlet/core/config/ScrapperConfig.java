@@ -1,4 +1,7 @@
-package com.example.adminservlet.api.configmanagement;
+package com.example.adminservlet.core.config;
+
+import com.example.adminservlet.core.data.extraction.DataToExtract;
+import com.example.adminservlet.core.database.DatabaseCRUD;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +25,19 @@ public class ScrapperConfig {
         dateModified = new Date();
     }
 
+    public void removeData(UUID uuid) {
+
+       for(DataToExtract dataToExtract : dataToExtract) {
+           if(dataToExtract.getUUID().equals(uuid)) {
+               removeData(dataToExtract);
+               break;
+           }
+       }
+
+        databaseCRUD.removeRow(uuid);
+        dateModified = new Date();
+    }
+
     public void updateData(DataToExtract targetData) {
         DataToExtract oldData = getDataByUUID(targetData.getUUID());
         if(oldData != null) {
@@ -29,6 +45,7 @@ public class ScrapperConfig {
             oldData.path = targetData.path;
             oldData.uuid = targetData.uuid;
         }
+        databaseCRUD.updateRow(oldData);
         dateModified = new Date();
     }
 
@@ -41,11 +58,10 @@ public class ScrapperConfig {
     }
 
     public DataToExtract getDataByUUID(UUID uuid) {
-        for (DataToExtract data : dataToExtract) {
-            if (data != null && uuid.equals(data.uuid)) {
-                return data;
-            }
-        }
-        return null;
+        return databaseCRUD.getDataByUUID(uuid);
+    }
+
+    public DatabaseCRUD getDatabaseCRUD() {
+        return databaseCRUD;
     }
 }

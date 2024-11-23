@@ -2,12 +2,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>JobHunter - Menu</title>
 </head>
 <body>
-<h1><%= "Hello World!" %>
+<h1><%= "Main Menu" %>
 </h1>
 <br/>
-<a href="admin-servlet">Admin Servlet</a>
+<a href="admin-servlet?action=results">Scraping Results</a>
+<br>
+<a href="admin-servlet?action=history">Scraping History</a>
+<br>
+<a href="admin-servlet?action=statistics">Scraping Statistics</a>
+<br>
+<a href="admin-servlet?action=credentials">Manage Admin Credentials</a>
+<br>
+<a href="admin-servlet?action=config">Manage Scraping Config</a>
 </body>
 </html>

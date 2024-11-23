@@ -1,5 +1,7 @@
-package com.example.adminservlet.api.configmanagement;
+package com.example.adminservlet.core.database;
 
+import com.example.adminservlet.core.data.extraction.DataToExtract;
+import com.example.adminservlet.core.data.extraction.DataToExtractRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +16,6 @@ import static org.junit.Assert.assertNotNull;
 
 @Service
 public class DatabaseCRUD {
-    private DatabaseConnector databaseConnector;
     private DataToExtractRepo repository;
 
     public DatabaseCRUD() {
@@ -35,12 +36,20 @@ public class DatabaseCRUD {
        repository.delete(targetData.getUUID());
     }
 
+    public void removeRow(UUID uuid){
+        repository.delete(uuid);
+    }
+
     public void updateRow(DataToExtract targetData){
         repository.update(targetData);
     }
 
     public DataToExtract getDataByUUID(UUID uuid){
         return repository.findByUUID(uuid);
+    }
+
+    public List<DataToExtract> getAllData(){
+        return repository.findAll();
     }
 }
 

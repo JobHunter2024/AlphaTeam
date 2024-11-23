@@ -1,7 +1,8 @@
-package com.example.adminservlet.api.configmanagement;
+package com.example.adminservlet.core.data.extraction;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.UUID;
 
 public class DataToExtractRepo {
@@ -52,6 +53,18 @@ public class DataToExtractRepo {
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    public void deleteByUuid(String uuid)
+    {
+        Query query = entityManager.createNamedQuery("DataToExtract.deleteByUuid");
+        query.setParameter("uuid", uuid);
+        query.executeUpdate();
+    }
+
+    public List<DataToExtract> findAll() {
+        return entityManager.createNamedQuery("DataToExtract.findAll", DataToExtract.class)
+                .getResultList();
     }
 
     public void setEntityManager(EntityManager entityManager) {

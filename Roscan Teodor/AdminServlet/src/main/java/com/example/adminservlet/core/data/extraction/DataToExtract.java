@@ -1,7 +1,5 @@
-package com.example.adminservlet.api.configmanagement;
+package com.example.adminservlet.core.data.extraction;
 
-import java.net.URL;
-import java.util.Dictionary;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -10,13 +8,15 @@ import javax.persistence.*;
 
 @Entity
 @NamedQuery(name = "DataToExtract.findByUUID", query = "SELECT d FROM DataToExtract d WHERE d.uuid = :uuid")
+@NamedQuery(name = "DataToExtract.findAll", query = "SELECT d FROM DataToExtract d")
+@NamedQuery(name = "DataToExtract.deleteByUuid", query = "DELETE FROM DataToExtract d WHERE d.uuid = :uuid")
 public class DataToExtract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    public URL url;
+    public String url;
 
     @ElementCollection
     @CollectionTable(name = "Path", joinColumns = @JoinColumn(name = "parentid"))
@@ -27,7 +27,7 @@ public class DataToExtract {
     @Column(nullable = false, unique = true)
     public UUID uuid;
 
-    public DataToExtract(URL url, Map<String, String> path, UUID uuid) {
+    public DataToExtract(String url, Map<String, String> path, UUID uuid) {
         this.url = url;
         this.path = path;
         this.uuid = uuid;
@@ -56,7 +56,7 @@ public class DataToExtract {
         return id;
     }
 
-    public URL getUrl() {
+    public String getUrlString() {
         return url;
     }
 
@@ -72,7 +72,7 @@ public class DataToExtract {
         this.id = id;
     }
 
-    public void setURL(URL url) {
+    public void setURLString(String url) {
         this.url = url;
     }
 

@@ -1,6 +1,8 @@
-package com.example.adminservlet.api.configmanagement;
+package com.example.adminservlet.core.config;
 
-public class ConfigurationValidator {
+import com.example.adminservlet.core.data.extraction.DataToExtract;
+
+public class ConfigValidator {
     public DataToExtract newData;
 
     public boolean isConfigurationValid(DataToExtract newData) {
