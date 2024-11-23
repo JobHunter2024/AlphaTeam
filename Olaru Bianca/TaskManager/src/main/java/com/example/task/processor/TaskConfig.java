@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class TaskConfig {
-    private UUID id;
+    private final UUID id;
     private String sourceURL;
     private String status;
     private String type;
@@ -18,7 +18,7 @@ public class TaskConfig {
         this.jsoupPath = jsoupPath;
     }
 
-    public UUID getId() {
+    public UUID getTaskId() {
         return id;
     }
 

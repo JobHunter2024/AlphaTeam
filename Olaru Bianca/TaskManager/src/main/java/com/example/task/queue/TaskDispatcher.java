@@ -1,25 +1,36 @@
 package com.example.task.queue;
 
-import com.example.task.MockFetchingService;
+import com.example.scraper.ScrapingService;
+import com.example.scraper.ScrapingResult;
+import com.example.task.factory.ScrapeTaskCommand;
 import com.example.task.factory.TaskCommand;
-import com.example.task.processor.TaskProcessor;
+
+import java.util.Map;
+import java.util.UUID;
 
 public class TaskDispatcher {
     private final TaskQueueManager taskQueueManager;
-    private final MockFetchingService fetchingService;
+    private final ScrapingService scrapingService;
 
-    public TaskDispatcher(TaskQueueManager taskQueueManager, MockFetchingService fetchingService, TaskProcessor taskProcessor) {
+    public TaskDispatcher(TaskQueueManager taskQueueManager,
+                          ScrapingService scrapingService) {
         this.taskQueueManager = taskQueueManager;
-        this.fetchingService = fetchingService;
+        this.scrapingService = scrapingService;
     }
 
-    public void dispatch() {
+    public ScrapingResult dispatch() {
         while (!taskQueueManager.isQueueEmpty()) {
             TaskCommand task = taskQueueManager.getFromQueue();
             if (task != null) {
-                fetchingService.fetchData(task.toServiceRequest());
-                System.out.println("Dispatched task: " + task);
+                if (task instanceof ScrapeTaskCommand scrapeTaskCommand) {
+                    UUID taskId = scrapeTaskCommand.getTaskId();
+                    String url = scrapeTaskCommand.getConfig().getSourceURL();
+                    Map<String, String> path = scrapeTaskCommand.getConfig().getJsoupPath();
+
+                    return scrapingService.scrapeData(url, path, taskId);
+                }
             }
         }
+        return null;
     }
 }

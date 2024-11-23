@@ -1,0 +1,18 @@
+<configuration>
+
+    <appender name="SYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">
+        <syslogHost>logs2.papertrailapp.com</syslogHost>
+        <port>15283</port>
+        <facility>USER</facility>
+        <suffixPattern>%d{yyyy-MM-dd HH:mm:ss} - %msg</suffixPattern>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</Pattern>
+        </layout>
+        <ignoreExceptions>false</ignoreExceptions>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="SYSLOG"/>
+    </root>
+
+</configuration>

@@ -1,27 +1,20 @@
 package com.example.task.aspects;
 
-import com.example.task.processor.LoggingAPIClient;
-
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.AfterReturning;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
 public class LoggingAspect {
 
-    private final LoggingAPIClient loggingAPIClient;
+    private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
-    @Autowired
-    public LoggingAspect(LoggingAPIClient loggingAPIClient) {
-        this.loggingAPIClient = loggingAPIClient;
-    }
-
-    @AfterReturning(pointcut = "execution(* com.example.task.processor.TaskProcessor.getResponse())", returning = "response")
+    @AfterReturning(pointcut = "execution(* com.example.scraper.ScrapingService.scrapeData())", returning = "response")
     public void logFetchingResponse(String response) {
-        String message = "Fetching response processed: " + response;
-        String status = "SUCCESS";
-        loggingAPIClient.sendLog(message, status);
+        String message = "Scraping response: " + response;
+        logger.info(message);
     }
 }
