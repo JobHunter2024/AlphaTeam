@@ -1,7 +1,7 @@
 package com.example.adminservlet.core.config;
 
 import com.example.adminservlet.core.data.extraction.DataToExtract;
-import com.example.adminservlet.core.database.DatabaseCRUD;
+import com.example.adminservlet.core.database.DataToExtractCRUD;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,17 +11,17 @@ import java.util.UUID;
 public class ScrapperConfig {
     List<DataToExtract> dataToExtract=new ArrayList<DataToExtract>();
     Date dateModified;
-    DatabaseCRUD databaseCRUD=new DatabaseCRUD();
+    DataToExtractCRUD dataToExtractCRUD =new DataToExtractCRUD();
 
     public void addData(DataToExtract newData) {
         dataToExtract.add(newData);
-        databaseCRUD.addRow(newData);
+        dataToExtractCRUD.addRow(newData);
         dateModified = new Date();
     }
 
     public void removeData(DataToExtract targetData) {
         dataToExtract.remove(targetData);
-        databaseCRUD.removeRow(targetData);
+        dataToExtractCRUD.removeRow(targetData);
         dateModified = new Date();
     }
 
@@ -34,7 +34,7 @@ public class ScrapperConfig {
            }
        }
 
-        databaseCRUD.removeRow(uuid);
+        dataToExtractCRUD.removeRow(uuid);
         dateModified = new Date();
     }
 
@@ -45,7 +45,7 @@ public class ScrapperConfig {
             oldData.path = targetData.path;
             oldData.uuid = targetData.uuid;
         }
-        databaseCRUD.updateRow(oldData);
+        dataToExtractCRUD.updateRow(oldData);
         dateModified = new Date();
     }
 
@@ -58,10 +58,10 @@ public class ScrapperConfig {
     }
 
     public DataToExtract getDataByUUID(UUID uuid) {
-        return databaseCRUD.getDataByUUID(uuid);
+        return dataToExtractCRUD.getDataByUUID(uuid);
     }
 
-    public DatabaseCRUD getDatabaseCRUD() {
-        return databaseCRUD;
+    public DataToExtractCRUD getDatabaseCRUD() {
+        return dataToExtractCRUD;
     }
 }

@@ -19,7 +19,7 @@ public class DataToExtract {
     public String url;
 
     @ElementCollection
-    @CollectionTable(name = "Path", joinColumns = @JoinColumn(name = "parentid"))
+    @CollectionTable(name = "DataToExtract_Path", joinColumns = @JoinColumn(name = "parentid"))
     @MapKeyColumn(name = "key")
     @Column(name = "value")
     public Map<String, String> path;

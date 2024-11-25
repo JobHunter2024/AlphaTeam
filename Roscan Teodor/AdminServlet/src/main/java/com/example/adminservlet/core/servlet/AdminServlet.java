@@ -1,4 +1,4 @@
-package com.example.adminservlet.servlet;
+package com.example.adminservlet.core.servlet;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -23,7 +23,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 @WebServlet(name = "adminServlet", value = "/admin-servlet")
 public class AdminServlet extends HttpServlet {
-    private String message;
     private ConfigValidator configValidator=new ConfigValidator();
     private ScrapperConfig scrapperConfig=new ScrapperConfig();
     private ConfigInterface configInterface=new ConfigInterface(configValidator,scrapperConfig);
@@ -31,7 +30,9 @@ public class AdminServlet extends HttpServlet {
 
     public void init() {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        message = "Hello World!";
+
+        //providerInterface.resultMockery();
+        //providerInterface.historyMockery();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -51,9 +52,11 @@ public class AdminServlet extends HttpServlet {
                 request.getRequestDispatcher("/credentials.jsp").forward(request, response);
                 break;
             case "history":
+                request.setAttribute("historyList", providerInterface.getScrappingHistory());
                 request.getRequestDispatcher("/history.jsp").forward(request, response);
                 break;
             case "results":
+                request.setAttribute("resultList", providerInterface.getScrappingResults());
                 request.getRequestDispatcher("/results.jsp").forward(request, response);
                 break;
             case "statistics":

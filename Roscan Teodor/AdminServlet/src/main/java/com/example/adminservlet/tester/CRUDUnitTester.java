@@ -1,7 +1,7 @@
 package com.example.adminservlet.tester;
 
 import com.example.adminservlet.core.data.extraction.DataToExtract;
-import com.example.adminservlet.core.database.DatabaseCRUD;
+import com.example.adminservlet.core.database.DataToExtractCRUD;
 import com.example.adminservlet.logger.AppConfig;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,12 +24,12 @@ public class CRUDUnitTester {
 
     private DataToExtract sampleData;
     private DataToExtract updatedData;
-    private DatabaseCRUD databaseCRUD;
+    private DataToExtractCRUD dataToExtractCRUD;
 
     @Before
     public void setUp() throws MalformedURLException {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        databaseCRUD = context.getBean(DatabaseCRUD.class);
+        dataToExtractCRUD = context.getBean(DataToExtractCRUD.class);
 
         // Sample data for testing
         Map<String, String> samplePath = new Hashtable<>();
@@ -42,16 +42,16 @@ public class CRUDUnitTester {
 
     @Test
     public void testCreate() {
-        databaseCRUD.addRow(sampleData);
-        DataToExtract foundData=databaseCRUD.getDataByUUID(sampleData.getUUID());
+        dataToExtractCRUD.addRow(sampleData);
+        DataToExtract foundData= dataToExtractCRUD.getDataByUUID(sampleData.getUUID());
         assertNotNull(foundData);
-        databaseCRUD.removeRow(sampleData);
+        dataToExtractCRUD.removeRow(sampleData);
     }
 
     @Test
     public void testRead() throws URISyntaxException, IOException {
-        databaseCRUD.addRow(sampleData);
-        DataToExtract foundData=databaseCRUD.getDataByUUID(sampleData.getUUID());
+        dataToExtractCRUD.addRow(sampleData);
+        DataToExtract foundData= dataToExtractCRUD.getDataByUUID(sampleData.getUUID());
         assertEquals(foundData.getUrlString(), sampleData.getUrlString());
         URL newURL = new URL(foundData.getUrlString());
 
@@ -61,27 +61,27 @@ public class CRUDUnitTester {
         } else {
             System.out.println("Desktop is not supported. Cannot open the browser.");
         }
-        databaseCRUD.removeRow(sampleData);
+        dataToExtractCRUD.removeRow(sampleData);
     }
 
     @Test
     public void testUpdate() {
-        databaseCRUD.addRow(sampleData);
-        databaseCRUD.updateRow(updatedData);
-        DataToExtract foundData=databaseCRUD.getDataByUUID(updatedData.getUUID());
+        dataToExtractCRUD.addRow(sampleData);
+        dataToExtractCRUD.updateRow(updatedData);
+        DataToExtract foundData= dataToExtractCRUD.getDataByUUID(updatedData.getUUID());
         assertNotEquals(foundData.getUrlString(), sampleData.getUrlString());
         assertEquals(foundData.getUrlString(), updatedData.getUrlString());
-        databaseCRUD.removeRow(updatedData);
+        dataToExtractCRUD.removeRow(updatedData);
     }
 
     @Test
     public void testDelete() {
-        databaseCRUD.addRow(sampleData);
-        DataToExtract foundData=databaseCRUD.getDataByUUID(sampleData.getUUID());
+        dataToExtractCRUD.addRow(sampleData);
+        DataToExtract foundData= dataToExtractCRUD.getDataByUUID(sampleData.getUUID());
         assertNotNull(foundData);
 
-        databaseCRUD.removeRow(sampleData);
-        foundData=databaseCRUD.getDataByUUID(sampleData.getUUID());
+        dataToExtractCRUD.removeRow(sampleData);
+        foundData= dataToExtractCRUD.getDataByUUID(sampleData.getUUID());
         assertNull(foundData);
     }
 }

@@ -14,12 +14,12 @@ public class LoggingAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
-    @Before("execution(* com.example.adminservlet.core.database.DatabaseCRUD.*(..))")
+    @Before("execution(* com.example.adminservlet.core.database.DataToExtractCRUD.*(..))")
     public void logBefore(JoinPoint joinPoint) {
         logger.info("Entering method: " + joinPoint.getSignature().getName());
     }
 
-    @After("execution(* com.example.adminservlet.core.database.DatabaseCRUD.*(..))")
+    @After("execution(* com.example.adminservlet.core.database.DataToExtractCRUD.*(..))")
     public void logAfter(JoinPoint joinPoint) {
         logger.info("Exiting method: " + joinPoint.getSignature().getName());
     }
