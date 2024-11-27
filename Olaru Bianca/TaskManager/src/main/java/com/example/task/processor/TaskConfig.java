@@ -8,9 +8,9 @@ public class TaskConfig {
     private String sourceURL;
     private String status;
     private String type;
-    private Map<String, String> jsoupPath;
+    private String jsoupPath;
 
-    public TaskConfig(UUID id, String sourceURL, String status, String type, Map<String, String> jsoupPath) {
+    public TaskConfig(UUID id, String sourceURL, String status, String type, String jsoupPath) {
         this.id = id;
         this.sourceURL = sourceURL;
         this.status = status;
@@ -46,11 +46,11 @@ public class TaskConfig {
         this.type = type;
     }
 
-    public Map<String, String> getJsoupPath() {
+    public String getJsoupPath() {
         return jsoupPath;
     }
 
-    public void setJsoupPath(Map<String, String> jsoupPath) {
+    public void setJsoupPath(String jsoupPath) {
         this.jsoupPath = jsoupPath;
     }
 

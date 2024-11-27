@@ -5,14 +5,14 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
-public class DataToExtractRepo {
+public class HistoryRecordRepo {
     @PersistenceUnit
     private EntityManagerFactory entityFactory;
 
     @PersistenceContext(unitName = "JobHunterPU")
     private EntityManager entityManager;
 
-    public DataToExtractRepo() {
+    public HistoryRecordRepo() {
         entityFactory = Persistence.createEntityManagerFactory("JobHunterPU");
         entityManager = entityFactory.createEntityManager();
     }
@@ -20,19 +20,19 @@ public class DataToExtractRepo {
 
     //CRUD
     @Transactional
-    public void create(DataToExtract newDataToExtract) {
+    public void create(HistoryRecord newHistoryRecord) {
         entityManager.getTransaction().begin();
-        entityManager.persist(newDataToExtract);
+        entityManager.persist(newHistoryRecord);
         entityManager.getTransaction().commit();
     }
 
-    public DataToExtract findById(Long id) {
-        return entityManager.find(DataToExtract.class, id);
+    public HistoryRecord findById(Long id) {
+        return entityManager.find(HistoryRecord.class, id);
     }
 
-    public DataToExtract findByUUID(UUID uuid) {
+    public HistoryRecord findByUUID(UUID uuid) {
         try {
-            return entityManager.createNamedQuery("DataToExtract.findByUUID", DataToExtract.class)
+            return entityManager.createNamedQuery("HistoryRecord.findByUUID", HistoryRecord.class)
                     .setParameter("uuid", uuid)
                     .getSingleResult();
         } catch (NoResultException e) {
@@ -40,30 +40,30 @@ public class DataToExtractRepo {
         }
     }
 
-    public List<DataToExtract> findAll() {
-        return entityManager.createNamedQuery("DataToExtract.findAll", DataToExtract.class)
+    public List<HistoryRecord> findAll() {
+        return entityManager.createNamedQuery("HistoryRecord.findAll", HistoryRecord.class)
                 .getResultList();
     }
 
     @Transactional
-    public void update(DataToExtract updatedDataToExtract) {
+    public void update(HistoryRecord updatedHistoryRecord) {
         entityManager.getTransaction().begin();
-        entityManager.merge(updatedDataToExtract);
+        entityManager.merge(updatedHistoryRecord);
         entityManager.getTransaction().commit();
     }
 
     @Transactional
     public void delete(UUID uuid) {
-        DataToExtract targetDataToExtract = findByUUID(uuid);
-        if (targetDataToExtract != null) {
+        HistoryRecord targetHistoryRecord = findByUUID(uuid);
+        if (targetHistoryRecord != null) {
             entityManager.getTransaction().begin();
-            entityManager.remove(targetDataToExtract);
+            entityManager.remove(targetHistoryRecord);
             entityManager.getTransaction().commit();
         }
     }
 
     public void deleteByUuid(String uuid) {
-        Query query = entityManager.createNamedQuery("DataToExtract.deleteByUuid");
+        Query query = entityManager.createNamedQuery("HistoryRecord.deleteByUuid");
         query.setParameter("uuid", uuid);
         query.executeUpdate();
     }
@@ -71,4 +71,6 @@ public class DataToExtractRepo {
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
+
+
 }

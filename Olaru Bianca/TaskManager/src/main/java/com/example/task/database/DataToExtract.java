@@ -1,8 +1,5 @@
 package com.example.task.database;
 
-import java.net.URL;
-import java.util.Dictionary;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import javax.persistence.*;
@@ -10,25 +7,24 @@ import javax.persistence.*;
 
 @Entity
 @NamedQuery(name = "DataToExtract.findByUUID", query = "SELECT d FROM DataToExtract d WHERE d.uuid = :uuid")
+@NamedQuery(name = "DataToExtract.findAll", query = "SELECT d FROM DataToExtract d")
+@NamedQuery(name = "DataToExtract.deleteByUuid", query = "DELETE FROM DataToExtract d WHERE d.uuid = :uuid")
 public class DataToExtract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    public URL url;
+    public String urlString;
 
-    @ElementCollection
-    @CollectionTable(name = "Path", joinColumns = @JoinColumn(name = "parentid"))
-    @MapKeyColumn(name = "key")
-    @Column(name = "value")
-    public Map<String, String> path;
+    @Column(nullable = false)
+    public String path;
 
     @Column(nullable = false, unique = true)
     public UUID uuid;
 
-    public DataToExtract(URL url, Map<String, String> path, UUID uuid) {
-        this.url = url;
+    public DataToExtract(String urlString, String path, UUID uuid) {
+        this.urlString = urlString;
         this.path = path;
         this.uuid = uuid;
     }
@@ -37,51 +33,58 @@ public class DataToExtract {
 
     }
 
+
+    //Equals
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof DataToExtract)) return false;
-        DataToExtract other = (DataToExtract) obj;
-        return Objects.equals(this.url, other.url) &&
-                Objects.equals(this.path, other.path) &&
-                Objects.equals(this.uuid, other.uuid);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DataToExtract that = (DataToExtract) o;
+        return Objects.equals(id, that.id) && Objects.equals(urlString, that.urlString) && Objects.equals(path, that.path) && Objects.equals(uuid, that.uuid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(url, path, uuid);
+        return Objects.hash(id, urlString, path, uuid);
     }
 
+
+    //Getters and Setters
     public Long getId() {
         return id;
     }
 
-    public URL getUrl() {
-        return url;
+    public String getUrlString() {
+        return urlString;
     }
 
-    public Map<String, String> getPath() {
+    public String getPath() {
         return path;
     }
 
-    public UUID getUUID() {
+    public UUID getUuid() {
         return uuid;
     }
+
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setURL(URL url) {
-        this.url = url;
+    public void setUrlString(String urlString) {
+        this.urlString = urlString;
     }
 
-    public void setPath(Map<String, String> path) {
+    public void setPath(String path) {
         this.path = path;
     }
 
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
+    }
+
+    public String[] splitPath(){
+        return path.split(" > ");
     }
 }
 
