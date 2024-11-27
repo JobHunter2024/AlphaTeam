@@ -23,6 +23,7 @@ public class DataToExtractCRUD {
     }
 
 
+    //CRUD
     public void listToRows(List<DataToExtract> dataToExtract){
         for(DataToExtract singleDataToExtract : dataToExtract){
             addRow(singleDataToExtract);
@@ -33,23 +34,23 @@ public class DataToExtractCRUD {
         repository.create(newData);
     }
 
-    public void removeRow(DataToExtract targetData){
-       repository.delete(targetData.getUUID());
-    }
-
-    public void removeRow(UUID uuid){
-        repository.delete(uuid);
-    }
-
-    public void updateRow(DataToExtract targetData){
-        repository.update(targetData);
-    }
-
     public DataToExtract getDataByUUID(UUID uuid){
         return repository.findByUUID(uuid);
     }
 
     public List<DataToExtract> getAllData(){
         return repository.findAll();
+    }
+
+    public void updateRow(DataToExtract targetData){
+        repository.update(targetData);
+    }
+
+    public void removeRow(DataToExtract targetData){
+       repository.delete(targetData.getUuid());
+    }
+
+    public void removeRow(UUID uuid){
+        repository.delete(uuid);
     }
 }

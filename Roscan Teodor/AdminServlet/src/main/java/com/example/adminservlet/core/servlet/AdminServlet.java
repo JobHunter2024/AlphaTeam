@@ -3,10 +3,7 @@ package com.example.adminservlet.core.servlet;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import com.example.adminservlet.core.config.ConfigValidator;
 import com.example.adminservlet.core.config.ConfigInterface;
@@ -30,9 +27,7 @@ public class AdminServlet extends HttpServlet {
 
     public void init() {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-
-        //providerInterface.resultMockery();
-        //providerInterface.historyMockery();
+        providerInterface.resultMockery();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -86,10 +81,9 @@ public class AdminServlet extends HttpServlet {
             case "updateConfig":
                 String uuidString = request.getParameter("uuid");
                 String urlString = request.getParameter("url");
-                String[] keys = request.getParameterValues("pathKey");
                 String[] values = request.getParameterValues("pathValue");
-
-                buildDataToExtract(urlString, uuidString, keys, values);
+                String path = String.join(" > ", values);
+                buildDataToExtract(urlString, path, uuidString);
                 request.setAttribute("dataList", providerInterface.getScraperConfig());
                 request.getRequestDispatcher("/config.jsp").forward(request, response);
                 break;
@@ -99,21 +93,12 @@ public class AdminServlet extends HttpServlet {
         }
     }
 
-    public void buildDataToExtract(String urlString, String uuidString, String[] keys, String[] values) throws MalformedURLException {
-        Map<String, String> path = new HashMap<>();
-        if (keys != null && values != null)
-        {
-            for (int i = 0; i < keys.length; i++)
-            {
-                if (!keys[i].isEmpty() && !values[i].isEmpty())
-                    path.put(keys[i], values[i]);
-            }
-        }
+    public void buildDataToExtract(String urlString, String path, String uuidString) throws MalformedURLException {
 
-        UUID uuid = (uuidString != null) ? UUID.fromString(uuidString) : UUID.randomUUID();
+        UUID uuid = (!Objects.equals(uuidString, "")) ? UUID.fromString(uuidString) : UUID.randomUUID();
 
         DataToExtract dataToExtract = new DataToExtract(urlString, path, uuid);
-        if(configInterface.getConfigurationByUUID(dataToExtract.getUUID())==null)
+        if(configInterface.getConfigurationByUUID(dataToExtract.getUuid())==null)
             configInterface.addConfiguration(dataToExtract);
         else
             configInterface.updateConfiguration(dataToExtract);

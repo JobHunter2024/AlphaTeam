@@ -1,5 +1,7 @@
 package com.example.adminservlet.core.provider;
 
+import org.hibernate.annotations.Type;
+
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -15,16 +17,16 @@ public class ResultRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, name="url")
+    @Column(nullable = false)
     public String url;
 
-    @Column(nullable = false, name="date")
+    @Column(nullable = false)
     public Date date;
 
-    @Column(nullable = false, unique = true, name="uuid")
+    @Column(nullable = false, unique = true)
     public UUID uuid;
 
-    @Column(nullable = false, name="content")
+    @Column(nullable = false)
     public String content; //JSON content
 
 
@@ -52,6 +54,8 @@ public class ResultRecord {
         return Objects.hash(id, url, date, uuid, content);
     }
 
+
+    //Getters and Setters
     public Long getId() {
         return id;
     }

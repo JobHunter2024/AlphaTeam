@@ -31,19 +31,16 @@ public class CRUDUnitTester {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         dataToExtractCRUD = context.getBean(DataToExtractCRUD.class);
 
-        // Sample data for testing
-        Map<String, String> samplePath = new Hashtable<>();
-        samplePath.put("key1", "value1");
-        samplePath.put("key2", "value2");
+        String path="section.jobs > div.job-container > div.job-listing";
 
-        sampleData = new DataToExtract("http://google.com", samplePath, UUID.randomUUID());
-        updatedData = new DataToExtract("http://modified.org", samplePath, UUID.randomUUID());
+        sampleData = new DataToExtract("http://google.com", path, UUID.randomUUID());
+        updatedData = new DataToExtract("http://modified.org", path, UUID.randomUUID());
     }
 
     @Test
     public void testCreate() {
         dataToExtractCRUD.addRow(sampleData);
-        DataToExtract foundData= dataToExtractCRUD.getDataByUUID(sampleData.getUUID());
+        DataToExtract foundData= dataToExtractCRUD.getDataByUUID(sampleData.getUuid());
         assertNotNull(foundData);
         dataToExtractCRUD.removeRow(sampleData);
     }
@@ -51,11 +48,10 @@ public class CRUDUnitTester {
     @Test
     public void testRead() throws URISyntaxException, IOException {
         dataToExtractCRUD.addRow(sampleData);
-        DataToExtract foundData= dataToExtractCRUD.getDataByUUID(sampleData.getUUID());
+        DataToExtract foundData= dataToExtractCRUD.getDataByUUID(sampleData.getUuid());
         assertEquals(foundData.getUrlString(), sampleData.getUrlString());
         URL newURL = new URL(foundData.getUrlString());
 
-        // Open the URL in the default web browser
         if (Desktop.isDesktopSupported()) {
             Desktop.getDesktop().browse(newURL.toURI());
         } else {
@@ -68,7 +64,7 @@ public class CRUDUnitTester {
     public void testUpdate() {
         dataToExtractCRUD.addRow(sampleData);
         dataToExtractCRUD.updateRow(updatedData);
-        DataToExtract foundData= dataToExtractCRUD.getDataByUUID(updatedData.getUUID());
+        DataToExtract foundData= dataToExtractCRUD.getDataByUUID(updatedData.getUuid());
         assertNotEquals(foundData.getUrlString(), sampleData.getUrlString());
         assertEquals(foundData.getUrlString(), updatedData.getUrlString());
         dataToExtractCRUD.removeRow(updatedData);
@@ -77,11 +73,11 @@ public class CRUDUnitTester {
     @Test
     public void testDelete() {
         dataToExtractCRUD.addRow(sampleData);
-        DataToExtract foundData= dataToExtractCRUD.getDataByUUID(sampleData.getUUID());
+        DataToExtract foundData= dataToExtractCRUD.getDataByUUID(sampleData.getUuid());
         assertNotNull(foundData);
 
         dataToExtractCRUD.removeRow(sampleData);
-        foundData= dataToExtractCRUD.getDataByUUID(sampleData.getUUID());
+        foundData= dataToExtractCRUD.getDataByUUID(sampleData.getUuid());
         assertNull(foundData);
     }
 }

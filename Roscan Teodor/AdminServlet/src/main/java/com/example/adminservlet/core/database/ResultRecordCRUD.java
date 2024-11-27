@@ -21,6 +21,7 @@ public class ResultRecordCRUD {
     }
 
 
+    //CRUD
     public void listToRows(List<ResultRecord> dataToExtract){
         for(ResultRecord singleResultRecord : dataToExtract){
             addRow(singleResultRecord);
@@ -31,23 +32,23 @@ public class ResultRecordCRUD {
         repository.create(newData);
     }
 
-    public void removeRow(ResultRecord targetData){
-       repository.delete(targetData.getUUID());
-    }
-
-    public void removeRow(UUID uuid){
-        repository.delete(uuid);
-    }
-
-    public void updateRow(ResultRecord targetData){
-        repository.update(targetData);
-    }
-
     public ResultRecord getDataByUUID(UUID uuid){
         return repository.findByUUID(uuid);
     }
 
     public List<ResultRecord> getAllData(){
         return repository.findAll();
+    }
+
+    public void updateRow(ResultRecord targetData){
+        repository.update(targetData);
+    }
+
+    public void removeRow(ResultRecord targetData){
+       repository.delete(targetData.getUUID());
+    }
+
+    public void removeRow(UUID uuid){
+        repository.delete(uuid);
     }
 }

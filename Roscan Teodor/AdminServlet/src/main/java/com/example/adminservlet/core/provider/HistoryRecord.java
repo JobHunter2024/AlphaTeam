@@ -1,7 +1,7 @@
 package com.example.adminservlet.core.provider;
 
-import java.util.Map;
-import java.util.Objects;
+import org.hibernate.annotations.Type;
+
 import java.util.UUID;
 import javax.persistence.*;
 
@@ -15,23 +15,20 @@ public class HistoryRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, name = "url")
-    public String url;
+    @Column(nullable = false)
+    public String urlString;
 
-    @ElementCollection
-    @CollectionTable(name = "HistoryRecord_Path", joinColumns = @JoinColumn(name = "parentid"))
-    @MapKeyColumn(name = "key")
-    @Column(name = "value")
-    public Map<String, String> path;
+    @Column(nullable = false)
+    public String path;
 
-    @Column(nullable = false, unique = true, name = "uuid")
+    @Column(nullable = false, unique = true)
     public UUID uuid;
 
-    @Column(nullable = false, unique = true, name = "status")
+    @Column(nullable = false)
     String status;
 
-    public HistoryRecord(String url, Map<String, String> path, UUID uuid, String status) {
-        this.url = url;
+    public HistoryRecord(String urlString, String path, UUID uuid, String status) {
+        this.urlString = urlString;
         this.path = path;
         this.uuid = uuid;
         this.status = status;
@@ -41,46 +38,37 @@ public class HistoryRecord {
 
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof HistoryRecord)) return false;
-        HistoryRecord other = (HistoryRecord) obj;
-        return Objects.equals(this.url, other.url) &&
-                Objects.equals(this.path, other.path) &&
-                Objects.equals(this.uuid, other.uuid);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(url, path, uuid);
-    }
-
+    //Getters and Setters
     public Long getId() {
         return id;
     }
 
     public String getUrlString() {
-        return url;
+        return urlString;
     }
 
-    public Map<String, String> getPath() {
+    public String getPath() {
         return path;
     }
 
-    public UUID getUUID() {
+    public UUID getUuid() {
         return uuid;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setURLString(String url) {
-        this.url = url;
+    public void setUrlString(String urlString) {
+        this.urlString = urlString;
     }
 
-    public void setPath(Map<String, String> path) {
+    public void setPath(String path) {
         this.path = path;
     }
 
@@ -88,13 +76,8 @@ public class HistoryRecord {
         this.uuid = uuid;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
     public void setStatus(String status) {
         this.status = status;
     }
-
 }
 

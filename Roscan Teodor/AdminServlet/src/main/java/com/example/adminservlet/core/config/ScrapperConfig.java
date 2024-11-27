@@ -28,7 +28,7 @@ public class ScrapperConfig {
     public void removeData(UUID uuid) {
 
        for(DataToExtract dataToExtract : dataToExtract) {
-           if(dataToExtract.getUUID().equals(uuid)) {
+           if(dataToExtract.getUuid().equals(uuid)) {
                removeData(dataToExtract);
                break;
            }
@@ -39,9 +39,9 @@ public class ScrapperConfig {
     }
 
     public void updateData(DataToExtract targetData) {
-        DataToExtract oldData = getDataByUUID(targetData.getUUID());
+        DataToExtract oldData = getDataByUUID(targetData.getUuid());
         if(oldData != null) {
-            oldData.url = targetData.url;
+            oldData.urlString = targetData.urlString;
             oldData.path = targetData.path;
             oldData.uuid = targetData.uuid;
         }

@@ -29,13 +29,12 @@ public class ProviderConfigInterfaceUnitTester {
         scrapperConfig = new ScrapperConfig();
         testConfigInterface = new ConfigInterface(configValidator, scrapperConfig);
 
-        // Sample data for testing
-        Map<String, String> samplePath = new Hashtable<>();
-        samplePath.put("key1", "value1");
-        samplePath.put("key2", "value2");
+        String path="section.jobs > div.job-container > div.job-listing";
+        String urlString="http://google.com";
+        String modifiedUrlString="http://modified.org";
 
-        sampleData = new DataToExtract("http://google.com", samplePath, UUID.randomUUID());
-        updatedData = new DataToExtract("http://modified.org", samplePath, UUID.randomUUID());
+        sampleData = new DataToExtract(urlString, path, UUID.randomUUID());
+        updatedData = new DataToExtract(modifiedUrlString, path, UUID.randomUUID());
         updatedData.uuid = sampleData.uuid;
     }
 
@@ -50,7 +49,10 @@ public class ProviderConfigInterfaceUnitTester {
     @Test
     public void testAddConfiguration_InvalidData() {
         DataToExtract invalidData = null;
-        invalidData = new DataToExtract("http://google.com", new Hashtable<>(), null);
+        String path="section.jobs > div.job-container > div.job-listing";
+        String urlString="http://google.com";
+
+        invalidData = new DataToExtract(urlString, path, null);
 
         testConfigInterface.addConfiguration(invalidData);
 
@@ -74,7 +76,10 @@ public class ProviderConfigInterfaceUnitTester {
     public void testUpdateConfiguration_InvalidData() {
         // Arrange
         DataToExtract invalidData = null;
-        invalidData = new DataToExtract("http://google.com", new Hashtable<>(), null);
+        String path="section.jobs > div.job-container > div.job-listing";
+        String urlString="http://google.com";
+        invalidData = new DataToExtract(urlString, path, null);
+
         testConfigInterface.addConfiguration(sampleData);
         DataToExtract sampleDataBackup=sampleData;
 

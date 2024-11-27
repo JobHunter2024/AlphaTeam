@@ -34,7 +34,7 @@
     <tr>
         <td><%= data.getId() %></td>
         <td><%= data.getUrlString() %></td>
-        <td><%= data.getUUID() %></td>
+        <td><%= data.getUuid() %></td>
         <td><%= data.getPath() %></td>
         <td><%= data.getStatus() %></td>
     </tr>

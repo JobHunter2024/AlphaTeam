@@ -45,31 +45,15 @@ public class ProviderInterface {
     }
 
     public void historyMockery() {
+
+        String path="div1 > div2 > div3 > div4";
+
         List<HistoryRecord> historyRecords = Arrays.asList(
-                new HistoryRecord("https://www.youtube.com/watch?v=abcd1234", new HashMap<String, String>() {{
-                    put("videoId", "abcd1234");
-                    put("channel", "TechGuru");
-                }}, UUID.randomUUID(), "success"),
-
-                new HistoryRecord("https://www.linkedin.com/in/johndoe/", new HashMap<String, String>() {{
-                    put("profileId", "johndoe123");
-                    put("profession", "Software Engineer");
-                }}, UUID.randomUUID(), "success"),
-
-                new HistoryRecord("https://github.com/sample/repo", new HashMap<String, String>() {{
-                    put("repo", "sample");
-                    put("language", "Java");
-                }}, UUID.randomUUID(), "success"),
-
-                new HistoryRecord("https://www.medium.com/article-xyz", new HashMap<String, String>() {{
-                    put("articleId", "xyz");
-                    put("author", "Jane Smith");
-                }}, UUID.randomUUID(), "fail"),
-
-                new HistoryRecord("https://www.reddit.com/r/programming/", new HashMap<String, String>() {{
-                    put("subreddit", "programming");
-                    put("topic", "Coding Discussions");
-                }}, UUID.randomUUID(), "pending")
+                new HistoryRecord("https://www.youtube.com/watch?v=abcd1234", path, UUID.randomUUID(), "success"),
+                new HistoryRecord("https://www.linkedin.com/in/johndoe/", path, UUID.randomUUID(), "success"),
+                new HistoryRecord("https://github.com/sample/repo", path, UUID.randomUUID(), "success"),
+                new HistoryRecord("https://www.medium.com/article-xyz", path, UUID.randomUUID(), "fail"),
+                new HistoryRecord("https://www.reddit.com/r/programming/", path, UUID.randomUUID(), "pending")
         );
 
         historyRecordCRUD.listToRows(historyRecords);

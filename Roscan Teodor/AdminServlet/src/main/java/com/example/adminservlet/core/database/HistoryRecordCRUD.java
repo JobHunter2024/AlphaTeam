@@ -20,6 +20,7 @@ public class HistoryRecordCRUD {
     }
 
 
+    //CRUD
     public void listToRows(List<HistoryRecord> dataToExtract){
         for(HistoryRecord singleHistoryRecord : dataToExtract){
             addRow(singleHistoryRecord);
@@ -30,23 +31,23 @@ public class HistoryRecordCRUD {
         repository.create(newData);
     }
 
-    public void removeRow(HistoryRecord targetData){
-       repository.delete(targetData.getUUID());
-    }
-
-    public void removeRow(UUID uuid){
-        repository.delete(uuid);
-    }
-
-    public void updateRow(HistoryRecord targetData){
-        repository.update(targetData);
-    }
-
     public HistoryRecord getDataByUUID(UUID uuid){
         return repository.findByUUID(uuid);
     }
 
     public List<HistoryRecord> getAllData(){
         return repository.findAll();
+    }
+
+    public void updateRow(HistoryRecord targetData){
+        repository.update(targetData);
+    }
+
+    public void removeRow(HistoryRecord targetData){
+       repository.delete(targetData.getUuid());
+    }
+
+    public void removeRow(UUID uuid){
+        repository.delete(uuid);
     }
 }

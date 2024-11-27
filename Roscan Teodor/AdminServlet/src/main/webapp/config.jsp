@@ -8,18 +8,11 @@
 <head>
     <title>JobHunter - Config</title>
     <script>
-        function addPathInput(key = null, value = null) {
+        function addPathInput(value = null) {
             const pathContainer = document.getElementById("pathContainer");
 
             const pathDiv = document.createElement("div");
             pathDiv.className = "path-entry";
-
-            const keyInput = document.createElement("input");
-            keyInput.type = "text";
-            keyInput.name = "pathKey";
-            keyInput.placeholder = "Enter Key";
-            keyInput.required = true;
-            keyInput.value = key ? key : "";
 
             const valueInput = document.createElement("input");
             valueInput.type = "text";
@@ -35,7 +28,6 @@
                 pathContainer.removeChild(pathDiv);
             };
 
-            pathDiv.appendChild(keyInput);
             pathDiv.appendChild(valueInput);
             pathDiv.appendChild(removeButton);
 
@@ -66,10 +58,10 @@
         <div id="pathContainer">
             <%
                 if (targetElement != null && targetElement.getPath() != null) {
-                    for (Map.Entry<String, String> entry : targetElement.getPath().entrySet()) {
+                    for (String div : targetElement.splitPath()) {
             %>
             <script>
-                addPathInput("<%= entry.getKey() %>", "<%= entry.getValue() %>");
+                addPathInput("<%= div %>");
             </script>
             <%
                     }
@@ -104,11 +96,11 @@
             <tr>
                 <td><%= data.getId() %></td>
                 <td><%= data.getUrlString() %></td>
-                <td><%= data.getUUID() %></td>
+                <td><%= data.getUuid() %></td>
                 <td><%= data.getPath() %></td>
                 <td>
-                    <a href="admin-servlet?action=deleteConfig&uuid=<%= data.getUUID() %>">Delete</a>
-                    <a href="admin-servlet?action=config&uuid=<%= data.getUUID() %>">Edit</a>
+                    <a href="admin-servlet?action=deleteConfig&uuid=<%= data.getUuid() %>">Delete</a>
+                    <a href="admin-servlet?action=config&uuid=<%= data.getUuid() %>">Edit</a>
                 </td>
             </tr>
             <%

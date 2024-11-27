@@ -17,6 +17,8 @@ public class ResultRecordRepo {
         entityManager = entityFactory.createEntityManager();
     }
 
+
+    //CRUD
     @Transactional
     public void create(ResultRecord newResultRecord) {
         entityManager.getTransaction().begin();
@@ -26,6 +28,21 @@ public class ResultRecordRepo {
 
     public ResultRecord findById(Long id) {
         return entityManager.find(ResultRecord.class, id);
+    }
+
+    public ResultRecord findByUUID(UUID uuid) {
+        try {
+            return entityManager.createNamedQuery("ResultRecord.findByUUID", ResultRecord.class)
+                    .setParameter("uuid", uuid)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    public List<ResultRecord> findAll() {
+        return entityManager.createNamedQuery("ResultRecord.findAll", ResultRecord.class)
+                .getResultList();
     }
 
     @Transactional
@@ -45,33 +62,9 @@ public class ResultRecordRepo {
         }
     }
 
-    public ResultRecord findByUUID(UUID uuid) {
-        try {
-            return entityManager.createNamedQuery("ResultRecord.findByUUID", ResultRecord.class)
-                    .setParameter("uuid", uuid)
-                    .getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
-
-    public void deleteByUuid(String uuid)
-    {
+    public void deleteByUuid(String uuid) {
         Query query = entityManager.createNamedQuery("ResultRecord.deleteByUUID");
         query.setParameter("uuid", uuid);
         query.executeUpdate();
-    }
-
-    public List<ResultRecord> findAll() {
-        return entityManager.createNamedQuery("ResultRecord.findAll", ResultRecord.class)
-                .getResultList();
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
-    public EntityManager getEntityManager() {
-        return entityManager;
     }
 }

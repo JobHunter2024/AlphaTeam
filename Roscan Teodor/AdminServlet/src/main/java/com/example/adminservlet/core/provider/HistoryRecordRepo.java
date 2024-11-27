@@ -17,6 +17,8 @@ public class HistoryRecordRepo {
         entityManager = entityFactory.createEntityManager();
     }
 
+
+    //CRUD
     @Transactional
     public void create(HistoryRecord newHistoryRecord) {
         entityManager.getTransaction().begin();
@@ -26,6 +28,21 @@ public class HistoryRecordRepo {
 
     public HistoryRecord findById(Long id) {
         return entityManager.find(HistoryRecord.class, id);
+    }
+
+    public HistoryRecord findByUUID(UUID uuid) {
+        try {
+            return entityManager.createNamedQuery("HistoryRecord.findByUUID", HistoryRecord.class)
+                    .setParameter("uuid", uuid)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    public List<HistoryRecord> findAll() {
+        return entityManager.createNamedQuery("HistoryRecord.findAll", HistoryRecord.class)
+                .getResultList();
     }
 
     @Transactional
@@ -45,33 +62,9 @@ public class HistoryRecordRepo {
         }
     }
 
-    public HistoryRecord findByUUID(UUID uuid) {
-        try {
-            return entityManager.createNamedQuery("HistoryRecord.findByUUID", HistoryRecord.class)
-                    .setParameter("uuid", uuid)
-                    .getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
-
-    public void deleteByUuid(String uuid)
-    {
+    public void deleteByUuid(String uuid) {
         Query query = entityManager.createNamedQuery("HistoryRecord.deleteByUuid");
         query.setParameter("uuid", uuid);
         query.executeUpdate();
-    }
-
-    public List<HistoryRecord> findAll() {
-        return entityManager.createNamedQuery("HistoryRecord.findAll", HistoryRecord.class)
-                .getResultList();
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
-    public EntityManager getEntityManager() {
-        return entityManager;
     }
 }

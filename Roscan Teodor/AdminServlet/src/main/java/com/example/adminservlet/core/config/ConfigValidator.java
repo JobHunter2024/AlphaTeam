@@ -6,7 +6,7 @@ public class ConfigValidator {
     public DataToExtract newData;
 
     public boolean isConfigurationValid(DataToExtract newData) {
-        if(newData.getUUID()==null)
+        if(newData.getUuid()==null)
             return false;
         return true;
     }
