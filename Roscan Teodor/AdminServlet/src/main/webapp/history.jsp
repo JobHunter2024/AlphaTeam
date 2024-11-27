@@ -5,51 +5,74 @@
 <html>
 <head>
     <title>JobHunter - History</title>
+    <script src="scripts/scripts.js"></script>
+    <link href="css/history.css" rel="stylesheet">
+    <link href="css/navbar.css" rel="stylesheet">
+    <link href="css/titles.css" rel="stylesheet">
+    <link href="css/table.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&family=Parkinsans:wght@300..800&display=swap" rel="stylesheet">
 </head>
 <body>
-<h1><%= "History" %>
-</h1>
-<br/>
-<a href="index.jsp">Menu</a>
 
-<h1>Scraping History</h1>
-<%
-    List<HistoryRecord> historyList = (List<HistoryRecord>) request.getAttribute("historyList");
-    if (historyList != null) {
-%>
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>URL</th>
-        <th>UUID</th>
-        <th>Paths</th>
-        <th>Status</th>
-    </tr>
-    </thead>
-    <tbody>
+    <header>
+        <div class="navbar-top">
+            <a href="index.jsp" class="logo"><span>Job Hunter</span> | Configurator</a>
+            <button class="menu-button" onclick="toggleMenu()">☰</button>
+        </div>
+        <nav id="nav">
+            <a href="admin-servlet?action=results">Results</a>
+            <a href="admin-servlet?action=history">History</a>
+            <a href="admin-servlet?action=statistics">Statistics</a>
+            <a href="admin-servlet?action=config">Configuration</a>
+            <a href="admin-servlet?action=credentials">Credentials</a>
+        </nav>
+    </header>
+
+    <h2 class="sectionTitle">Scraping History</h2>
+    <div class="underline">
+        <img src="images/underline.png" alt="IGS Section Underline">
+    </div>
+
     <%
-        for (HistoryRecord data : historyList) {
+        List<HistoryRecord> historyList = (List<HistoryRecord>) request.getAttribute("historyList");
+        if (historyList != null) {
     %>
-    <tr>
-        <td><%= data.getId() %></td>
-        <td><%= data.getUrlString() %></td>
-        <td><%= data.getUuid() %></td>
-        <td><%= data.getPath() %></td>
-        <td><%= data.getStatus() %></td>
-    </tr>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>URL</th>
+            <th>UUID</th>
+            <th>Paths</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%
+            for (HistoryRecord data : historyList) {
+        %>
+        <tr>
+            <td><%= data.getId() %></td>
+            <td><%= data.getUrlString() %></td>
+            <td><%= data.getUuid() %></td>
+            <td><%= data.getPath() %></td>
+            <td><%= data.getStatus() %></td>
+        </tr>
+        <%
+            }
+        %>
+        </tbody>
+    </table>
+    <%
+    } else {
+    %>
+
+    <p>No history available.</p>
     <%
         }
     %>
-    </tbody>
-</table>
-<%
-} else {
-%>
-
-<p>No history available.</p>
-<%
-    }
-%>
 </body>
 </html>

@@ -1,0 +1,21 @@
+.miniButton a
+{
+    margin-top: 6%;
+    transition: 0.3s;
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px;
+    font-size: calc(1.5 * (1vw + 1vh)/2);
+    border-radius: 8px;
+    background-color: rgba(100, 100, 100, 0.2);
+}
+
+.miniButton a:hover
+{
+    background-color: #ffffff;
+    color: #353755;
+    border-radius: 8px;
+    box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.2),
+    0 0 40px 20px rgba(53, 55, 85, 0.2),
+    0 0 60px 30px rgba(0, 0, 255, 0.2);
+}

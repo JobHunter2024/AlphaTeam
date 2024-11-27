@@ -1,0 +1,22 @@
+table {
+  color: white;
+  width: 80%;
+  margin: 50px auto;
+  border-spacing: 10px;
+  border-collapse: separate;
+  background-color: #000000;
+  border-radius: 5px;
+  font-size: calc(1.25 * (1vw + 1vh)/2);
+}
+
+th, td {
+  text-align: center;
+  width: 30%;
+}
+
+@media (max-width: 768px) {
+  table
+  {
+    font-size: 0.8rem;
+  }
+}

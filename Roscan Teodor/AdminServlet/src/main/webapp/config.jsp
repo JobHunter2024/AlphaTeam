@@ -7,44 +7,44 @@
 <html>
 <head>
     <title>JobHunter - Config</title>
-    <script>
-        function addPathInput(value = null) {
-            const pathContainer = document.getElementById("pathContainer");
+    <script src="scripts/scripts.js"></script>
+    <link href="css/config.css" rel="stylesheet">
+    <link href="css/navbar.css" rel="stylesheet">
+    <link href="css/titles.css" rel="stylesheet">
+    <link href="css/table.css" rel="stylesheet">
+    <link href="css/miniButton.css" rel="stylesheet">
 
-            const pathDiv = document.createElement("div");
-            pathDiv.className = "path-entry";
-
-            const valueInput = document.createElement("input");
-            valueInput.type = "text";
-            valueInput.name = "pathValue";
-            valueInput.placeholder = "Enter Value";
-            valueInput.required = true;
-            valueInput.value = value ? value : "";
-
-            const removeButton = document.createElement("button");
-            removeButton.type = "button";
-            removeButton.innerText = "Remove";
-            removeButton.onclick = function () {
-                pathContainer.removeChild(pathDiv);
-            };
-
-            pathDiv.appendChild(valueInput);
-            pathDiv.appendChild(removeButton);
-
-            pathContainer.appendChild(pathDiv);
-        }
-    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&family=Parkinsans:wght@300..800&display=swap" rel="stylesheet">
 </head>
 <body>
-<h1>Scraping Configuration</h1>
-<br/>
-<a href="index.jsp">Menu</a>
-<br/><br/>
+
+    <header>
+        <div class="navbar-top">
+            <a href="index.jsp" class="logo"><span>Job Hunter</span> | Configurator</a>
+            <button class="menu-button" onclick="toggleMenu()">☰</button>
+        </div>
+        <nav id="nav">
+            <a href="admin-servlet?action=results">Results</a>
+            <a href="admin-servlet?action=history">History</a>
+            <a href="admin-servlet?action=statistics">Statistics</a>
+            <a href="admin-servlet?action=config">Configuration</a>
+            <a href="admin-servlet?action=credentials">Credentials</a>
+        </nav>
+    </header>
+
 
     <%
         DataToExtract targetElement = (DataToExtract) request.getAttribute("targetData");
         String uuidString = request.getParameter("uuid");
     %>
+
+
+    <h2 class="sectionTitle">Scraping Configuration</h2>
+    <div class="underline">
+        <img src="images/underline.png" alt="IGS Section Underline">
+    </div>
 
     <form action="admin-servlet?action=updateConfig" method="post">
         <input type="hidden" name="uuid" value="<%= uuidString != null ? uuidString : "" %>">
@@ -74,7 +74,10 @@
         <button type="submit">Update Configuration</button>
     </form>
 
-    <h1>Configurations</h1>
+    <h2 class="sectionTitle">Active Configurations</h2>
+    <div class="underline">
+        <img src="images/underline.png" alt="IGS Section Underline">
+    </div>
         <%
             List<DataToExtract> dataList = (List<DataToExtract>) request.getAttribute("dataList");
             if (dataList != null) {
@@ -99,8 +102,10 @@
                 <td><%= data.getUuid() %></td>
                 <td><%= data.getPath() %></td>
                 <td>
-                    <a href="admin-servlet?action=deleteConfig&uuid=<%= data.getUuid() %>">Delete</a>
-                    <a href="admin-servlet?action=config&uuid=<%= data.getUuid() %>">Edit</a>
+                    <div class="miniButton">
+                        <a href="admin-servlet?action=deleteConfig&uuid=<%= data.getUuid() %>">Delete</a>
+                        <a href="admin-servlet?action=config&uuid=<%= data.getUuid() %>">Edit</a>
+                    </div>
                 </td>
             </tr>
             <%
