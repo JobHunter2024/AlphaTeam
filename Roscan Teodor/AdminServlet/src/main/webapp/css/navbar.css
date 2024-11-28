@@ -12,9 +12,9 @@ header
   box-shadow: -1px 1px 10px 5px rgba(0, 0, 0, 0.18);
 }
 
-.logo 
+.logo
 {
-  color: #353755;
+  color: #3286c8;
   font-size: 24px;
   font-weight: bold;
   text-decoration: none;
@@ -43,10 +43,10 @@ nav a
 nav a:hover 
 {
   background-color: #ffffff;
-  color: #353755;
+  color: #000000;
   box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.2),
                   0 0 20px 10px rgba(53, 55, 85, 0.2),
-                  0 0 30px 15px rgba(0, 0, 255, 0.2);
+                  0 0 30px 15px rgb(19, 52, 78);
 }
 
 .menu-button 

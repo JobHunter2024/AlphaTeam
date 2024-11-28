@@ -41,3 +41,32 @@ function updateMenu() {
 }
 
 window.addEventListener('resize', updateMenu);
+
+
+function displayJson(jsonObj) {
+    const jsonContainer = document.getElementById('json-content');
+    jsonContainer.innerHTML = formatJson(jsonObj);
+}
+
+function formatJson(jsonObj) {
+    let formattedJson = '';
+    for (let key in jsonObj) {
+        if (jsonObj.hasOwnProperty(key)) {
+            const value = jsonObj[key];
+            formattedJson += `<span class="key">"${key}"</span>: `;
+
+            if (typeof value === 'string') {
+                formattedJson += `<span class="string">"${value}"</span>`;
+            } else if (typeof value === 'number') {
+                formattedJson += `<span class="number">${value}</span>`;
+            } else if (typeof value === 'boolean') {
+                formattedJson += `<span class="boolean">${value}</span>`;
+            } else if (value === null) {
+                formattedJson += `<span class="null">${value}</span>`;
+            }
+
+            formattedJson += ', ';
+        }
+    }
+    return formattedJson.slice(0, -2); // Remove the last comma
+}

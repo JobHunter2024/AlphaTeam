@@ -1,22 +1,111 @@
 table {
-  color: white;
   width: 80%;
   margin: 50px auto;
   border-spacing: 10px;
-  border-collapse: separate;
-  background-color: #000000;
+  border-collapse: collapse;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2),
+  0 0 25px rgba(53, 55, 85, 0.2),
+  0 0 35px rgba(19, 52, 78, 0.4);
+}
+
+th {
+  padding: 15px;
+  font-size: calc(1.5 * (1vw + 1vh) / 2);
+  text-align: left;
+  color: #ffffff;
+  background-color: rgba(53, 55, 85, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+td {
+  padding: 15px;
+  text-align: left;
+  color: #fff;
+  font-size: calc(1.25 * (1vw + 1vh) / 2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+td a {
+  color: #ffffff;
+  text-decoration: none;
   border-radius: 5px;
-  font-size: calc(1.25 * (1vw + 1vh)/2);
+  padding: 5px 10px;
+  transition: color 0.3s ease;
 }
 
-th, td {
+td a:hover {
+  background-color: #ffffff;
+  color: #000000;
+  box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.2),
+  0 0 20px 10px rgba(53, 55, 85, 0.2),
+  0 0 30px 15px rgb(19, 52, 78);
+}
+
+td textarea {
+  width: 100%;
+  height: 150px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  font-family: monospace;
+  font-size: calc(1.25 * (1vw + 1vh) / 2);
+  resize: none;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+td textarea:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(53, 55, 85, 0.3), 0 0 30px rgb(19, 52, 78);
+}
+
+table tr:hover {
+  background-color: rgba(53, 55, 85, 0.4);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+p {
+  font-size: calc(1.25 * (1vw + 1vh) / 2);
   text-align: center;
-  width: 30%;
+  color: rgba(255, 255, 255, 0.7);
 }
 
-@media (max-width: 768px) {
-  table
-  {
-    font-size: 0.8rem;
-  }
+.json-viewer {
+  background-color: #1e1e1e;
+  color: #c5c5c5;
+  border-radius: 8px;
+  padding: 15px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 0 20px rgba(53, 55, 85, 0.3), 0 0 30px rgb(19, 52, 78);
+  margin-bottom: 20px;
+}
+
+.json-viewer .key {
+  color: #80c0c0;
+  font-weight: bold;
+}
+
+.json-viewer .value {
+  color: #c5c5c5;
+}
+
+.json-viewer .string {
+  color: #8aafff;
+}
+
+.json-viewer .number {
+  color: #ff8c00;
+}
+
+.json-viewer .boolean {
+  color: #99ff99;
+}
+
+.json-viewer .null {
+  color: #f4b342;
 }

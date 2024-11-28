@@ -11,26 +11,13 @@
     <link href="css/navbar.css" rel="stylesheet">
     <link href="css/titles.css" rel="stylesheet">
     <link href="css/table.css" rel="stylesheet">
+    <link href="css/footer.css" rel="stylesheet">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&family=Parkinsans:wght@300..800&display=swap" rel="stylesheet">
+    <%@ include file="components/font.jsp" %>
 </head>
 <body>
 
-<header>
-    <div class="navbar-top">
-        <a href="index.jsp" class="logo"><span>Job Hunter</span> | Configurator</a>
-        <button class="menu-button" onclick="toggleMenu()">☰</button>
-    </div>
-    <nav id="nav">
-        <a href="admin-servlet?action=results">Results</a>
-        <a href="admin-servlet?action=history">History</a>
-        <a href="admin-servlet?action=statistics">Statistics</a>
-        <a href="admin-servlet?action=config">Configuration</a>
-        <a href="admin-servlet?action=credentials">Credentials</a>
-    </nav>
-</header>
+    <%@ include file="components/navbar.jsp" %>
 
     <h2 class="sectionTitle">Scraping Results</h2>
     <div class="underline">
@@ -47,7 +34,6 @@
             <th>ID</th>
             <th>URL</th>
             <th>Date</th>
-            <th>UUID</th>
             <th>Content</th>
         </tr>
         </thead>
@@ -57,9 +43,8 @@
         %>
         <tr>
             <td><%= data.getId() %></td>
-            <td><%= data.getUrl() %></td>
+            <td><a href="<%= data.getUrl() %>"><%= data.getUrl() %></a></td>
             <td><%= data.getDate() %></td>
-            <td><%= data.getUUID() %></td>
             <td>
                 <textarea readonly><%= data.getContent() %></textarea>
             </td>
@@ -77,5 +62,8 @@
     <%
         }
     %>
+
+    <%@ include file="components/footer.jsp" %>
+
 </body>
 </html>

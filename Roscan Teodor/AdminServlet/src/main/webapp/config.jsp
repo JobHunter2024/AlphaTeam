@@ -12,34 +12,20 @@
     <link href="css/navbar.css" rel="stylesheet">
     <link href="css/titles.css" rel="stylesheet">
     <link href="css/table.css" rel="stylesheet">
+    <link href="css/form.css" rel="stylesheet">
     <link href="css/miniButton.css" rel="stylesheet">
+    <link href="css/footer.css" rel="stylesheet">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&family=Parkinsans:wght@300..800&display=swap" rel="stylesheet">
+    <%@ include file="components/font.jsp" %>
 </head>
 <body>
 
-    <header>
-        <div class="navbar-top">
-            <a href="index.jsp" class="logo"><span>Job Hunter</span> | Configurator</a>
-            <button class="menu-button" onclick="toggleMenu()">☰</button>
-        </div>
-        <nav id="nav">
-            <a href="admin-servlet?action=results">Results</a>
-            <a href="admin-servlet?action=history">History</a>
-            <a href="admin-servlet?action=statistics">Statistics</a>
-            <a href="admin-servlet?action=config">Configuration</a>
-            <a href="admin-servlet?action=credentials">Credentials</a>
-        </nav>
-    </header>
-
+    <%@ include file="components/navbar.jsp" %>
 
     <%
         DataToExtract targetElement = (DataToExtract) request.getAttribute("targetData");
         String uuidString = request.getParameter("uuid");
     %>
-
 
     <h2 class="sectionTitle">Scraping Configuration</h2>
     <div class="underline">
@@ -54,7 +40,7 @@
                value="<%= targetElement != null ? targetElement.getUrlString() : "" %>">
         <br/><br/>
 
-        <h3>Paths:</h3>
+        <label for="pathContainer">Paths:</label>
         <div id="pathContainer">
             <%
                 if (targetElement != null && targetElement.getPath() != null) {
@@ -87,7 +73,6 @@
             <tr>
                 <th>ID</th>
                 <th>URL</th>
-                <th>UUID</th>
                 <th>Paths</th>
                 <th>Actions</th>
             </tr>
@@ -98,13 +83,12 @@
             %>
             <tr>
                 <td><%= data.getId() %></td>
-                <td><%= data.getUrlString() %></td>
-                <td><%= data.getUuid() %></td>
+                <td><a href="<%= data.getUrlString() %>"><%= data.getUrlString() %></a></td>
                 <td><%= data.getPath() %></td>
                 <td>
                     <div class="miniButton">
-                        <a href="admin-servlet?action=deleteConfig&uuid=<%= data.getUuid() %>">Delete</a>
                         <a href="admin-servlet?action=config&uuid=<%= data.getUuid() %>">Edit</a>
+                        <a href="admin-servlet?action=deleteConfig&uuid=<%= data.getUuid() %>">Delete</a>
                     </div>
                 </td>
             </tr>
@@ -121,6 +105,8 @@
         <%
             }
         %>
+
+    <%@ include file="components/footer.jsp" %>
 
 </body>
 </html>
