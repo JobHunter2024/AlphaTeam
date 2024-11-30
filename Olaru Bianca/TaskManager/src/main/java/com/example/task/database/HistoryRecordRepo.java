@@ -1,29 +1,24 @@
 package com.example.task.database;
 
-import javax.persistence.*;
-import javax.transaction.Transactional;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.UUID;
 
+@Repository
+@Transactional
 public class HistoryRecordRepo {
-    @PersistenceUnit
-    private EntityManagerFactory entityFactory;
 
-    @PersistenceContext(unitName = "JobHunterPU")
+    @PersistenceContext
     private EntityManager entityManager;
 
-    public HistoryRecordRepo() {
-        entityFactory = Persistence.createEntityManagerFactory("JobHunterPU");
-        entityManager = entityFactory.createEntityManager();
-    }
-
-
-    //CRUD
-    @Transactional
+    // CRUD Operations
     public void create(HistoryRecord newHistoryRecord) {
-        entityManager.getTransaction().begin();
         entityManager.persist(newHistoryRecord);
-        entityManager.getTransaction().commit();
     }
 
     public HistoryRecord findById(Long id) {
@@ -31,46 +26,33 @@ public class HistoryRecordRepo {
     }
 
     public HistoryRecord findByUUID(UUID uuid) {
-        try {
-            return entityManager.createNamedQuery("HistoryRecord.findByUUID", HistoryRecord.class)
-                    .setParameter("uuid", uuid)
-                    .getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
+        TypedQuery<HistoryRecord> query = entityManager.createNamedQuery("HistoryRecord.findByUUID", HistoryRecord.class);
+        query.setParameter("uuid", uuid);
+        return query.getResultStream().findFirst().orElse(null);
     }
 
     public List<HistoryRecord> findAll() {
-        return entityManager.createNamedQuery("HistoryRecord.findAll", HistoryRecord.class)
-                .getResultList();
+        return entityManager.createNamedQuery("HistoryRecord.findAll", HistoryRecord.class).getResultList();
     }
 
-    @Transactional
     public void update(HistoryRecord updatedHistoryRecord) {
-        entityManager.getTransaction().begin();
         entityManager.merge(updatedHistoryRecord);
-        entityManager.getTransaction().commit();
     }
 
-    @Transactional
     public void delete(UUID uuid) {
-        HistoryRecord targetHistoryRecord = findByUUID(uuid);
-        if (targetHistoryRecord != null) {
-            entityManager.getTransaction().begin();
-            entityManager.remove(targetHistoryRecord);
-            entityManager.getTransaction().commit();
+        HistoryRecord target = findByUUID(uuid);
+        if (target != null) {
+            entityManager.remove(target);
         }
     }
 
     public void deleteByUuid(String uuid) {
-        Query query = entityManager.createNamedQuery("HistoryRecord.deleteByUuid");
-        query.setParameter("uuid", uuid);
-        query.executeUpdate();
+        entityManager.createNamedQuery("HistoryRecord.deleteByUuid")
+                .setParameter("uuid", uuid)
+                .executeUpdate();
     }
 
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-
-
 }

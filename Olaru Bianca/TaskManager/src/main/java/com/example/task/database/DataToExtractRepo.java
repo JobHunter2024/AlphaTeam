@@ -1,29 +1,24 @@
 package com.example.task.database;
 
-import javax.persistence.*;
-import javax.transaction.Transactional;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.UUID;
 
+@Repository
+@Transactional
 public class DataToExtractRepo {
-    @PersistenceUnit
-    private EntityManagerFactory entityFactory;
 
-    @PersistenceContext(unitName = "JobHunterPU")
+    @PersistenceContext
     private EntityManager entityManager;
 
-    public DataToExtractRepo() {
-        entityFactory = Persistence.createEntityManagerFactory("JobHunterPU");
-        entityManager = entityFactory.createEntityManager();
-    }
-
-
-    //CRUD
-    @Transactional
+    // CRUD Operations
     public void create(DataToExtract newDataToExtract) {
-        entityManager.getTransaction().begin();
         entityManager.persist(newDataToExtract);
-        entityManager.getTransaction().commit();
     }
 
     public DataToExtract findById(Long id) {
@@ -31,41 +26,30 @@ public class DataToExtractRepo {
     }
 
     public DataToExtract findByUUID(UUID uuid) {
-        try {
-            return entityManager.createNamedQuery("DataToExtract.findByUUID", DataToExtract.class)
-                    .setParameter("uuid", uuid)
-                    .getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
+        TypedQuery<DataToExtract> query = entityManager.createNamedQuery("DataToExtract.findByUUID", DataToExtract.class);
+        query.setParameter("uuid", uuid);
+        return query.getResultStream().findFirst().orElse(null);
     }
 
     public List<DataToExtract> findAll() {
-        return entityManager.createNamedQuery("DataToExtract.findAll", DataToExtract.class)
-                .getResultList();
+        return entityManager.createNamedQuery("DataToExtract.findAll", DataToExtract.class).getResultList();
     }
 
-    @Transactional
     public void update(DataToExtract updatedDataToExtract) {
-        entityManager.getTransaction().begin();
         entityManager.merge(updatedDataToExtract);
-        entityManager.getTransaction().commit();
     }
 
-    @Transactional
     public void delete(UUID uuid) {
-        DataToExtract targetDataToExtract = findByUUID(uuid);
-        if (targetDataToExtract != null) {
-            entityManager.getTransaction().begin();
-            entityManager.remove(targetDataToExtract);
-            entityManager.getTransaction().commit();
+        DataToExtract target = findByUUID(uuid);
+        if (target != null) {
+            entityManager.remove(target);
         }
     }
 
     public void deleteByUuid(String uuid) {
-        Query query = entityManager.createNamedQuery("DataToExtract.deleteByUuid");
-        query.setParameter("uuid", uuid);
-        query.executeUpdate();
+        entityManager.createNamedQuery("DataToExtract.deleteByUuid")
+                .setParameter("uuid", uuid)
+                .executeUpdate();
     }
 
     public void setEntityManager(EntityManager entityManager) {

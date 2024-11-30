@@ -1,11 +1,13 @@
 package com.example.task.database;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 import java.util.UUID;
-import javax.persistence.*;
 
 
 @Entity
+@Table(name = "datatoextract")
 @NamedQuery(name = "DataToExtract.findByUUID", query = "SELECT d FROM DataToExtract d WHERE d.uuid = :uuid")
 @NamedQuery(name = "DataToExtract.findAll", query = "SELECT d FROM DataToExtract d")
 @NamedQuery(name = "DataToExtract.deleteByUuid", query = "DELETE FROM DataToExtract d WHERE d.uuid = :uuid")

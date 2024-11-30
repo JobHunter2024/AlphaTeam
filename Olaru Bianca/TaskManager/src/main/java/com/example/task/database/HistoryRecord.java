@@ -1,10 +1,11 @@
 package com.example.task.database;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.UUID;
 
 
 @Entity
+@Table(name = "historyrecord")
 @NamedQuery(name = "HistoryRecord.findByUUID", query = "SELECT h FROM HistoryRecord h WHERE h.uuid = :uuid")
 @NamedQuery(name = "HistoryRecord.findAll", query = "SELECT h FROM HistoryRecord h")
 @NamedQuery(name = "HistoryRecord.deleteByUuid", query = "DELETE FROM HistoryRecord h WHERE h.uuid = :uuid")

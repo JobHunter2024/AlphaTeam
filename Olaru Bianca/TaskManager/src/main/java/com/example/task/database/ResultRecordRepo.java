@@ -1,29 +1,24 @@
 package com.example.task.database;
 
-import javax.persistence.*;
-import javax.transaction.Transactional;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.UUID;
 
+@Repository
+@Transactional
 public class ResultRecordRepo {
-    @PersistenceUnit
-    private EntityManagerFactory entityFactory;
 
-    @PersistenceContext(unitName = "JobHunterPU")
+    @PersistenceContext
     private EntityManager entityManager;
 
-    public ResultRecordRepo() {
-        entityFactory = Persistence.createEntityManagerFactory("JobHunterPU");
-        entityManager = entityFactory.createEntityManager();
-    }
-
-
-    //CRUD
-    @Transactional
+    // CRUD Operations
     public void create(ResultRecord newResultRecord) {
-        entityManager.getTransaction().begin();
         entityManager.persist(newResultRecord);
-        entityManager.getTransaction().commit();
     }
 
     public ResultRecord findById(Long id) {
@@ -31,41 +26,30 @@ public class ResultRecordRepo {
     }
 
     public ResultRecord findByUUID(UUID uuid) {
-        try {
-            return entityManager.createNamedQuery("ResultRecord.findByUUID", ResultRecord.class)
-                    .setParameter("uuid", uuid)
-                    .getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
+        TypedQuery<ResultRecord> query = entityManager.createNamedQuery("ResultRecord.findByUUID", ResultRecord.class);
+        query.setParameter("uuid", uuid);
+        return query.getResultStream().findFirst().orElse(null);
     }
 
     public List<ResultRecord> findAll() {
-        return entityManager.createNamedQuery("ResultRecord.findAll", ResultRecord.class)
-                .getResultList();
+        return entityManager.createNamedQuery("ResultRecord.findAll", ResultRecord.class).getResultList();
     }
 
-    @Transactional
     public void update(ResultRecord updatedResultRecord) {
-        entityManager.getTransaction().begin();
         entityManager.merge(updatedResultRecord);
-        entityManager.getTransaction().commit();
     }
 
-    @Transactional
     public void delete(UUID uuid) {
-        ResultRecord targetResultRecord = findByUUID(uuid);
-        if (targetResultRecord != null) {
-            entityManager.getTransaction().begin();
-            entityManager.remove(targetResultRecord);
-            entityManager.getTransaction().commit();
+        ResultRecord target = findByUUID(uuid);
+        if (target != null) {
+            entityManager.remove(target);
         }
     }
 
     public void deleteByUuid(String uuid) {
-        Query query = entityManager.createNamedQuery("ResultRecord.deleteByUUID");
-        query.setParameter("uuid", uuid);
-        query.executeUpdate();
+        entityManager.createNamedQuery("ResultRecord.deleteByUUID")
+                .setParameter("uuid", uuid)
+                .executeUpdate();
     }
 
     public void setEntityManager(EntityManager entityManager) {

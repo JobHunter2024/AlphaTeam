@@ -1,12 +1,13 @@
 package com.example.task.database;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
 
 @Entity
+@Table(name = "resultrecord")
 @NamedQuery(name = "ResultRecord.findByUUID", query = "SELECT r FROM ResultRecord r WHERE r.uuid = :uuid")
 @NamedQuery(name = "ResultRecord.findAll", query = "SELECT r FROM ResultRecord r")
 @NamedQuery(name = "ResultRecord.deleteByUUID", query = "DELETE FROM ResultRecord r WHERE r.uuid = :uuid")
