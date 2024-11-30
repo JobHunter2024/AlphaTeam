@@ -4,6 +4,7 @@ import com.example.task.processor.TaskConfig;
 
 import java.util.UUID;
 
+
 public class ScrapeTaskCommand implements TaskCommand {
     private final TaskConfig taskConfig;
 
@@ -13,7 +14,7 @@ public class ScrapeTaskCommand implements TaskCommand {
 
     @Override
     public UUID getTaskId() {
-        return taskConfig.getTaskId();
+        return taskConfig.getUUID();
     }
 
     public TaskConfig getConfig() {

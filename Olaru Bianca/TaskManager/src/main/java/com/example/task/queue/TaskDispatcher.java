@@ -4,10 +4,12 @@ import com.example.scraper.ScrapingService;
 import com.example.scraper.ScrapingResult;
 import com.example.task.factory.ScrapeTaskCommand;
 import com.example.task.factory.TaskCommand;
+import org.springframework.stereotype.Component;
 
-import java.util.Map;
 import java.util.UUID;
 
+
+@Component
 public class TaskDispatcher {
     private final TaskQueueManager taskQueueManager;
     private final ScrapingService scrapingService;
@@ -25,7 +27,7 @@ public class TaskDispatcher {
                 if (task instanceof ScrapeTaskCommand scrapeTaskCommand) {
                     UUID taskId = scrapeTaskCommand.getTaskId();
                     String url = scrapeTaskCommand.getConfig().getSourceURL();
-                    Map<String, String> path = scrapeTaskCommand.getConfig().getJsoupPath();
+                    String path = scrapeTaskCommand.getConfig().getJsoupPath();
 
                     return scrapingService.scrapeData(url, path, taskId);
                 }

@@ -1,9 +1,12 @@
 package com.example.task.queue;
 
 import com.example.task.factory.TaskCommand;
+import org.springframework.stereotype.Component;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
+@Component
 public class TaskQueue {
     private final Queue<TaskCommand> queue;
 

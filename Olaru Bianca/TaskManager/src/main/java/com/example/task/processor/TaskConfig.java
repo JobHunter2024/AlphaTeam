@@ -1,25 +1,28 @@
 package com.example.task.processor;
 
-import java.util.Map;
 import java.util.UUID;
 
 public class TaskConfig {
-    private final UUID id;
+    private long id;
+    private final UUID uuid;
     private String sourceURL;
     private String status;
     private String type;
     private String jsoupPath;
 
-    public TaskConfig(UUID id, String sourceURL, String status, String type, String jsoupPath) {
+    public TaskConfig(long id, UUID uuid, String sourceURL, String status, String type, String jsoupPath) {
         this.id = id;
+        this.uuid = uuid;
         this.sourceURL = sourceURL;
         this.status = status;
         this.type = type;
         this.jsoupPath = jsoupPath;
     }
 
-    public UUID getTaskId() {
-        return id;
+    public long getId() { return id; }
+
+    public UUID getUUID() {
+        return uuid;
     }
 
     public String getSourceURL() {
@@ -58,6 +61,7 @@ public class TaskConfig {
     public String toString() {
         return "TaskConfig{" +
                 "id=" + id +
+                "uuid=" + uuid +
                 ", sourceURL='" + sourceURL + '\'' +
                 ", status='" + status + '\'' +
                 ", type='" + type + '\'' +

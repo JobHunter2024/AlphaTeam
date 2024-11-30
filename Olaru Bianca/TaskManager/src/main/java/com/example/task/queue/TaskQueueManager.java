@@ -1,7 +1,9 @@
 package com.example.task.queue;
 
 import com.example.task.factory.TaskCommand;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TaskQueueManager {
     private final TaskQueue taskQueue;
 

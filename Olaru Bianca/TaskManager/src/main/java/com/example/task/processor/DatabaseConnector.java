@@ -1,18 +1,17 @@
 package com.example.task.processor;
 
-import com.example.task.database.DataToExtract;
-import com.example.task.database.DataToExtractRepo;
-import com.example.task.database.HistoryRecordRepo;
-import com.example.task.database.ResultRecordRepo;
+import com.example.task.database.*;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Map;
 import java.util.UUID;
 
+
+@Component
 public class DatabaseConnector {
 
     private EntityManager entityManager;
@@ -32,22 +31,52 @@ public class DatabaseConnector {
         resultRecordRepo.setEntityManager(entityManager);
     }
 
-    public TaskConfig fetchTaskConfig(UUID uuid) {
-        DataToExtract dataToExtract = dataToExtractRepo.findByUUID(uuid);
+    public TaskConfig fetchTaskConfig(long id) {
+        DataToExtract dataToExtract = dataToExtractRepo.findById(id);
 
         if (dataToExtract != null) {
+            UUID uuid = dataToExtract.getUuid();
             String sourceURL = dataToExtract.getUrlString();
             String jsoupPath = dataToExtract.getPath();
             String type = "scrape";
 
-            return new TaskConfig(uuid, sourceURL, "pending", type, jsoupPath);
+            return new TaskConfig(id, uuid, sourceURL, "pending", type, jsoupPath);
         } else {
+            System.out.println("DataToExtract not found");
             return null;
         }
     }
 
+    public void saveHistory(HistoryRecord historyRecord) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.persist(historyRecord);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Failed to save HistoryRecord", e);
+        }
+    }
+
+    public void saveResult(ResultRecord resultRecord) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.persist(resultRecord);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Failed to save ResultRecord", e);
+        }
+    }
+
     public void updateTaskConfig(TaskConfig taskConfig) throws MalformedURLException {
-        DataToExtract dataToExtract = dataToExtractRepo.findByUUID(taskConfig.getTaskId());
+        DataToExtract dataToExtract = dataToExtractRepo.findByUUID(taskConfig.getUUID());
 
         if (dataToExtract != null) {
             dataToExtract.setUrlString(taskConfig.getSourceURL());

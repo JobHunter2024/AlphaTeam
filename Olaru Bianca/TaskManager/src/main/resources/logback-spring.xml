@@ -5,10 +5,6 @@
         <port>15283</port>
         <facility>USER</facility>
         <suffixPattern>%d{yyyy-MM-dd HH:mm:ss} - %msg</suffixPattern>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</Pattern>
-        </layout>
-        <ignoreExceptions>false</ignoreExceptions>
     </appender>
 
     <root level="INFO">
