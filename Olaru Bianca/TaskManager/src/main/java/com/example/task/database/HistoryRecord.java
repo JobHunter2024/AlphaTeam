@@ -20,7 +20,7 @@ public class HistoryRecord {
     @Column(nullable = false)
     public String path;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     public UUID uuid;
 
     @Column(nullable = false)
