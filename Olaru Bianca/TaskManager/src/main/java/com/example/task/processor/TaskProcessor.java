@@ -8,6 +8,7 @@ import com.example.task.database.ResultRecord;
 import com.example.task.factory.ScrapeTaskCommand;
 import com.example.task.queue.TaskDispatcher;
 import com.example.task.queue.TaskQueueManager;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -30,6 +31,7 @@ public class TaskProcessor {
         this.taskQueueManager = taskQueueManager;
     }
 
+    @Scheduled(cron = "0 0 0/12 * * ?")
     public void processAllScrapingTasks()
     {
         List<TaskConfig> allTaskConfigs = databaseConnector.fetchAllTaskConfigs();
@@ -46,27 +48,13 @@ public class TaskProcessor {
         return processResponse(result);
     }
 
-    public String processScrapingTask(long id) {
-        TaskConfig config = retrieveTaskConfig(id);
-        ScrapeTaskCommand task = new ScrapeTaskCommand(config);
-
-        taskQueueManager.addToQueue(task);
-        ScrapingResult result = taskDispatcher.dispatch();
-        System.out.println("Scraping result: " + result.toString());
-        return processResponse(result);
-    }
-
-    public TaskConfig retrieveTaskConfig(long taskId) {
-        return databaseConnector.fetchTaskConfig(taskId);
-    }
-
     public String processResponse(ScrapingResult result) {
         String errorMessage = result.getErrorMessage();
         if (errorMessage == null)
             errorMessage = "No Error";
 
         HistoryRecord historyRecord = new HistoryRecord(result.getUrl(), result.getPath(), result.getTaskId(), result.success ? "success" : "failure", errorMessage);
-        System.out.println("History Record: " + historyRecord.toString());
+        System.out.println("History Record: " + historyRecord);
         databaseConnector.saveHistory(historyRecord);
 
         if (result.success) {
