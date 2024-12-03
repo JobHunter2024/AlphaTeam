@@ -16,9 +16,16 @@ public class HistoryRecordRepo {
     @PersistenceContext
     private EntityManager entityManager;
 
+    public HistoryRecordRepo(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
     // CRUD Operations
+    @Transactional
     public void create(HistoryRecord newHistoryRecord) {
+        entityManager.getTransaction().begin();
         entityManager.persist(newHistoryRecord);
+        entityManager.getTransaction().commit();
     }
 
     public HistoryRecord findById(Long id) {
@@ -35,14 +42,20 @@ public class HistoryRecordRepo {
         return entityManager.createNamedQuery("HistoryRecord.findAll", HistoryRecord.class).getResultList();
     }
 
+    @Transactional
     public void update(HistoryRecord updatedHistoryRecord) {
+        entityManager.getTransaction().begin();
         entityManager.merge(updatedHistoryRecord);
+        entityManager.getTransaction().commit();
     }
 
+    @Transactional
     public void delete(UUID uuid) {
         HistoryRecord target = findByUUID(uuid);
         if (target != null) {
+            entityManager.getTransaction().begin();
             entityManager.remove(target);
+            entityManager.getTransaction().commit();
         }
     }
 
@@ -50,9 +63,5 @@ public class HistoryRecordRepo {
         entityManager.createNamedQuery("HistoryRecord.deleteByUuid")
                 .setParameter("uuid", uuid)
                 .executeUpdate();
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
     }
 }

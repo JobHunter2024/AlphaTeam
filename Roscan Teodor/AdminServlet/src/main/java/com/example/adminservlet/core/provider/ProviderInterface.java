@@ -49,11 +49,11 @@ public class ProviderInterface {
         String path="div1 > div2 > div3 > div4";
 
         List<HistoryRecord> historyRecords = Arrays.asList(
-                new HistoryRecord("https://www.youtube.com/watch?v=abcd1234", path, UUID.randomUUID(), "success"),
-                new HistoryRecord("https://www.linkedin.com/in/johndoe/", path, UUID.randomUUID(), "success"),
-                new HistoryRecord("https://github.com/sample/repo", path, UUID.randomUUID(), "success"),
-                new HistoryRecord("https://www.medium.com/article-xyz", path, UUID.randomUUID(), "fail"),
-                new HistoryRecord("https://www.reddit.com/r/programming/", path, UUID.randomUUID(), "pending")
+                new HistoryRecord("https://www.youtube.com/watch?v=abcd1234", path, UUID.randomUUID(), "success", "No Error"),
+                new HistoryRecord("https://www.linkedin.com/in/johndoe/", path, UUID.randomUUID(), "success", "No Error"),
+                new HistoryRecord("https://github.com/sample/repo", path, UUID.randomUUID(), "success", "No Error"),
+                new HistoryRecord("https://www.medium.com/article-xyz", path, UUID.randomUUID(), "fail", "No data found"),
+                new HistoryRecord("https://www.reddit.com/r/programming/", path, UUID.randomUUID(), "pending", "No Error")
         );
 
         historyRecordCRUD.listToRows(historyRecords);

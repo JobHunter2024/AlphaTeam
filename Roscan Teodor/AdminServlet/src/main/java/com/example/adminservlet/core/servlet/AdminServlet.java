@@ -27,7 +27,6 @@ public class AdminServlet extends HttpServlet {
 
     public void init() {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        providerInterface.resultMockery();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

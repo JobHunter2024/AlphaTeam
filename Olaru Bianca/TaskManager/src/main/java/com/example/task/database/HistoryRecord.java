@@ -15,7 +15,7 @@ public class HistoryRecord {
     private Long id;
 
     @Column(nullable = false)
-    public String urlString;
+    public String url;
 
     @Column(nullable = false)
     public String path;
@@ -26,25 +26,40 @@ public class HistoryRecord {
     @Column(nullable = false)
     String status;
 
-    public HistoryRecord(String urlString, String path, UUID uuid, String status) {
-        this.urlString = urlString;
+    @Column(nullable = false)
+    String error;
+
+    public HistoryRecord(String url, String path, UUID uuid, String status, String error) {
+        this.url = url;
         this.path = path;
         this.uuid = uuid;
         this.status = status;
+        this.error = error;
     }
 
     public HistoryRecord() {
 
     }
 
+    @Override
+    public String toString() {
+        return "HistoryRecord{" +
+                "id=" + id +
+                ", urlString='" + url + '\'' +
+                ", path='" + path + '\'' +
+                ", uuid=" + uuid +
+                ", status='" + status + '\'' +
+                ", error='" + error + '\'' +
+                '}';
+    }
 
     //Getters and Setters
     public Long getId() {
         return id;
     }
 
-    public String getUrlString() {
-        return urlString;
+    public String getUrl() {
+        return url;
     }
 
     public String getPath() {
@@ -63,8 +78,8 @@ public class HistoryRecord {
         this.id = id;
     }
 
-    public void setUrlString(String urlString) {
-        this.urlString = urlString;
+    public void setUrl(String urlString) {
+        this.url = urlString;
     }
 
     public void setPath(String path) {

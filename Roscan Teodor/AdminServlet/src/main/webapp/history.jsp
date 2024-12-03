@@ -34,6 +34,7 @@
             <th>URL</th>
             <th>Paths</th>
             <th>Status</th>
+            <th>Error</th>
         </tr>
         </thead>
         <tbody>
@@ -42,9 +43,10 @@
         %>
         <tr>
             <td><%= data.getId() %></td>
-            <td><a href="<%= data.getUrlString() %>"><%= data.getUrlString() %></a></td>
+            <td><a href="<%= data.getUrl() %>"><%= data.getUrl() %></a></td>
             <td><%= data.getPath() %></td>
             <td><%= data.getStatus() %></td>
+            <td><%= data.getError() %></td>
         </tr>
         <%
             }

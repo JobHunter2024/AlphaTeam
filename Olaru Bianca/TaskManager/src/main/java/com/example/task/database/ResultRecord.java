@@ -26,7 +26,7 @@ public class ResultRecord {
     public UUID uuid;
 
     @Column(nullable = false)
-    public String content; //JSON content
+    public String content;
 
 
     public ResultRecord(String url, Date date, UUID uuid, String content) {

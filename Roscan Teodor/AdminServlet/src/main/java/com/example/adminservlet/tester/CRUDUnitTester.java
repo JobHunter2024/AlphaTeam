@@ -14,8 +14,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Hashtable;
-import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -49,8 +47,8 @@ public class CRUDUnitTester {
     public void testRead() throws URISyntaxException, IOException {
         dataToExtractCRUD.addRow(sampleData);
         DataToExtract foundData= dataToExtractCRUD.getDataByUUID(sampleData.getUuid());
-        assertEquals(foundData.getUrlString(), sampleData.getUrlString());
-        URL newURL = new URL(foundData.getUrlString());
+        assertEquals(foundData.getUrl(), sampleData.getUrl());
+        URL newURL = new URL(foundData.getUrl());
 
         if (Desktop.isDesktopSupported()) {
             Desktop.getDesktop().browse(newURL.toURI());
@@ -65,8 +63,8 @@ public class CRUDUnitTester {
         dataToExtractCRUD.addRow(sampleData);
         dataToExtractCRUD.updateRow(updatedData);
         DataToExtract foundData= dataToExtractCRUD.getDataByUUID(updatedData.getUuid());
-        assertNotEquals(foundData.getUrlString(), sampleData.getUrlString());
-        assertEquals(foundData.getUrlString(), updatedData.getUrlString());
+        assertNotEquals(foundData.getUrl(), sampleData.getUrl());
+        assertEquals(foundData.getUrl(), updatedData.getUrl());
         dataToExtractCRUD.removeRow(updatedData);
     }
 

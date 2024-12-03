@@ -37,7 +37,7 @@
 
         <label for="url">URL:</label>
         <input type="text" id="url" name="url" placeholder="Enter URL" required
-               value="<%= targetElement != null ? targetElement.getUrlString() : "" %>">
+               value="<%= targetElement != null ? targetElement.getUrl() : "" %>">
         <br/><br/>
 
         <label for="pathContainer">Paths:</label>
@@ -83,7 +83,7 @@
             %>
             <tr>
                 <td><%= data.getId() %></td>
-                <td><a href="<%= data.getUrlString() %>"><%= data.getUrlString() %></a></td>
+                <td><a href="<%= data.getUrl() %>"><%= data.getUrl() %></a></td>
                 <td><%= data.getPath() %></td>
                 <td>
                     <div class="miniButton">

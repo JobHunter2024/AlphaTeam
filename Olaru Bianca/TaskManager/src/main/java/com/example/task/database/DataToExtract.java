@@ -17,7 +17,7 @@ public class DataToExtract {
     private Long id;
 
     @Column(nullable = false)
-    public String urlString;
+    public String url;
 
     @Column(nullable = false)
     public String path;
@@ -25,8 +25,8 @@ public class DataToExtract {
     @Column(nullable = false, unique = true)
     public UUID uuid;
 
-    public DataToExtract(String urlString, String path, UUID uuid) {
-        this.urlString = urlString;
+    public DataToExtract(String url, String path, UUID uuid) {
+        this.url = url;
         this.path = path;
         this.uuid = uuid;
     }
@@ -42,12 +42,12 @@ public class DataToExtract {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DataToExtract that = (DataToExtract) o;
-        return Objects.equals(id, that.id) && Objects.equals(urlString, that.urlString) && Objects.equals(path, that.path) && Objects.equals(uuid, that.uuid);
+        return Objects.equals(id, that.id) && Objects.equals(url, that.url) && Objects.equals(path, that.path) && Objects.equals(uuid, that.uuid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, urlString, path, uuid);
+        return Objects.hash(id, url, path, uuid);
     }
 
 
@@ -56,8 +56,8 @@ public class DataToExtract {
         return id;
     }
 
-    public String getUrlString() {
-        return urlString;
+    public String getUrl() {
+        return url;
     }
 
     public String getPath() {
@@ -73,8 +73,8 @@ public class DataToExtract {
         this.id = id;
     }
 
-    public void setUrlString(String urlString) {
-        this.urlString = urlString;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public void setPath(String path) {

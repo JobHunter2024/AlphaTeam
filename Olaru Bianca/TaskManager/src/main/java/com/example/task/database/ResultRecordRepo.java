@@ -16,9 +16,16 @@ public class ResultRecordRepo {
     @PersistenceContext
     private EntityManager entityManager;
 
+    public ResultRecordRepo(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
     // CRUD Operations
+    @Transactional
     public void create(ResultRecord newResultRecord) {
+        entityManager.getTransaction().begin();
         entityManager.persist(newResultRecord);
+        entityManager.getTransaction().commit();
     }
 
     public ResultRecord findById(Long id) {
@@ -35,14 +42,20 @@ public class ResultRecordRepo {
         return entityManager.createNamedQuery("ResultRecord.findAll", ResultRecord.class).getResultList();
     }
 
+    @Transactional
     public void update(ResultRecord updatedResultRecord) {
+        entityManager.getTransaction().begin();
         entityManager.merge(updatedResultRecord);
+        entityManager.getTransaction().commit();
     }
 
+    @Transactional
     public void delete(UUID uuid) {
         ResultRecord target = findByUUID(uuid);
         if (target != null) {
+            entityManager.getTransaction().begin();
             entityManager.remove(target);
+            entityManager.getTransaction().commit();
         }
     }
 
@@ -50,9 +63,5 @@ public class ResultRecordRepo {
         entityManager.createNamedQuery("ResultRecord.deleteByUUID")
                 .setParameter("uuid", uuid)
                 .executeUpdate();
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
     }
 }
