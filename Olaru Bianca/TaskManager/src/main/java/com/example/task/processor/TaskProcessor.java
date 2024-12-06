@@ -11,6 +11,7 @@ import com.example.task.queue.TaskQueueManager;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -32,14 +33,13 @@ public class TaskProcessor {
     }
 
     @Scheduled(cron = "0 0 0/12 * * ?")
-    public void processAllScrapingTasks()
-    {
+    public void processAllScrapingTasks() throws IOException {
         List<TaskConfig> allTaskConfigs = databaseConnector.fetchAllTaskConfigs();
         for(TaskConfig taskConfig : allTaskConfigs)
             System.out.println(processScrapingTask(taskConfig));
     }
 
-    public String processScrapingTask(TaskConfig config) {
+    public String processScrapingTask(TaskConfig config) throws IOException {
         ScrapeTaskCommand task = new ScrapeTaskCommand(config);
 
         taskQueueManager.addToQueue(task);
