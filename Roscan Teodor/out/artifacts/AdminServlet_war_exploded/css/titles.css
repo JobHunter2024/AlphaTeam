@@ -1,0 +1,29 @@
+.sectionTitle
+{
+  font-size: calc(4 * (1vw + 1vh)/2);
+  text-align: center;
+  margin-top: 80px;
+  color: #ffffff;
+}
+
+.underline {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -1.0%;
+}
+
+.underline img {
+  min-width: 40%;
+  max-width: 80%;
+  width: 30rem;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .sectionTitle
+  {
+    font-size: calc(12 * (1vw + 1vh)/2);
+  }
+}
+

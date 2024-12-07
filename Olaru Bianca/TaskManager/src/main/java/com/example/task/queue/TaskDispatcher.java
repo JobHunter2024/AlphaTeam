@@ -5,6 +5,9 @@ import com.example.scraper.ScrapingService;
 import com.example.scraper.ScrapingResult;
 import com.example.task.factory.TaskCommand;
 import org.springframework.stereotype.Component;
+import com.example.task.factory.ScrapeTaskCommand;
+import java.util.UUID;
+
 
 import java.io.IOException;
 
@@ -13,6 +16,7 @@ import java.io.IOException;
 public class TaskDispatcher {
     private final TaskQueueManager taskQueueManager;
     private final ScrapingService scrapingService;
+    private ScrapeTaskCommand scrapeTaskCommand;
 
     public TaskDispatcher(TaskQueueManager taskQueueManager,
                           ScrapingService scrapingService) {
@@ -24,13 +28,12 @@ public class TaskDispatcher {
         while (!taskQueueManager.isQueueEmpty()) {
             TaskCommand task = taskQueueManager.getFromQueue();
             if (task != null) {
-//                if (task instanceof ScrapeTaskCommand scrapeTaskCommand) {
-//                    UUID taskId = scrapeTaskCommand.getTaskId();
-//                    String url = scrapeTaskCommand.getConfig().getSourceURL();
-//                    String path = scrapeTaskCommand.getConfig().getJsoupPath();
-//
-//                    return scrapingService.scrapeData(url, path, taskId);
-                return IndeedScraper.fetchJobListings(task.getTaskId());
+                UUID taskId = scrapeTaskCommand.getTaskId();
+                String url = scrapeTaskCommand.getConfig().getSourceURL();
+                String path = scrapeTaskCommand.getConfig().getJsoupPath();
+
+                return scrapingService.scrapeData(url, path, taskId);
+//                return IndeedScraper.fetchJobListings(task.getTaskId());
                 }
             }
         return null;
