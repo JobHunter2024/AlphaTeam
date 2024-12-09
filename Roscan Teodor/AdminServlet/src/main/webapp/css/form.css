@@ -24,7 +24,7 @@ form label {
     font-size: calc(1.25 * (1vw + 1vh) / 2);
 }
 
-form input[type="text"] {
+form input[type="text"], form input[type="password"] {
     width: 100%;
     padding: 10px;
     font-size: calc(1.25 * (1vw + 1vh) / 2);
@@ -35,7 +35,7 @@ form input[type="text"] {
     color: white;
 }
 
-form input[type="text"]:focus {
+form input[type="text"]:focus, form input[type="password"]:focus {
     outline: none;
     border: none;
     background-color: rgba(255, 255, 255, 0.2);
@@ -46,7 +46,7 @@ form input[type="text"]:focus {
     transition: box-shadow 0.3s ease-in-out;
 }
 
-form input[type="text"]::placeholder {
+form input[type="text"]::placeholder, form input[type="password"]::placeholder {
     color: rgba(255, 255, 255, 0.7);
 }
 

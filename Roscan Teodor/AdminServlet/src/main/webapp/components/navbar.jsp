@@ -9,5 +9,6 @@
         <a href="admin-servlet?action=statistics">Statistics</a>
         <a href="admin-servlet?action=config">Configuration</a>
         <a href="admin-servlet?action=credentials">Credentials</a>
+        <a href="admin-servlet?action=logout">Logout</a>
     </nav>
 </header>

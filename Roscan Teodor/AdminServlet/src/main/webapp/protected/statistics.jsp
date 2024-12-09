@@ -9,18 +9,18 @@
     <link href="css/titles.css" rel="stylesheet">
     <link href="css/footer.css" rel="stylesheet">
 
-    <%@ include file="components/font.jsp" %>
+    <%@ include file="../components/font.jsp" %>
 </head>
 <body>
 
-    <%@ include file="components/navbar.jsp" %>
+    <%@ include file="../components/navbar.jsp" %>
 
     <h2 class="sectionTitle">Scraping Statistics</h2>
     <div class="underline">
         <img src="images/underline.png" alt="IGS Section Underline">
     </div>
 
-    <%@ include file="components/footer.jsp" %>
+    <%@ include file="../components/footer.jsp" %>
 
 </body>
 </html>

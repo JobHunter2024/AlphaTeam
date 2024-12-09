@@ -1,0 +1,7 @@
+<Realm className="org.apache.catalina.realm.DataSourceRealm"
+       dataSourceName="jdbc/JobHunterDB" localDataSource="true" digest="SHA-256"
+       userTable="users"     userNameCol="username" userCredCol="password"
+       userRoleTable="roles" roleNameCol="role_name">
+    <CredentialHandler className="org.apache.catalina.realm.MessageDigestCredentialHandler"
+                       algorithm="SHA-256" iterations="1" saltLength="0" encoding="ISO-8859-1" />
+</Realm>

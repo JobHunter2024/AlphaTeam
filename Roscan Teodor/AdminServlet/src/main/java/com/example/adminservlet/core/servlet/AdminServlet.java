@@ -2,7 +2,6 @@ package com.example.adminservlet.core.servlet;
 
 import java.io.*;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.*;
 
 import com.example.adminservlet.core.config.ConfigValidator;
@@ -10,6 +9,7 @@ import com.example.adminservlet.core.config.ConfigInterface;
 import com.example.adminservlet.core.config.ScrapperConfig;
 import com.example.adminservlet.core.data.extraction.DataToExtract;
 import com.example.adminservlet.core.provider.ProviderInterface;
+import com.example.adminservlet.core.security.UserAccount;
 import com.example.adminservlet.logger.AppConfig;
 
 import javax.servlet.ServletException;
@@ -24,6 +24,7 @@ public class AdminServlet extends HttpServlet {
     private ScrapperConfig scrapperConfig=new ScrapperConfig();
     private ConfigInterface configInterface=new ConfigInterface(configValidator,scrapperConfig);
     private ProviderInterface providerInterface=new ProviderInterface(scrapperConfig.getDatabaseCRUD());
+    private UserAccount userAccount =new UserAccount();
 
     public void init() {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
@@ -32,41 +33,50 @@ public class AdminServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String action = request.getParameter("action");
 
-        switch (action)
+        if(userAccount.isUserLoggedIn(request)==false)
+            //response.sendRedirect("login.jsp");
+        //else
         {
-            case "config":
-                request.setAttribute("dataList", providerInterface.getScraperConfig());
-                String targetUuid = request.getParameter("uuid");
-                if(targetUuid!=null)
-                    request.setAttribute("targetData", configInterface.getConfigurationByUUID(UUID.fromString(targetUuid)));
+            switch (action)
+            {
+                case "config":
+                    request.setAttribute("dataList", providerInterface.getScraperConfig());
+                    String targetUuid = request.getParameter("uuid");
+                    if(targetUuid!=null)
+                        request.setAttribute("targetData", configInterface.getConfigurationByUUID(UUID.fromString(targetUuid)));
 
-                request.getRequestDispatcher("/config.jsp").forward(request, response);
-                break;
-            case "credentials":
-                request.getRequestDispatcher("/credentials.jsp").forward(request, response);
-                break;
-            case "history":
-                request.setAttribute("historyList", providerInterface.getScrappingHistory());
-                request.getRequestDispatcher("/history.jsp").forward(request, response);
-                break;
-            case "results":
-                request.setAttribute("resultList", providerInterface.getScrappingResults());
-                request.getRequestDispatcher("/results.jsp").forward(request, response);
-                break;
-            case "statistics":
-                request.getRequestDispatcher("/statistics.jsp").forward(request, response);
-                break;
-            case "deleteConfig":
+                    request.getRequestDispatcher("/protected/config.jsp").forward(request, response);
+                    break;
+                case "credentials":
+                    request.getRequestDispatcher("/protected/credentials.jsp").forward(request, response);
+                    break;
+                case "history":
+                    request.setAttribute("historyList", providerInterface.getScrappingHistory());
+                    request.getRequestDispatcher("/protected/history.jsp").forward(request, response);
+                    break;
+                case "results":
+                    request.setAttribute("resultList", providerInterface.getScrappingResults());
+                    request.getRequestDispatcher("/protected/results.jsp").forward(request, response);
+                    break;
+                case "statistics":
+                    request.getRequestDispatcher("/protected/statistics.jsp").forward(request, response);
+                    break;
+                case "logout":
+                    userAccount.logout(request);
+                    response.sendRedirect("login.jsp");
+                    break;
+                case "deleteConfig":
 
-                String uuid = request.getParameter("uuid");
-                configInterface.removeConfiguration(UUID.fromString(uuid));
+                    String uuid = request.getParameter("uuid");
+                    configInterface.removeConfiguration(UUID.fromString(uuid));
 
-                request.setAttribute("dataList", providerInterface.getScraperConfig());
-                request.getRequestDispatcher("/config.jsp").forward(request, response);
-                break;
+                    request.setAttribute("dataList", providerInterface.getScraperConfig());
+                    request.getRequestDispatcher("/protected/config.jsp").forward(request, response);
+                    break;
 
-            default:
-                response.sendRedirect("index.jsp");
+                default:
+                    response.sendRedirect("index.jsp");
+            }
         }
     }
 
@@ -84,9 +94,17 @@ public class AdminServlet extends HttpServlet {
                 String path = String.join(" > ", values);
                 buildDataToExtract(urlString, path, uuidString);
                 request.setAttribute("dataList", providerInterface.getScraperConfig());
-                request.getRequestDispatcher("/config.jsp").forward(request, response);
+                request.getRequestDispatcher("/protected/config.jsp").forward(request, response);
                 break;
+            case "updateCredentials":
+                String newUsername = request.getParameter("newUsername");
+                String newPassword = request.getParameter("newPassword");
+                String confirmPassword = request.getParameter("confirmPassword");
 
+                if(userAccount.updateCredentials(request,newUsername,newPassword,confirmPassword).equals("success"))
+                    request.getRequestDispatcher("/protected/register.jsp").forward(request, response);
+                else
+                    request.getRequestDispatcher("/protected/protectedError.jsp").forward(request, response);
             default:
                 response.sendRedirect("index.jsp");
         }

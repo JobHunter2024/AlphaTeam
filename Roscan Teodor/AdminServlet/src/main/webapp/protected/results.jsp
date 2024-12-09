@@ -13,11 +13,11 @@
     <link href="css/table.css" rel="stylesheet">
     <link href="css/footer.css" rel="stylesheet">
 
-    <%@ include file="components/font.jsp" %>
+    <%@ include file="../components/font.jsp" %>
 </head>
 <body>
 
-    <%@ include file="components/navbar.jsp" %>
+    <%@ include file="../components/navbar.jsp" %>
 
     <h2 class="sectionTitle">Scraping Results</h2>
     <div class="underline">
@@ -63,7 +63,7 @@
         }
     %>
 
-    <%@ include file="components/footer.jsp" %>
+    <%@ include file="../components/footer.jsp" %>
 
 </body>
 </html>
