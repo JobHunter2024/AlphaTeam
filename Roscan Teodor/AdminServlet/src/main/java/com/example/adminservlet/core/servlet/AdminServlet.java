@@ -34,8 +34,8 @@ public class AdminServlet extends HttpServlet {
         String action = request.getParameter("action");
 
         if(userAccount.isUserLoggedIn(request)==false)
-            //response.sendRedirect("login.jsp");
-        //else
+            response.sendRedirect("login.jsp");
+        else
         {
             switch (action)
             {
@@ -102,9 +102,23 @@ public class AdminServlet extends HttpServlet {
                 String confirmPassword = request.getParameter("confirmPassword");
 
                 if(userAccount.updateCredentials(request,newUsername,newPassword,confirmPassword).equals("success"))
-                    request.getRequestDispatcher("/protected/register.jsp").forward(request, response);
+                    request.getRequestDispatcher("/protected/credentials.jsp").forward(request, response);
                 else
                     request.getRequestDispatcher("/protected/protectedError.jsp").forward(request, response);
+                break;
+            case "login":
+                String username = request.getParameter("username");
+                String password = request.getParameter("password");
+                String loginResult =userAccount.login(request, username, password);
+
+                response.setContentType("text/plain");
+                response.getWriter().write(loginResult);
+
+                //if(loginResult.equals("success"))
+                    //request.getRequestDispatcher("/protected/credentials.jsp").forward(request, response);
+                //else
+                    //request.getRequestDispatcher("/protected/protectedError.jsp").forward(request, response);
+                break;
             default:
                 response.sendRedirect("index.jsp");
         }

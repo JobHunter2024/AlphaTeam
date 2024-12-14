@@ -22,7 +22,7 @@
         <img src="images/underline.png" alt="IGS Section Underline">
     </div>
 
-
+    <!--
     <form id="loginForm" action="j_security_check" method="post">
         <label for="j_username">Username:</label>
         <input type="text" id="j_username" name="j_username" placeholder="Enter Username" required>
@@ -34,7 +34,19 @@
 
         <button type="submit" value="Login">Login</button>
     </form>
+    -->
 
+    <form id="loginForm" action="admin-servlet?action=login" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter Username" required>
+        <br/><br/>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter Password" required>
+        <br/><br/>
+
+        <button type="submit" value="Login">Login</button>
+    </form>
 
     <%@ include file="components/footer.jsp" %>
 
