@@ -26,9 +26,11 @@ public class DataToExtractRepo {
         entityManager.getTransaction().commit();
     }
 
+    /*
     public DataToExtract findById(Long id) {
         return entityManager.find(DataToExtract.class, id);
     }
+     */
 
     public DataToExtract findByUUID(UUID uuid) {
         try {
@@ -62,9 +64,11 @@ public class DataToExtractRepo {
         }
     }
 
+    /*
     public void deleteByUuid(String uuid) {
         Query query = entityManager.createNamedQuery("DataToExtract.deleteByUuid");
         query.setParameter("uuid", uuid);
         query.executeUpdate();
     }
+     */
 }

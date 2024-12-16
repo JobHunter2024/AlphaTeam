@@ -26,9 +26,11 @@ public class HistoryRecordRepo {
         entityManager.getTransaction().commit();
     }
 
+    /*
     public HistoryRecord findById(Long id) {
         return entityManager.find(HistoryRecord.class, id);
     }
+     */
 
     public HistoryRecord findByUUID(UUID uuid) {
         try {
@@ -62,9 +64,11 @@ public class HistoryRecordRepo {
         }
     }
 
+    /*
     public void deleteByUuid(String uuid) {
         Query query = entityManager.createNamedQuery("HistoryRecord.deleteByUuid");
         query.setParameter("uuid", uuid);
         query.executeUpdate();
     }
+     */
 }

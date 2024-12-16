@@ -4,6 +4,9 @@ import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.util.UUID;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 @Converter(autoApply = true)
 public class UUIDConverter implements AttributeConverter<UUID, String> {
 

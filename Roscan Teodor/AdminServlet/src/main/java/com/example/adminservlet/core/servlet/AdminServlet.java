@@ -114,10 +114,10 @@ public class AdminServlet extends HttpServlet {
                 response.setContentType("text/plain");
                 response.getWriter().write(loginResult);
 
-                //if(loginResult.equals("success"))
-                    //request.getRequestDispatcher("/protected/credentials.jsp").forward(request, response);
-                //else
-                    //request.getRequestDispatcher("/protected/protectedError.jsp").forward(request, response);
+                if(loginResult.equals("success"))
+                    request.getRequestDispatcher("/protected/credentials.jsp").forward(request, response);
+                else
+                    request.getRequestDispatcher("/protected/protectedError.jsp").forward(request, response);
                 break;
             default:
                 response.sendRedirect("index.jsp");

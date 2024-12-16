@@ -40,12 +40,14 @@ public class ScrapperConfig {
 
     public void updateData(DataToExtract targetData) {
         DataToExtract oldData = getDataByUUID(targetData.getUuid());
+        dataToExtract.remove(oldData);
         if(oldData != null) {
             oldData.url = targetData.url;
             oldData.path = targetData.path;
             oldData.uuid = targetData.uuid;
         }
         dataToExtractCRUD.updateRow(oldData);
+        dataToExtract.add(targetData);
         dateModified = new Date();
     }
 

@@ -26,9 +26,11 @@ public class ResultRecordRepo {
         entityManager.getTransaction().commit();
     }
 
+    /*
     public ResultRecord findById(Long id) {
         return entityManager.find(ResultRecord.class, id);
     }
+     */
 
     public ResultRecord findByUUID(UUID uuid) {
         try {
@@ -62,9 +64,11 @@ public class ResultRecordRepo {
         }
     }
 
+    /*
     public void deleteByUuid(String uuid) {
         Query query = entityManager.createNamedQuery("ResultRecord.deleteByUUID");
         query.setParameter("uuid", uuid);
         query.executeUpdate();
     }
+     */
 }

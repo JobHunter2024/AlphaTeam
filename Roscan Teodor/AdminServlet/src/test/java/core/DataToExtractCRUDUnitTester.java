@@ -1,7 +1,9 @@
-package com.example.adminservlet.tester;
+package core;
 
 import com.example.adminservlet.core.data.extraction.DataToExtract;
 import com.example.adminservlet.core.database.DataToExtractCRUD;
+import com.example.adminservlet.core.database.HistoryRecordCRUD;
+import com.example.adminservlet.core.database.ResultRecordCRUD;
 import com.example.adminservlet.logger.AppConfig;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,20 +16,26 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
 
-public class CRUDUnitTester {
+public class DataToExtractCRUDUnitTester {
 
     private DataToExtract sampleData;
     private DataToExtract updatedData;
     private DataToExtractCRUD dataToExtractCRUD;
+    private ResultRecordCRUD resultRecordCRUD;
+    private HistoryRecordCRUD historyRecordCRUD;
 
     @Before
     public void setUp() throws MalformedURLException {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         dataToExtractCRUD = context.getBean(DataToExtractCRUD.class);
+        resultRecordCRUD = context.getBean(ResultRecordCRUD.class);
+        historyRecordCRUD = context.getBean(HistoryRecordCRUD.class);
 
         String path="section.jobs > div.job-container > div.job-listing";
 
@@ -77,5 +85,31 @@ public class CRUDUnitTester {
         dataToExtractCRUD.removeRow(sampleData);
         foundData= dataToExtractCRUD.getDataByUUID(sampleData.getUuid());
         assertNull(foundData);
+    }
+
+    @Test
+    public void testListRows() {
+        dataToExtractCRUD.addRow(sampleData);
+        DataToExtract secondData = new DataToExtract("http://google.com", "div", UUID.randomUUID());
+        dataToExtractCRUD.addRow(secondData);
+        List<DataToExtract> foundData= dataToExtractCRUD.getAllData();
+        assertNotNull(foundData);
+
+        assertTrue(foundData.size() > 1);
+    }
+
+    @Test
+    public void testListInsert() {
+        DataToExtract secondData = new DataToExtract("http://google.com", "div", UUID.randomUUID());
+        List<DataToExtract> inputList=new ArrayList<DataToExtract>();
+        inputList.add(sampleData);
+        inputList.add(secondData);
+
+        dataToExtractCRUD.listToRows(inputList);
+
+        for(DataToExtract data: inputList){
+            DataToExtract foundData= dataToExtractCRUD.getDataByUUID(data.getUuid());
+            assertNotNull(foundData);
+        }
     }
 }

@@ -13,9 +13,9 @@ import javax.persistence.Id;
 import java.util.*;
 
 public class ProviderInterface {
-    DataToExtractCRUD dataToExtractCRUD;
-    HistoryRecordCRUD historyRecordCRUD;
-    ResultRecordCRUD resultRecordCRUD;
+    public DataToExtractCRUD dataToExtractCRUD;
+    public HistoryRecordCRUD historyRecordCRUD;
+    public ResultRecordCRUD resultRecordCRUD;
 
     public ProviderInterface() {
 

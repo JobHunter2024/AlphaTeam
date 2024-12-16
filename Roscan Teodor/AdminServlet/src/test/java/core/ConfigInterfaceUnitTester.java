@@ -1,21 +1,17 @@
-package com.example.adminservlet.tester;
-
+package core;
 
 import com.example.adminservlet.core.config.*;
 import com.example.adminservlet.core.data.extraction.DataToExtract;
+import com.example.adminservlet.core.database.DataToExtractCRUD;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Hashtable;
-import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertNull;
 
-public class ProviderConfigInterfaceUnitTester {
+public class ConfigInterfaceUnitTester {
     private ConfigInterface testConfigInterface;
     private ConfigValidator configValidator;
     private ScrapperConfig scrapperConfig;
@@ -101,6 +97,55 @@ public class ProviderConfigInterfaceUnitTester {
 
         // Assert
         assertEquals(0, scrapperConfig.getDataToExtractCount());
+    }
+
+    @Test
+    public void testRemoveDataByUUID() {
+        testConfigInterface.addConfiguration(sampleData);
+
+        testConfigInterface.removeConfiguration(sampleData.getUuid());
+
+        assertEquals(0, scrapperConfig.getDataToExtractCount());
+    }
+
+    @Test
+    public void testRemoveDataByUUID_Invalid() {
+        testConfigInterface.addConfiguration(sampleData);
+
+        testConfigInterface.removeConfiguration(UUID.randomUUID());
+
+        assertTrue(scrapperConfig.getDataToExtract().contains(sampleData));
+    }
+
+    @Test
+    public void testGetConfigurationByUUID() {
+        UUID uuid=sampleData.uuid;
+        testConfigInterface.addConfiguration(sampleData);
+
+        // Act
+        DataToExtract foundConifg=testConfigInterface.getConfigurationByUUID(uuid);
+
+        // Assert
+        assertEquals(sampleData, foundConifg);
+    }
+
+    @Test
+    public void testRemoveConfigurationByUUID() {
+        UUID uuid=sampleData.uuid;
+        testConfigInterface.removeConfiguration(uuid);
+
+        // Act
+        DataToExtract foundConifg=testConfigInterface.getConfigurationByUUID(uuid);
+
+        // Assert
+        assertNull(foundConifg);
+    }
+
+    @Test
+    public void testGetDatabaseCRUD() {
+        DataToExtractCRUD receivedClass=scrapperConfig.getDatabaseCRUD();
+
+        assertNotNull(receivedClass);
     }
 
 }
