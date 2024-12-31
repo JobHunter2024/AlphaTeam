@@ -1,0 +1,12 @@
+com\example\provider\HelloApplication.class
+com\example\provider\database\crud\DataToExtractCRUD.class
+com\example\provider\database\ProviderInterface.class
+com\example\provider\database\crud\ResultRecordCRUD.class
+com\example\provider\database\entity\DataToExtract.class
+com\example\provider\database\entity\ResultRecord.class
+com\example\provider\database\repo\ResultRecordRepo.class
+com\example\provider\DataResource.class
+com\example\provider\database\crud\HistoryRecordCRUD.class
+com\example\provider\database\entity\HistoryRecord.class
+com\example\provider\database\repo\HistoryRecordRepo.class
+com\example\provider\database\repo\DataToExtractRepo.class
