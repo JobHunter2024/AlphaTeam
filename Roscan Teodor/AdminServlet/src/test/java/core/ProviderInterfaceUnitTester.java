@@ -1,5 +1,6 @@
 package core;
 
+import com.example.adminservlet.core.database.DataToExtractAdvancedCRUD;
 import com.example.adminservlet.core.provider.DataToExtract;
 import com.example.adminservlet.core.database.DataToExtractCRUD;
 import com.example.adminservlet.core.provider.HistoryRecord;
@@ -21,7 +22,8 @@ public class ProviderInterfaceUnitTester {
     @Before
     public void setUp() throws Exception {
         DataToExtractCRUD dataToExtract = new DataToExtractCRUD();
-        providerInterface= new ProviderInterface(dataToExtract);
+        DataToExtractAdvancedCRUD dataToExtractAdvanced = new DataToExtractAdvancedCRUD();
+        providerInterface= new ProviderInterface(dataToExtract, dataToExtractAdvanced);
         providerInterface.resultMockery();
         providerInterface.historyMockery();
     }

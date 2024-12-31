@@ -6,6 +6,7 @@ package com.example.adminservlet.core.config;
  * */
 
 import com.example.adminservlet.core.provider.DataToExtract;
+import com.example.adminservlet.core.provider.DataToExtractAdvanced;
 
 import java.util.UUID;
 
@@ -38,5 +39,29 @@ public class ConfigInterface {
 
     public DataToExtract getConfigurationByUUID(UUID uuid) {
         return scrapperConfig.getDataByUUID(uuid);
+    }
+
+
+
+    public void addConfigurationAdvanced(DataToExtractAdvanced newData) {
+        if(configValidator.isConfigurationValid(newData))
+            scrapperConfig.addDataAdvanced(newData);
+    }
+
+    public void updateConfigurationAdvanced(DataToExtractAdvanced newData) {
+        if(configValidator.isConfigurationValid(newData))
+            scrapperConfig.updateDataAdvanced(newData);
+    }
+
+    public void removeConfigurationAdvanced(DataToExtractAdvanced newData) {
+        scrapperConfig.removeDataAdvanced(newData);
+    }
+
+    public void removeConfigurationAdvanced(UUID uuid) {
+        scrapperConfig.removeDataAdvanced(uuid);
+    }
+
+    public DataToExtractAdvanced getConfigurationByUUIDAdvanced(UUID uuid) {
+        return scrapperConfig.getDataByUUIDAdvanced(uuid);
     }
 }

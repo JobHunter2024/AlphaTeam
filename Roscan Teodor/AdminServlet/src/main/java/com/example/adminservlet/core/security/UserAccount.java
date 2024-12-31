@@ -53,7 +53,7 @@ public class UserAccount {
         String dropConstraintSQL = "ALTER TABLE roles DROP CONSTRAINT IF EXISTS roles_username_fkey";
         String addConstraintSQL = "ALTER TABLE roles ADD CONSTRAINT roles_username_fkey FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE";
 
-        try (Connection connection = com.example.util.DatabaseConnection.getConnection();
+        try (Connection connection = com.example.adminservlet.core.database.DatabaseConnection.getConnection();
              PreparedStatement dropConstraintStmt = connection.prepareStatement(dropConstraintSQL);
              PreparedStatement addConstraintStmt = connection.prepareStatement(addConstraintSQL);
              PreparedStatement updateRolesStmt = connection.prepareStatement(
@@ -101,7 +101,7 @@ public class UserAccount {
 
     public String login(HttpServletRequest request, String username, String password) {
         Utilities utilities = new Utilities();
-        try (Connection connection = com.example.util.DatabaseConnection.getConnection();
+        try (Connection connection = com.example.adminservlet.core.database.DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT * FROM users WHERE username = ?")) {
 
             stmt.setString(1, username);

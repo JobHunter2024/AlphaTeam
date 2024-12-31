@@ -1,5 +1,6 @@
 package com.example.adminservlet.core.provider;
 
+import com.example.adminservlet.core.database.DataToExtractAdvancedCRUD;
 import com.example.adminservlet.core.database.DataToExtractCRUD;
 import com.example.adminservlet.core.database.HistoryRecordCRUD;
 import com.example.adminservlet.core.database.ResultRecordCRUD;
@@ -9,6 +10,7 @@ import java.util.*;
 
 public class ProviderInterface {
     public DataToExtractCRUD dataToExtractCRUD;
+    public DataToExtractAdvancedCRUD dataToExtractAdvancedCRUD;
     public HistoryRecordCRUD historyRecordCRUD;
     public ResultRecordCRUD resultRecordCRUD;
 
@@ -16,8 +18,9 @@ public class ProviderInterface {
 
     }
 
-    public ProviderInterface(DataToExtractCRUD dataToExtractCRUD) {
+    public ProviderInterface(DataToExtractCRUD dataToExtractCRUD, DataToExtractAdvancedCRUD dataToExtractAdvancedCRUD) {
         this.dataToExtractCRUD = dataToExtractCRUD;
+        this.dataToExtractAdvancedCRUD = dataToExtractAdvancedCRUD;
         this.historyRecordCRUD = new HistoryRecordCRUD();
         this.resultRecordCRUD = new ResultRecordCRUD();
     }
@@ -33,6 +36,11 @@ public class ProviderInterface {
     public List<DataToExtract> getScraperConfig()
     {
         return dataToExtractCRUD.getAllData();
+    }
+
+    public List<DataToExtractAdvanced> getScraperConfigAdvanced()
+    {
+        return dataToExtractAdvancedCRUD.getAllData();
     }
 
     public void deleteHistory(){

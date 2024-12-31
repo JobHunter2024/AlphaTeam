@@ -1,4 +1,4 @@
-package com.example.util;
+package com.example.adminservlet.core.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,6 +1,7 @@
 <%@ page import="com.example.adminservlet.core.provider.DataToExtract" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="com.example.adminservlet.core.provider.DataToExtractAdvanced" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
@@ -25,6 +26,9 @@
     <%
         DataToExtract targetElement = (DataToExtract) request.getAttribute("targetData");
         String uuidString = request.getParameter("uuid");
+
+        DataToExtractAdvanced targetElementAdvanced = (DataToExtractAdvanced) request.getAttribute("targetDataAdvanced");
+        String uuidStringAdvanced = request.getParameter("uuidAdvanced");
     %>
 
     <h2 class="sectionTitle">Scraping Configuration</h2>
@@ -105,6 +109,118 @@
         <%
             }
         %>
+
+
+
+
+
+    <form action="admin-servlet?action=updateConfigAdvanced" method="post">
+        <input type="hidden" name="uuidAdvanced" value="<%= uuidStringAdvanced != null ? uuidStringAdvanced : "" %>">
+
+        <label for="urlAdvanced">URL:</label>
+        <input type="text" id="urlAdvanced" name="urlAdvanced" placeholder="Enter URL" required
+               value="<%= targetElementAdvanced != null ? targetElementAdvanced.getUrl() : "" %>">
+        <br/><br/>
+
+        <label for="jobUrlPath">Job Url Jsoup Path:</label>
+        <input type="text" id="jobUrlPath" name="jobUrlPath" placeholder="Enter Job Url Jsoup Path"
+               value="<%= targetElementAdvanced != null ? targetElementAdvanced.getJobUrlPath() : "" %>">
+        <br/><br/>
+
+        <label for="jobDescriptionPath">Job Description Jsoup Path:</label>
+        <input type="text" id="jobDescriptionPath" name="jobDescriptionPath" placeholder="Enter Job Description Jsoup Path"
+               value="<%= targetElementAdvanced != null ? targetElementAdvanced.getJobDescriptionPath() : "" %>">
+        <br/><br/>
+
+        <label for="jobLocationPath">Job Location Jsoup Path:</label>
+        <input type="text" id="jobLocationPath" name="jobLocationPath" placeholder="Enter Job Location Jsoup Path"
+               value="<%= targetElementAdvanced != null ? targetElementAdvanced.getJobLocationPath() : "" %>">
+        <br/><br/>
+
+        <label for="jobLinkPath">Job Link Jsoup Path:</label>
+        <input type="text" id="jobLinkPath" name="jobLinkPath" placeholder="Enter Job Link Jsoup Path"
+               value="<%= targetElementAdvanced != null ? targetElementAdvanced.getJobLinkPath() : "" %>">
+        <br/><br/>
+
+        <label for="jobCompanyPath">Job Company Jsoup Path:</label>
+        <input type="text" id="jobCompanyPath" name="jobCompanyPath" placeholder="Enter Job Company Jsoup Path"
+               value="<%= targetElementAdvanced != null ? targetElementAdvanced.getJobCompanyPath() : "" %>">
+        <br/><br/>
+
+        <label for="jobDatePath">Job Date Jsoup Path:</label>
+        <input type="text" id="jobDatePath" name="jobDatePath" placeholder="Enter Job Date Jsoup Path"
+               value="<%= targetElementAdvanced != null ? targetElementAdvanced.getJobDatePath() : "" %>">
+        <br/><br/>
+
+        <label for="followLink">Follow Link?:</label>
+        <input type="checkbox" id="followLink" name="followLink"
+            <%= targetElementAdvanced != null && targetElementAdvanced.getFollowLink() ? "checked" : "" %>>
+        <br/><br/>
+
+
+        <button type="submit">Update Configuration</button>
+    </form>
+
+    <h2 class="sectionTitle">Active Advanced Configurations</h2>
+    <div class="underline">
+        <img src="images/underline.png" alt="IGS Section Underline">
+    </div>
+    <%
+        List<DataToExtractAdvanced> dataListAdvanced = (List<DataToExtractAdvanced>) request.getAttribute("dataListAdvanced");
+        if (dataListAdvanced != null) {
+    %>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>URL</th>
+            <th>URL Path</th>
+            <th>Description Path</th>
+            <th>Location Path</th>
+            <th>Link Path</th>
+            <th>Company Path</th>
+            <th>Date Path</th>
+            <th>Follow Link</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%
+            for (DataToExtractAdvanced data : dataListAdvanced) {
+        %>
+        <tr>
+            <td><%= data.getId() %></td>
+            <td><a href="<%= data.getUrl() %>"><%= data.getUrl() %></a></td>
+            <td><%= data.getJobUrlPath() %></td>
+            <td><%= data.getJobDescriptionPath() %></td>
+            <td><%= data.getJobLocationPath() %></td>
+            <td><%= data.getJobLinkPath() %></td>
+            <td><%= data.getJobCompanyPath() %></td>
+            <td><%= data.getJobDatePath() %></td>
+            <td>
+                <input type="checkbox" disabled
+                    <%= data.getFollowLink() ? "checked" : "" %>>
+            </td>
+            <td>
+                <div class="miniButton">
+                    <a href="admin-servlet?action=configAdvanced&uuidAdvanced=<%= data.getUuid() %>">Edit</a>
+                    <a href="admin-servlet?action=deleteConfigAdvanced&uuidAdvanced=<%= data.getUuid() %>">Delete</a>
+                </div>
+            </td>
+        </tr>
+        <%
+            }
+        %>
+        </tbody>
+    </table>
+    <%
+    } else {
+    %>
+
+    <p>No configurations available.</p>
+    <%
+        }
+    %>
 
     <%@ include file="../components/footer.jsp" %>
 

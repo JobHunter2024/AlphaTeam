@@ -8,6 +8,7 @@ import com.example.adminservlet.core.config.ConfigValidator;
 import com.example.adminservlet.core.config.ConfigInterface;
 import com.example.adminservlet.core.config.ScrapperConfig;
 import com.example.adminservlet.core.provider.DataToExtract;
+import com.example.adminservlet.core.provider.DataToExtractAdvanced;
 import com.example.adminservlet.core.provider.ProviderInterface;
 import com.example.adminservlet.core.security.UserAccount;
 import com.example.adminservlet.logger.AppConfig;
@@ -23,7 +24,7 @@ public class AdminServlet extends HttpServlet {
     private ConfigValidator configValidator=new ConfigValidator();
     private ScrapperConfig scrapperConfig=new ScrapperConfig();
     private ConfigInterface configInterface=new ConfigInterface(configValidator,scrapperConfig);
-    private ProviderInterface providerInterface=new ProviderInterface(scrapperConfig.getDatabaseCRUD());
+    private ProviderInterface providerInterface=new ProviderInterface(scrapperConfig.getDatabaseCRUD(), scrapperConfig.getDatabaseCRUDAdvanced());
     private UserAccount userAccount =new UserAccount();
 
     public void init() {
@@ -41,9 +42,19 @@ public class AdminServlet extends HttpServlet {
             {
                 case "config":
                     request.setAttribute("dataList", providerInterface.getScraperConfig());
+                    request.setAttribute("dataListAdvanced", providerInterface.getScraperConfigAdvanced());
                     String targetUuid = request.getParameter("uuid");
                     if(targetUuid!=null)
                         request.setAttribute("targetData", configInterface.getConfigurationByUUID(UUID.fromString(targetUuid)));
+
+                    request.getRequestDispatcher("/protected/config.jsp").forward(request, response);
+                    break;
+                case "configAdvanced":
+                    request.setAttribute("dataList", providerInterface.getScraperConfig());
+                    request.setAttribute("dataListAdvanced", providerInterface.getScraperConfigAdvanced());
+                    String targetUuidAdvanced = request.getParameter("uuidAdvanced");
+                    if(targetUuidAdvanced!=null)
+                        request.setAttribute("targetDataAdvanced", configInterface.getConfigurationByUUIDAdvanced(UUID.fromString(targetUuidAdvanced)));
 
                     request.getRequestDispatcher("/protected/config.jsp").forward(request, response);
                     break;
@@ -71,6 +82,16 @@ public class AdminServlet extends HttpServlet {
                     configInterface.removeConfiguration(UUID.fromString(uuid));
 
                     request.setAttribute("dataList", providerInterface.getScraperConfig());
+                    request.setAttribute("dataListAdvanced", providerInterface.getScraperConfigAdvanced());
+                    request.getRequestDispatcher("/protected/config.jsp").forward(request, response);
+                    break;
+                case "deleteConfigAdvanced":
+
+                    String uuidAdvanced = request.getParameter("uuidAdvanced");
+                    configInterface.removeConfigurationAdvanced(UUID.fromString(uuidAdvanced));
+
+                    request.setAttribute("dataList", providerInterface.getScraperConfig());
+                    request.setAttribute("dataListAdvanced", providerInterface.getScraperConfigAdvanced());
                     request.getRequestDispatcher("/protected/config.jsp").forward(request, response);
                     break;
 
@@ -94,6 +115,23 @@ public class AdminServlet extends HttpServlet {
                 String path = String.join(" > ", values);
                 buildDataToExtract(urlString, path, uuidString);
                 request.setAttribute("dataList", providerInterface.getScraperConfig());
+                request.setAttribute("dataListAdvanced", providerInterface.getScraperConfigAdvanced());
+                request.getRequestDispatcher("/protected/config.jsp").forward(request, response);
+                break;
+            case "updateConfigAdvanced":
+                String uuidStringAdvanced = request.getParameter("uuidAdvanced");
+                String urlAdvanced = request.getParameter("urlAdvanced");
+                String jobUrlPath = request.getParameter("jobUrlPath");
+                String jobDescriptionPath = request.getParameter("jobDescriptionPath");
+                String jobLocationPath = request.getParameter("jobLocationPath");
+                String jobLinkPath = request.getParameter("jobLinkPath");
+                String jobCompanyPath = request.getParameter("jobCompanyPath");
+                String jobDatePath = request.getParameter("jobDatePath");
+                boolean followLink = request.getParameter("followLink") != null;
+
+                buildDataToExtractAdvanced(uuidStringAdvanced,urlAdvanced, jobUrlPath, jobDescriptionPath, jobLocationPath, jobLinkPath, jobCompanyPath, jobDatePath, followLink);
+                request.setAttribute("dataList", providerInterface.getScraperConfig());
+                request.setAttribute("dataListAdvanced", providerInterface.getScraperConfigAdvanced());
                 request.getRequestDispatcher("/protected/config.jsp").forward(request, response);
                 break;
             case "updateCredentials":
@@ -141,6 +179,27 @@ public class AdminServlet extends HttpServlet {
             configInterface.addConfiguration(dataToExtract);
         else
             configInterface.updateConfiguration(dataToExtract);
+    }
+
+    public void buildDataToExtractAdvanced(
+            String uuidStringAdvanced,
+            String urlAdvanced,
+            String jobUrlPath,
+            String jobDescriptionPath,
+            String jobLocationPath,
+            String jobLinkPath,
+            String jobCompanyPath,
+            String jobDatePath,
+            boolean followLink
+    ) throws MalformedURLException {
+
+        UUID uuid = (!Objects.equals(uuidStringAdvanced, "")) ? UUID.fromString(uuidStringAdvanced) : UUID.randomUUID();
+
+        DataToExtractAdvanced dataToExtractAdvanced = new DataToExtractAdvanced(urlAdvanced,jobUrlPath,jobDescriptionPath,jobLocationPath,jobLinkPath,jobCompanyPath,jobDatePath,followLink, uuid);
+        if(configInterface.getConfigurationByUUIDAdvanced(dataToExtractAdvanced.getUuid())==null)
+            configInterface.addConfigurationAdvanced(dataToExtractAdvanced);
+        else
+            configInterface.updateConfigurationAdvanced(dataToExtractAdvanced);
     }
 
     public void destroy() {
