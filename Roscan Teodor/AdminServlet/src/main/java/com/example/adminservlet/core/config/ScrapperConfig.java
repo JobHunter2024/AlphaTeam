@@ -1,6 +1,6 @@
 package com.example.adminservlet.core.config;
 
-import com.example.adminservlet.core.data.extraction.DataToExtract;
+import com.example.adminservlet.core.provider.DataToExtract;
 import com.example.adminservlet.core.database.DataToExtractCRUD;
 
 import java.util.ArrayList;

@@ -5,7 +5,7 @@ package com.example.adminservlet.core.config;
  * This class hides the complexity of the system showcasing only a simple interface that glues all the subsystems together
  * */
 
-import com.example.adminservlet.core.data.extraction.DataToExtract;
+import com.example.adminservlet.core.provider.DataToExtract;
 
 import java.util.UUID;
 

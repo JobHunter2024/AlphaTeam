@@ -1,13 +1,12 @@
-package com.example.adminservlet.core.database;
+package com.example.provider.database.crud;
 
-import com.example.adminservlet.core.provider.DataToExtract;
-import com.example.adminservlet.core.provider.DataToExtractRepo;
+
+import com.example.provider.database.entity.DataToExtract;
+import com.example.provider.database.repo.DataToExtractRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-
-import static org.junit.Assert.assertNotNull;
 
 /*
 * This class uses the DAO (Data Access Object) design pattern

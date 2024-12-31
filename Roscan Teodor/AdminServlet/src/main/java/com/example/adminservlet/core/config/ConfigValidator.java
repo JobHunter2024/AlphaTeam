@@ -1,6 +1,6 @@
 package com.example.adminservlet.core.config;
 
-import com.example.adminservlet.core.data.extraction.DataToExtract;
+import com.example.adminservlet.core.provider.DataToExtract;
 
 public class ConfigValidator {
     public DataToExtract newData;

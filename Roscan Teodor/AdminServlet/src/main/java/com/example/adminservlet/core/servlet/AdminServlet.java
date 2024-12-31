@@ -7,7 +7,7 @@ import java.util.*;
 import com.example.adminservlet.core.config.ConfigValidator;
 import com.example.adminservlet.core.config.ConfigInterface;
 import com.example.adminservlet.core.config.ScrapperConfig;
-import com.example.adminservlet.core.data.extraction.DataToExtract;
+import com.example.adminservlet.core.provider.DataToExtract;
 import com.example.adminservlet.core.provider.ProviderInterface;
 import com.example.adminservlet.core.security.UserAccount;
 import com.example.adminservlet.logger.AppConfig;
@@ -118,6 +118,14 @@ public class AdminServlet extends HttpServlet {
                     request.getRequestDispatcher("/protected/credentials.jsp").forward(request, response);
                 else
                     request.getRequestDispatcher("/protected/protectedError.jsp").forward(request, response);
+                break;
+            case "deleteHistory":
+                providerInterface.deleteHistory();
+                request.getRequestDispatcher("/protected/history.jsp").forward(request, response);
+                break;
+            case "deleteResults":
+                providerInterface.deleteResults();
+                request.getRequestDispatcher("/protected/results.jsp").forward(request, response);
                 break;
             default:
                 response.sendRedirect("index.jsp");

@@ -1,15 +1,10 @@
 package com.example.adminservlet.core.provider;
 
-import com.example.adminservlet.core.data.extraction.DataToExtract;
 import com.example.adminservlet.core.database.DataToExtractCRUD;
 import com.example.adminservlet.core.database.HistoryRecordCRUD;
 import com.example.adminservlet.core.database.ResultRecordCRUD;
 import org.json.JSONObject;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.*;
 
 public class ProviderInterface {
@@ -38,6 +33,14 @@ public class ProviderInterface {
     public List<DataToExtract> getScraperConfig()
     {
         return dataToExtractCRUD.getAllData();
+    }
+
+    public void deleteHistory(){
+        historyRecordCRUD.removeAllData();
+    }
+
+    public void deleteResults(){
+        resultRecordCRUD.removeAllData();
     }
 
     public JSONObject getScrappingStatistics(){

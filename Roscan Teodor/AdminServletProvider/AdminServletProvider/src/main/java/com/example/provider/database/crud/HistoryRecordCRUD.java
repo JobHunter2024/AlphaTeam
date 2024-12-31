@@ -1,8 +1,9 @@
-package com.example.adminservlet.core.database;
+package com.example.provider.database.crud;
 
-import com.example.adminservlet.core.provider.HistoryRecord;
-import com.example.adminservlet.core.provider.HistoryRecordRepo;
+import com.example.provider.database.entity.HistoryRecord;
+import com.example.provider.database.repo.HistoryRecordRepo;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -37,10 +38,6 @@ public class HistoryRecordCRUD {
 
     public List<HistoryRecord> getAllData(){
         return repository.findAll();
-    }
-
-    public void removeAllData(){
-        repository.deleteAll();
     }
 
     public void updateRow(HistoryRecord targetData){

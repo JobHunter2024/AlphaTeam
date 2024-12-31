@@ -64,6 +64,13 @@ public class ResultRecordRepo {
         }
     }
 
+    @Transactional
+    public void deleteAll() {
+        entityManager.getTransaction().begin();
+        entityManager.createQuery("DELETE FROM ResultRecord").executeUpdate();
+        entityManager.getTransaction().commit();
+    }
+
     /*
     public void deleteByUuid(String uuid) {
         Query query = entityManager.createNamedQuery("ResultRecord.deleteByUUID");

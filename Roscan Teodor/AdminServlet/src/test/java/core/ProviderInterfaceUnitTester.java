@@ -1,6 +1,6 @@
 package core;
 
-import com.example.adminservlet.core.data.extraction.DataToExtract;
+import com.example.adminservlet.core.provider.DataToExtract;
 import com.example.adminservlet.core.database.DataToExtractCRUD;
 import com.example.adminservlet.core.provider.HistoryRecord;
 import com.example.adminservlet.core.provider.ProviderInterface;

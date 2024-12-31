@@ -1,8 +1,9 @@
-package com.example.adminservlet.core.data.extraction;
+package com.example.provider.database.entity;
+
+import jakarta.persistence.*;
 
 import java.util.Objects;
 import java.util.UUID;
-import javax.persistence.*;
 
 
 @Entity

@@ -1,7 +1,9 @@
-package com.example.adminservlet.core.provider;
+package com.example.provider.database.repo;
 
-import javax.persistence.*;
-import javax.transaction.Transactional;
+import com.example.provider.database.entity.HistoryRecord;
+import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -62,13 +64,6 @@ public class HistoryRecordRepo {
             entityManager.remove(targetHistoryRecord);
             entityManager.getTransaction().commit();
         }
-    }
-
-    @Transactional
-    public void deleteAll() {
-        entityManager.getTransaction().begin();
-        entityManager.createQuery("DELETE FROM HistoryRecord").executeUpdate();
-        entityManager.getTransaction().commit();
     }
 
     /*

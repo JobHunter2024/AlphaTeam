@@ -1,4 +1,4 @@
-<%@ page import="com.example.adminservlet.core.data.extraction.DataToExtract" %>
+<%@ page import="com.example.adminservlet.core.provider.DataToExtract" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>

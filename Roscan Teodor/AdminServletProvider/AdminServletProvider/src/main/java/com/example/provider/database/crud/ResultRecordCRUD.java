@@ -1,7 +1,8 @@
-package com.example.adminservlet.core.database;
+package com.example.provider.database.crud;
 
-import com.example.adminservlet.core.provider.ResultRecord;
-import com.example.adminservlet.core.provider.ResultRecordRepo;
+
+import com.example.provider.database.entity.ResultRecord;
+import com.example.provider.database.repo.ResultRecordRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,10 +43,6 @@ public class ResultRecordCRUD {
 
     public void updateRow(ResultRecord targetData){
         repository.update(targetData);
-    }
-
-    public void removeAllData(){
-        repository.deleteAll();
     }
 
     public void removeRow(ResultRecord targetData){

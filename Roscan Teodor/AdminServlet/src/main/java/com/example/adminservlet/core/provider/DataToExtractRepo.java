@@ -5,14 +5,14 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
-public class HistoryRecordRepo {
+public class DataToExtractRepo {
     @PersistenceUnit
     private EntityManagerFactory entityFactory;
 
     @PersistenceContext(unitName = "JobHunterPU")
     private EntityManager entityManager;
 
-    public HistoryRecordRepo() {
+    public DataToExtractRepo() {
         entityFactory = Persistence.createEntityManagerFactory("JobHunterPU");
         entityManager = entityFactory.createEntityManager();
     }
@@ -20,21 +20,21 @@ public class HistoryRecordRepo {
 
     //CRUD
     @Transactional
-    public void create(HistoryRecord newHistoryRecord) {
+    public void create(DataToExtract newDataToExtract) {
         entityManager.getTransaction().begin();
-        entityManager.persist(newHistoryRecord);
+        entityManager.persist(newDataToExtract);
         entityManager.getTransaction().commit();
     }
 
     /*
-    public HistoryRecord findById(Long id) {
-        return entityManager.find(HistoryRecord.class, id);
+    public DataToExtract findById(Long id) {
+        return entityManager.find(DataToExtract.class, id);
     }
      */
 
-    public HistoryRecord findByUUID(UUID uuid) {
+    public DataToExtract findByUUID(UUID uuid) {
         try {
-            return entityManager.createNamedQuery("HistoryRecord.findByUUID", HistoryRecord.class)
+            return entityManager.createNamedQuery("DataToExtract.findByUUID", DataToExtract.class)
                     .setParameter("uuid", uuid)
                     .getSingleResult();
         } catch (NoResultException e) {
@@ -42,38 +42,31 @@ public class HistoryRecordRepo {
         }
     }
 
-    public List<HistoryRecord> findAll() {
-        return entityManager.createNamedQuery("HistoryRecord.findAll", HistoryRecord.class)
+    public List<DataToExtract> findAll() {
+        return entityManager.createNamedQuery("DataToExtract.findAll", DataToExtract.class)
                 .getResultList();
     }
 
     @Transactional
-    public void update(HistoryRecord updatedHistoryRecord) {
+    public void update(DataToExtract updatedDataToExtract) {
         entityManager.getTransaction().begin();
-        entityManager.merge(updatedHistoryRecord);
+        entityManager.merge(updatedDataToExtract);
         entityManager.getTransaction().commit();
     }
 
     @Transactional
     public void delete(UUID uuid) {
-        HistoryRecord targetHistoryRecord = findByUUID(uuid);
-        if (targetHistoryRecord != null) {
+        DataToExtract targetDataToExtract = findByUUID(uuid);
+        if (targetDataToExtract != null) {
             entityManager.getTransaction().begin();
-            entityManager.remove(targetHistoryRecord);
+            entityManager.remove(targetDataToExtract);
             entityManager.getTransaction().commit();
         }
     }
 
-    @Transactional
-    public void deleteAll() {
-        entityManager.getTransaction().begin();
-        entityManager.createQuery("DELETE FROM HistoryRecord").executeUpdate();
-        entityManager.getTransaction().commit();
-    }
-
     /*
     public void deleteByUuid(String uuid) {
-        Query query = entityManager.createNamedQuery("HistoryRecord.deleteByUuid");
+        Query query = entityManager.createNamedQuery("DataToExtract.deleteByUuid");
         query.setParameter("uuid", uuid);
         query.executeUpdate();
     }
