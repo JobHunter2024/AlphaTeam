@@ -1,9 +1,6 @@
 package com.example.adminservlet.core.provider;
 
-import com.example.adminservlet.core.database.DataToExtractAdvancedCRUD;
-import com.example.adminservlet.core.database.DataToExtractCRUD;
-import com.example.adminservlet.core.database.HistoryRecordCRUD;
-import com.example.adminservlet.core.database.ResultRecordCRUD;
+import com.example.adminservlet.core.database.*;
 import org.json.JSONObject;
 
 import java.util.*;
@@ -13,6 +10,7 @@ public class ProviderInterface {
     public DataToExtractAdvancedCRUD dataToExtractAdvancedCRUD;
     public HistoryRecordCRUD historyRecordCRUD;
     public ResultRecordCRUD resultRecordCRUD;
+    public ResultRecordAdvancedCRUD resultRecordAdvancedCRUD;
 
     public ProviderInterface() {
 
@@ -23,6 +21,7 @@ public class ProviderInterface {
         this.dataToExtractAdvancedCRUD = dataToExtractAdvancedCRUD;
         this.historyRecordCRUD = new HistoryRecordCRUD();
         this.resultRecordCRUD = new ResultRecordCRUD();
+        this.resultRecordAdvancedCRUD = new ResultRecordAdvancedCRUD();
     }
 
     public List<HistoryRecord> getScrappingHistory(){
@@ -32,6 +31,8 @@ public class ProviderInterface {
     public List<ResultRecord> getScrappingResults(){
         return resultRecordCRUD.getAllData();
     }
+
+    public List<ResultRecordAdvanced> getScrappingResultsAdvanced(){ return resultRecordAdvancedCRUD.getAllData(); }
 
     public List<DataToExtract> getScraperConfig()
     {
@@ -49,6 +50,10 @@ public class ProviderInterface {
 
     public void deleteResults(){
         resultRecordCRUD.removeAllData();
+    }
+
+    public void deleteResultsAdvanced() {
+        resultRecordAdvancedCRUD.removeAllData();
     }
 
     public JSONObject getScrappingStatistics(){

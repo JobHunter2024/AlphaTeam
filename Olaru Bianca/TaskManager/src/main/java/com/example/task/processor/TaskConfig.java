@@ -1,5 +1,7 @@
 package com.example.task.processor;
 
+import jakarta.persistence.Column;
+
 import java.util.UUID;
 
 public class TaskConfig {
@@ -10,6 +12,15 @@ public class TaskConfig {
     private String type;
     private String jsoupPath;
 
+    public String jobUrlPath;
+    public String jobDescriptionPath;
+    public String jobLocationPath;
+    public String jobCompanyPath;
+    public String jobTitlePath;
+    public String jobDatePath;
+    public boolean followLink;
+
+
     public TaskConfig(long id, UUID uuid, String sourceURL, String status, String type, String jsoupPath) {
         this.id = id;
         this.uuid = uuid;
@@ -17,6 +28,21 @@ public class TaskConfig {
         this.status = status;
         this.type = type;
         this.jsoupPath = jsoupPath;
+    }
+
+    public TaskConfig(long id, UUID uuid, String sourceURL, String status, String type, String jobUrlPath, String jobDescriptionPath, String jobLocationPath, String jobCompanyPath, String jobTitlePath ,String jobDatePath, boolean followLink) {
+        this.id = id;
+        this.uuid = uuid;
+        this.sourceURL = sourceURL;
+        this.status = status;
+        this.type = type;
+        this.jobUrlPath = jobUrlPath;
+        this.jobDescriptionPath = jobDescriptionPath;
+        this.jobLocationPath = jobLocationPath;
+        this.jobCompanyPath = jobCompanyPath;
+        this.jobTitlePath = jobTitlePath;
+        this.jobDatePath = jobDatePath;
+        this.followLink = followLink;
     }
 
     public long getId() { return id; }
@@ -67,5 +93,64 @@ public class TaskConfig {
                 ", type='" + type + '\'' +
                 ", jsoupPath=" + jsoupPath +
                 '}';
+    }
+
+
+
+    //Getters and setters
+    public String getJobUrlPath() {
+        return jobUrlPath;
+    }
+
+    public void setJobUrlPath(String jobUrlPath) {
+        this.jobUrlPath = jobUrlPath;
+    }
+
+    public String getJobDescriptionPath() {
+        return jobDescriptionPath;
+    }
+
+    public void setJobDescriptionPath(String jobDescriptionPath) {
+        this.jobDescriptionPath = jobDescriptionPath;
+    }
+
+    public String getJobLocationPath() {
+        return jobLocationPath;
+    }
+
+    public void setJobLocationPath(String jobLocationPath) {
+        this.jobLocationPath = jobLocationPath;
+    }
+
+    public String getJobCompanyPath() {
+        return jobCompanyPath;
+    }
+
+    public void setJobCompanyPath(String jobCompanyPath) {
+        this.jobCompanyPath = jobCompanyPath;
+    }
+
+    public String getJobTitlePath() {
+        return jobTitlePath;
+    }
+
+    public void setJobTitlePath(String jobTitlePath) {
+        this.jobTitlePath = jobTitlePath;
+    }
+
+    public String getJobDatePath() {
+        return jobDatePath;
+    }
+
+    public void setJobDatePath(String jobDatePath) {
+        this.jobDatePath = jobDatePath;
+    }
+
+    public boolean isFollowLink() {
+        return followLink;
+    }
+
+    public void setFollowLink(boolean followLink) {
+        this.followLink = followLink;
     }
 }

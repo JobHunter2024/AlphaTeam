@@ -18,6 +18,8 @@ public class ResponseManager {
             throw new IllegalArgumentException("Invalid or unsuccessful ScrapingResult");
         }
 
+        //TODO
+
         String content = result.getData();
         try {
             return objectMapper.writeValueAsString(content);

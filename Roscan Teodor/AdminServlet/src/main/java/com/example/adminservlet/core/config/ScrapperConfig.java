@@ -105,8 +105,8 @@ public class ScrapperConfig {
             oldData.jobUrlPath = targetData.jobUrlPath;
             oldData.jobDescriptionPath=targetData.jobDescriptionPath;
             oldData.jobLocationPath=targetData.jobLocationPath;
-            oldData.jobLinkPath=targetData.jobLinkPath;
             oldData.jobCompanyPath=targetData.jobCompanyPath;
+            oldData.jobTitlePath=targetData.jobTitlePath;
             oldData.jobDatePath=targetData.jobDatePath;
             oldData.followLink=targetData.followLink;
             oldData.uuid = targetData.uuid;

@@ -1,5 +1,6 @@
 <%@ page import="com.example.adminservlet.core.provider.ResultRecord" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.example.adminservlet.core.provider.ResultRecordAdvanced" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -53,6 +54,66 @@
             <td><%= data.getDate() %></td>
             <td>
                 <textarea readonly><%= data.getContent() %></textarea>
+            </td>
+        </tr>
+        <%
+            }
+        %>
+        </tbody>
+    </table>
+    <%
+    } else {
+    %>
+
+    <p>No results available.</p>
+    <%
+        }
+    %>
+
+
+
+
+    <form action="admin-servlet?action=deleteResultsAdvanced" method="post">
+        <button type="submit">Delete Advanced Results</button>
+    </form>
+
+    <%
+        List<ResultRecordAdvanced> resultListAdvanced = (List<ResultRecordAdvanced>) request.getAttribute("resultListAdvanced");
+        if (resultListAdvanced != null) {
+    %>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>URL</th>
+            <th>Description</th>
+            <th>Location</th>
+            <th>Company</th>
+            <th>Title</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%
+            for (ResultRecordAdvanced data : resultListAdvanced) {
+        %>
+        <tr>
+            <td><%= data.getId() %></td>
+            <td><a href="<%= data.getUrl() %>"><%= data.getUrl() %></a></td>
+            <td>
+                <textarea readonly><%= data.getDescription() %></textarea>
+            </td>
+            <td>
+                <textarea readonly><%= data.getLocation() %></textarea>
+            </td>
+            <td>
+                <textarea readonly><%= data.getCompany() %></textarea>
+            </td>
+            <td>
+                <textarea readonly><%= data.getTitle() %></textarea>
+            </td>
+            <td>
+                <textarea readonly><%= data.getDate() %></textarea>
             </td>
         </tr>
         <%

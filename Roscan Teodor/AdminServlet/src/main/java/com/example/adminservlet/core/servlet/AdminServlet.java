@@ -67,6 +67,7 @@ public class AdminServlet extends HttpServlet {
                     break;
                 case "results":
                     request.setAttribute("resultList", providerInterface.getScrappingResults());
+                    request.setAttribute("resultListAdvanced", providerInterface.getScrappingResultsAdvanced());
                     request.getRequestDispatcher("/protected/results.jsp").forward(request, response);
                     break;
                 case "statistics":
@@ -124,12 +125,12 @@ public class AdminServlet extends HttpServlet {
                 String jobUrlPath = request.getParameter("jobUrlPath");
                 String jobDescriptionPath = request.getParameter("jobDescriptionPath");
                 String jobLocationPath = request.getParameter("jobLocationPath");
-                String jobLinkPath = request.getParameter("jobLinkPath");
                 String jobCompanyPath = request.getParameter("jobCompanyPath");
                 String jobDatePath = request.getParameter("jobDatePath");
+                String jobTitlePath=request.getParameter("jobTitlePath");
                 boolean followLink = request.getParameter("followLink") != null;
 
-                buildDataToExtractAdvanced(uuidStringAdvanced,urlAdvanced, jobUrlPath, jobDescriptionPath, jobLocationPath, jobLinkPath, jobCompanyPath, jobDatePath, followLink);
+                buildDataToExtractAdvanced(uuidStringAdvanced,urlAdvanced, jobUrlPath, jobDescriptionPath, jobLocationPath, jobCompanyPath, jobDatePath, jobTitlePath, followLink);
                 request.setAttribute("dataList", providerInterface.getScraperConfig());
                 request.setAttribute("dataListAdvanced", providerInterface.getScraperConfigAdvanced());
                 request.getRequestDispatcher("/protected/config.jsp").forward(request, response);
@@ -165,6 +166,10 @@ public class AdminServlet extends HttpServlet {
                 providerInterface.deleteResults();
                 request.getRequestDispatcher("/protected/results.jsp").forward(request, response);
                 break;
+            case "deleteResultsAdvanced":
+                providerInterface.deleteResultsAdvanced();
+                request.getRequestDispatcher("/protected/results.jsp").forward(request, response);
+                break;
             default:
                 response.sendRedirect("index.jsp");
         }
@@ -187,15 +192,15 @@ public class AdminServlet extends HttpServlet {
             String jobUrlPath,
             String jobDescriptionPath,
             String jobLocationPath,
-            String jobLinkPath,
             String jobCompanyPath,
             String jobDatePath,
+            String jobTitlePath,
             boolean followLink
     ) throws MalformedURLException {
 
         UUID uuid = (!Objects.equals(uuidStringAdvanced, "")) ? UUID.fromString(uuidStringAdvanced) : UUID.randomUUID();
 
-        DataToExtractAdvanced dataToExtractAdvanced = new DataToExtractAdvanced(urlAdvanced,jobUrlPath,jobDescriptionPath,jobLocationPath,jobLinkPath,jobCompanyPath,jobDatePath,followLink, uuid);
+        DataToExtractAdvanced dataToExtractAdvanced = new DataToExtractAdvanced(urlAdvanced,jobUrlPath,jobDescriptionPath,jobLocationPath, jobCompanyPath,jobDatePath,followLink, uuid, jobTitlePath);
         if(configInterface.getConfigurationByUUIDAdvanced(dataToExtractAdvanced.getUuid())==null)
             configInterface.addConfigurationAdvanced(dataToExtractAdvanced);
         else

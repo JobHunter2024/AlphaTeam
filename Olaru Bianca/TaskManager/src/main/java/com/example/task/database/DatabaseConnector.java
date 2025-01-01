@@ -15,16 +15,20 @@ public class DatabaseConnector {
 
     private EntityManager entityManager;
     private final DataToExtractRepo dataToExtractRepo;
+    private final DataToExtractAdvancedRepo dataToExtractAdvancedRepo;
     private final HistoryRecordRepo historyRecordRepo;
     private final ResultRecordRepo resultRecordRepo;
+    private final ResultRecordAdvancedRepo resultRecordAdvancedRepo;
 
     public DatabaseConnector() {
         EntityManagerFactory entityFactory = Persistence.createEntityManagerFactory("JobHunterPU");
         entityManager = entityFactory.createEntityManager();
 
         dataToExtractRepo = new DataToExtractRepo(entityManager);
+        dataToExtractAdvancedRepo=new DataToExtractAdvancedRepo(entityManager);
         historyRecordRepo = new HistoryRecordRepo(entityManager);
         resultRecordRepo = new ResultRecordRepo(entityManager);
+        resultRecordAdvancedRepo = new ResultRecordAdvancedRepo(entityManager);
     }
 
     public TaskConfig fetchTaskConfig(long id) {
@@ -45,6 +49,8 @@ public class DatabaseConnector {
 
     public List<TaskConfig> fetchAllTaskConfigs(){
         List<DataToExtract> dataToExtractList = dataToExtractRepo.findAll();
+        List<DataToExtractAdvanced> dataToExtractAdvancedList = dataToExtractAdvancedRepo.findAll();
+
         List<TaskConfig> taskConfigs = new ArrayList<>();
 
         for(DataToExtract dataToExtract : dataToExtractList){
@@ -59,6 +65,26 @@ public class DatabaseConnector {
             }
         }
 
+        for(DataToExtractAdvanced dataToExtractAdvanced : dataToExtractAdvancedList){
+            if(dataToExtractAdvanced != null) {
+                long id=dataToExtractAdvanced.getId();
+                UUID uuid = dataToExtractAdvanced.getUuid();
+
+                String url=dataToExtractAdvanced.getUrl();
+                String jobUrlPath=dataToExtractAdvanced.getJobUrlPath();
+                String jobDescriptionPath=dataToExtractAdvanced.getJobDescriptionPath();
+                String jobLocationPath=dataToExtractAdvanced.getJobLocationPath();
+                String jobCompanyPath=dataToExtractAdvanced.getJobCompanyPath();
+                String jobTitlePath=dataToExtractAdvanced.getJobTitlePath();
+                String jobDatePath=dataToExtractAdvanced.getJobDatePath();
+                boolean followLink=dataToExtractAdvanced.getFollowLink();
+
+                String type = "scrapeAdvanced";
+
+                taskConfigs.add(new TaskConfig(id, uuid, url, "pending", type, jobUrlPath, jobDescriptionPath, jobLocationPath, jobCompanyPath, jobTitlePath, jobDatePath, followLink));
+            }
+        }
+
         return taskConfigs;
     }
 
@@ -68,6 +94,10 @@ public class DatabaseConnector {
 
     public void saveResult(ResultRecord resultRecord) {
         resultRecordRepo.create(resultRecord);
+    }
+
+    public void saveResultAdvanced(ResultRecordAdvanced resultRecordAdvanced) {
+        resultRecordAdvancedRepo.create(resultRecordAdvanced);
     }
 
     public void updateTaskConfig(TaskConfig taskConfig) throws MalformedURLException {

@@ -137,14 +137,14 @@
                value="<%= targetElementAdvanced != null ? targetElementAdvanced.getJobLocationPath() : "" %>">
         <br/><br/>
 
-        <label for="jobLinkPath">Job Link Jsoup Path:</label>
-        <input type="text" id="jobLinkPath" name="jobLinkPath" placeholder="Enter Job Link Jsoup Path"
-               value="<%= targetElementAdvanced != null ? targetElementAdvanced.getJobLinkPath() : "" %>">
-        <br/><br/>
-
         <label for="jobCompanyPath">Job Company Jsoup Path:</label>
         <input type="text" id="jobCompanyPath" name="jobCompanyPath" placeholder="Enter Job Company Jsoup Path"
                value="<%= targetElementAdvanced != null ? targetElementAdvanced.getJobCompanyPath() : "" %>">
+        <br/><br/>
+
+        <label for="jobTitlePath">Job Title Jsoup Path:</label>
+        <input type="text" id="jobTitlePath" name="jobTitlePath" placeholder="Enter Job Title Jsoup Path"
+               value="<%= targetElementAdvanced != null ? targetElementAdvanced.getJobTitlePath() : "" %>">
         <br/><br/>
 
         <label for="jobDatePath">Job Date Jsoup Path:</label>
@@ -173,12 +173,12 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th>URL</th>
-            <th>URL Path</th>
+            <th>JobBoard URL</th>
+            <th>Job URL Path</th>
             <th>Description Path</th>
             <th>Location Path</th>
-            <th>Link Path</th>
             <th>Company Path</th>
+            <th>Title Path</th>
             <th>Date Path</th>
             <th>Follow Link</th>
             <th>Actions</th>
@@ -194,8 +194,8 @@
             <td><%= data.getJobUrlPath() %></td>
             <td><%= data.getJobDescriptionPath() %></td>
             <td><%= data.getJobLocationPath() %></td>
-            <td><%= data.getJobLinkPath() %></td>
             <td><%= data.getJobCompanyPath() %></td>
+            <td><%= data.getJobTitlePath() %></td>
             <td><%= data.getJobDatePath() %></td>
             <td>
                 <input type="checkbox" disabled

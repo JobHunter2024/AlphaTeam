@@ -1,8 +1,8 @@
-package com.example.adminservlet.core.provider;
+package com.example.task.database;
 
 import java.util.Objects;
 import java.util.UUID;
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 
 @Entity
