@@ -11,6 +11,7 @@
     <link href="css/results.css" rel="stylesheet">
     <link href="css/navbar.css" rel="stylesheet">
     <link href="css/titles.css" rel="stylesheet">
+    <link href="css/lastModified.css" rel="stylesheet">
     <link href="css/form.css" rel="stylesheet">
     <link href="css/miniButton.css" rel="stylesheet">
     <link href="css/table.css" rel="stylesheet">
@@ -26,6 +27,8 @@
     <div class="underline">
         <img src="images/underline.png" alt="IGS Section Underline">
     </div>
+
+    <%@ include file="../components/lastModified.jsp" %>
 
     <form action="admin-servlet?action=deleteResults" method="post">
         <button type="submit">Delete Results</button>

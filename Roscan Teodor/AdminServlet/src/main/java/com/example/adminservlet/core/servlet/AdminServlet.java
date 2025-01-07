@@ -9,6 +9,7 @@ import com.example.adminservlet.core.config.ConfigInterface;
 import com.example.adminservlet.core.config.ScrapperConfig;
 import com.example.adminservlet.core.provider.DataToExtract;
 import com.example.adminservlet.core.provider.DataToExtractAdvanced;
+import com.example.adminservlet.core.provider.ModificationRecord;
 import com.example.adminservlet.core.provider.ProviderInterface;
 import com.example.adminservlet.core.security.UserAccount;
 import com.example.adminservlet.logger.AppConfig;
@@ -33,6 +34,8 @@ public class AdminServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String action = request.getParameter("action");
+        HttpSession session = request.getSession(false);
+        String loggedUser = (String) session.getAttribute("loggedInUser");
 
         if(userAccount.isUserLoggedIn(request)==false)
             response.sendRedirect("login.jsp");
@@ -43,6 +46,7 @@ public class AdminServlet extends HttpServlet {
                 case "config":
                     request.setAttribute("dataList", providerInterface.getScraperConfig());
                     request.setAttribute("dataListAdvanced", providerInterface.getScraperConfigAdvanced());
+                    request.setAttribute("modificationList", providerInterface.getModificationBySection("config"));
                     String targetUuid = request.getParameter("uuid");
                     if(targetUuid!=null)
                         request.setAttribute("targetData", configInterface.getConfigurationByUUID(UUID.fromString(targetUuid)));
@@ -52,6 +56,8 @@ public class AdminServlet extends HttpServlet {
                 case "configAdvanced":
                     request.setAttribute("dataList", providerInterface.getScraperConfig());
                     request.setAttribute("dataListAdvanced", providerInterface.getScraperConfigAdvanced());
+                    request.setAttribute("modificationList", providerInterface.getModificationBySection("config"));
+
                     String targetUuidAdvanced = request.getParameter("uuidAdvanced");
                     if(targetUuidAdvanced!=null)
                         request.setAttribute("targetDataAdvanced", configInterface.getConfigurationByUUIDAdvanced(UUID.fromString(targetUuidAdvanced)));
@@ -59,14 +65,17 @@ public class AdminServlet extends HttpServlet {
                     request.getRequestDispatcher("/protected/config.jsp").forward(request, response);
                     break;
                 case "credentials":
+                    request.setAttribute("modificationList", providerInterface.getModificationBySection("credentials"));
                     request.getRequestDispatcher("/protected/credentials.jsp").forward(request, response);
                     break;
                 case "history":
                     request.setAttribute("historyList", providerInterface.getScrappingHistory());
+                    request.setAttribute("modificationList", providerInterface.getModificationBySection("history"));
                     request.getRequestDispatcher("/protected/history.jsp").forward(request, response);
                     break;
                 case "results":
                     request.setAttribute("resultList", providerInterface.getScrappingResults());
+                    request.setAttribute("modificationList", providerInterface.getModificationBySection("results"));
                     request.setAttribute("resultListAdvanced", providerInterface.getScrappingResultsAdvanced());
                     request.getRequestDispatcher("/protected/results.jsp").forward(request, response);
                     break;
@@ -81,18 +90,22 @@ public class AdminServlet extends HttpServlet {
 
                     String uuid = request.getParameter("uuid");
                     configInterface.removeConfiguration(UUID.fromString(uuid));
+                    createModification(loggedUser, new Date(), "config", "deleted basic config");
 
                     request.setAttribute("dataList", providerInterface.getScraperConfig());
                     request.setAttribute("dataListAdvanced", providerInterface.getScraperConfigAdvanced());
+                    request.setAttribute("modificationList", providerInterface.getModificationBySection("config"));
                     request.getRequestDispatcher("/protected/config.jsp").forward(request, response);
                     break;
                 case "deleteConfigAdvanced":
 
                     String uuidAdvanced = request.getParameter("uuidAdvanced");
                     configInterface.removeConfigurationAdvanced(UUID.fromString(uuidAdvanced));
+                    createModification(loggedUser, new Date(), "config", "deleted advanced config");
 
                     request.setAttribute("dataList", providerInterface.getScraperConfig());
                     request.setAttribute("dataListAdvanced", providerInterface.getScraperConfigAdvanced());
+                    request.setAttribute("modificationList", providerInterface.getModificationBySection("config"));
                     request.getRequestDispatcher("/protected/config.jsp").forward(request, response);
                     break;
 
@@ -106,6 +119,8 @@ public class AdminServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         String action = request.getParameter("action");
+        HttpSession session = request.getSession(false);
+        String loggedUser = (String) session.getAttribute("loggedInUser");
 
         switch (action)
         {
@@ -114,9 +129,12 @@ public class AdminServlet extends HttpServlet {
                 String urlString = request.getParameter("url");
                 String[] values = request.getParameterValues("pathValue");
                 String path = String.join(" > ", values);
-                buildDataToExtract(urlString, path, uuidString);
+
+
+                buildDataToExtract(urlString, path, uuidString, loggedUser);
                 request.setAttribute("dataList", providerInterface.getScraperConfig());
                 request.setAttribute("dataListAdvanced", providerInterface.getScraperConfigAdvanced());
+                request.setAttribute("modificationList", providerInterface.getModificationBySection("config"));
                 request.getRequestDispatcher("/protected/config.jsp").forward(request, response);
                 break;
             case "updateConfigAdvanced":
@@ -130,9 +148,10 @@ public class AdminServlet extends HttpServlet {
                 String jobTitlePath=request.getParameter("jobTitlePath");
                 boolean followLink = request.getParameter("followLink") != null;
 
-                buildDataToExtractAdvanced(uuidStringAdvanced,urlAdvanced, jobUrlPath, jobDescriptionPath, jobLocationPath, jobCompanyPath, jobDatePath, jobTitlePath, followLink);
+                buildDataToExtractAdvanced(uuidStringAdvanced,urlAdvanced, jobUrlPath, jobDescriptionPath, jobLocationPath, jobCompanyPath, jobDatePath, jobTitlePath, followLink, loggedUser);
                 request.setAttribute("dataList", providerInterface.getScraperConfig());
                 request.setAttribute("dataListAdvanced", providerInterface.getScraperConfigAdvanced());
+                request.setAttribute("modificationList", providerInterface.getModificationBySection("config"));
                 request.getRequestDispatcher("/protected/config.jsp").forward(request, response);
                 break;
             case "updateCredentials":
@@ -141,7 +160,11 @@ public class AdminServlet extends HttpServlet {
                 String confirmPassword = request.getParameter("confirmPassword");
 
                 if(userAccount.updateCredentials(request,newUsername,newPassword,confirmPassword).equals("success"))
+                {
+                    createModification(loggedUser, new Date(), "credentials", "modified credentials");
+                    request.setAttribute("modificationList", providerInterface.getModificationBySection("credentials"));
                     request.getRequestDispatcher("/protected/credentials.jsp").forward(request, response);
+                }
                 else
                     request.getRequestDispatcher("/protected/protectedError.jsp").forward(request, response);
                 break;
@@ -160,14 +183,20 @@ public class AdminServlet extends HttpServlet {
                 break;
             case "deleteHistory":
                 providerInterface.deleteHistory();
+                createModification(loggedUser, new Date(), "history", "deleted history");
+                request.setAttribute("modificationList", providerInterface.getModificationBySection("history"));
                 request.getRequestDispatcher("/protected/history.jsp").forward(request, response);
                 break;
             case "deleteResults":
                 providerInterface.deleteResults();
+                createModification(loggedUser, new Date(), "history", "deleted basic results");
+                request.setAttribute("modificationList", providerInterface.getModificationBySection("results"));
                 request.getRequestDispatcher("/protected/results.jsp").forward(request, response);
                 break;
             case "deleteResultsAdvanced":
                 providerInterface.deleteResultsAdvanced();
+                createModification(loggedUser, new Date(), "history", "deleted advanced results");
+                request.setAttribute("modificationList", providerInterface.getModificationBySection("results"));
                 request.getRequestDispatcher("/protected/results.jsp").forward(request, response);
                 break;
             default:
@@ -175,15 +204,22 @@ public class AdminServlet extends HttpServlet {
         }
     }
 
-    public void buildDataToExtract(String urlString, String path, String uuidString) throws MalformedURLException {
+    public void buildDataToExtract(String urlString, String path, String uuidString, String loggedUser) throws MalformedURLException {
 
         UUID uuid = (!Objects.equals(uuidString, "")) ? UUID.fromString(uuidString) : UUID.randomUUID();
 
         DataToExtract dataToExtract = new DataToExtract(urlString, path, uuid);
         if(configInterface.getConfigurationByUUID(dataToExtract.getUuid())==null)
+        {
             configInterface.addConfiguration(dataToExtract);
+            createModification(loggedUser, new Date(), "config", "added " + dataToExtract.getUuid().toString());
+        }
         else
+        {
             configInterface.updateConfiguration(dataToExtract);
+            createModification(loggedUser, new Date(), "config", "added " + dataToExtract.getUuid().toString());
+        }
+
     }
 
     public void buildDataToExtractAdvanced(
@@ -195,18 +231,31 @@ public class AdminServlet extends HttpServlet {
             String jobCompanyPath,
             String jobDatePath,
             String jobTitlePath,
-            boolean followLink
+            boolean followLink,
+            String loggedUser
     ) throws MalformedURLException {
 
         UUID uuid = (!Objects.equals(uuidStringAdvanced, "")) ? UUID.fromString(uuidStringAdvanced) : UUID.randomUUID();
 
         DataToExtractAdvanced dataToExtractAdvanced = new DataToExtractAdvanced(urlAdvanced,jobUrlPath,jobDescriptionPath,jobLocationPath, jobCompanyPath,jobDatePath,followLink, uuid, jobTitlePath);
         if(configInterface.getConfigurationByUUIDAdvanced(dataToExtractAdvanced.getUuid())==null)
+        {
             configInterface.addConfigurationAdvanced(dataToExtractAdvanced);
+            createModification(loggedUser, new Date(), "config", "added " + dataToExtractAdvanced.getUuid().toString());
+        }
         else
+        {
             configInterface.updateConfigurationAdvanced(dataToExtractAdvanced);
+            createModification(loggedUser, new Date(), "config", "modified " + dataToExtractAdvanced.getUuid().toString());
+        }
     }
 
     public void destroy() {
+    }
+
+    public void createModification(String loggedUser, Date date, String section, String modificationName)
+    {
+        ModificationRecord newModification=new ModificationRecord(loggedUser, date, section, modificationName);
+        providerInterface.createModification(newModification);
     }
 }

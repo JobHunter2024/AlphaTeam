@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="com.example.adminservlet.core.provider.DataToExtractAdvanced" %>
+<%@ page import="com.example.adminservlet.core.provider.ModificationRecord" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
@@ -12,6 +13,7 @@
     <link href="css/config.css" rel="stylesheet">
     <link href="css/navbar.css" rel="stylesheet">
     <link href="css/titles.css" rel="stylesheet">
+    <link href="css/lastModified.css" rel="stylesheet">
     <link href="css/table.css" rel="stylesheet">
     <link href="css/form.css" rel="stylesheet">
     <link href="css/miniButton.css" rel="stylesheet">
@@ -35,6 +37,8 @@
     <div class="underline">
         <img src="images/underline.png" alt="IGS Section Underline">
     </div>
+
+    <%@ include file="../components/lastModified.jsp" %>
 
     <form action="admin-servlet?action=updateConfig" method="post">
         <input type="hidden" name="uuid" value="<%= uuidString != null ? uuidString : "" %>">
@@ -165,6 +169,7 @@
     <div class="underline">
         <img src="images/underline.png" alt="IGS Section Underline">
     </div>
+
     <%
         List<DataToExtractAdvanced> dataListAdvanced = (List<DataToExtractAdvanced>) request.getAttribute("dataListAdvanced");
         if (dataListAdvanced != null) {

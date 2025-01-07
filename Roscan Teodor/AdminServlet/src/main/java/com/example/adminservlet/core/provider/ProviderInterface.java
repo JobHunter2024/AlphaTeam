@@ -11,6 +11,7 @@ public class ProviderInterface {
     public HistoryRecordCRUD historyRecordCRUD;
     public ResultRecordCRUD resultRecordCRUD;
     public ResultRecordAdvancedCRUD resultRecordAdvancedCRUD;
+    public ModificationCRUD modificationCRUD;
 
     public ProviderInterface() {
 
@@ -22,8 +23,10 @@ public class ProviderInterface {
         this.historyRecordCRUD = new HistoryRecordCRUD();
         this.resultRecordCRUD = new ResultRecordCRUD();
         this.resultRecordAdvancedCRUD = new ResultRecordAdvancedCRUD();
+        this.modificationCRUD = new ModificationCRUD();
     }
 
+    //Getters
     public List<HistoryRecord> getScrappingHistory(){
         return historyRecordCRUD.getAllData();
     }
@@ -44,6 +47,28 @@ public class ProviderInterface {
         return dataToExtractAdvancedCRUD.getAllData();
     }
 
+    public JSONObject getScrappingStatistics(){
+        return null;
+    }
+
+    public List<ModificationRecord> getAllModifications() {
+        return modificationCRUD.getAllModifications();
+    }
+
+    public List<ModificationRecord> getModificationBySection(String section) {
+        return modificationCRUD.getModificationBySection(section);
+    }
+
+    public List<ModificationRecord> getModificationByUsername(String username) {
+        return modificationCRUD.getModificationByUsername(username);
+    }
+
+    public List<ModificationRecord> getModificationByDate(Date date) {
+        return modificationCRUD.getModificationByDate(date);
+    }
+
+
+    //Setters
     public void deleteHistory(){
         historyRecordCRUD.removeAllData();
     }
@@ -54,10 +79,6 @@ public class ProviderInterface {
 
     public void deleteResultsAdvanced() {
         resultRecordAdvancedCRUD.removeAllData();
-    }
-
-    public JSONObject getScrappingStatistics(){
-        return null;
     }
 
     public void historyMockery() {
@@ -103,5 +124,9 @@ public class ProviderInterface {
         );
 
         resultRecordCRUD.listToRows(resultRecords);
+    }
+
+    public void createModification(ModificationRecord newModificationRecord) {
+        modificationCRUD.createModification(newModificationRecord);
     }
 }
