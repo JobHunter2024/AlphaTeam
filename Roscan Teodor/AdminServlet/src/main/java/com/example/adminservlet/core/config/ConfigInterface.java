@@ -41,8 +41,6 @@ public class ConfigInterface {
         return scrapperConfig.getDataByUUID(uuid);
     }
 
-
-
     public void addConfigurationAdvanced(DataToExtractAdvanced newData) {
         if(configValidator.isConfigurationValid(newData))
             scrapperConfig.addDataAdvanced(newData);
