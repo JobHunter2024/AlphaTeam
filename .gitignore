@@ -25,3 +25,4 @@ replay_pid*
 Olaru Bianca/TaskManager/src/main/resources/META-INF/persistence.xml
 Roscan Teodor/AdminServlet/src/main/resources/META-INF/persistence.xml
 Roscan Teodor/AdminServletProvider/AdminServletProvider/src/main/resources/META-INF/persistence.xml
+Olaru Bianca/TaskManager/src/main/resources/application.properties
